@@ -18,6 +18,9 @@ __pycache__/
 *.png
 models/
 
+# Run logs
+*.log
+
 # Env
 .env
 .env.*

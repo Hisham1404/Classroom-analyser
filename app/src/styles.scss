@@ -1,0 +1,20 @@
+/* The component paints its own ground, but the page behind it must match or scrolling
+   past the content reveals the browser default. */
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: #faf8f4;
+  color: #191c21;
+  -webkit-font-smoothing: antialiased;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+img {
+  max-width: 100%;
+}

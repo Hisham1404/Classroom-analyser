@@ -1,0 +1,23 @@
+# Raw field data: real classroom audio, children's faces, teacher names, GPS.
+# Never commit. See docs/data-notes.md §1.
+data/
+
+# Python
+.cache/
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+
+# Model weights / derived media
+*.mp3
+*.wav
+*.jpg
+*.jpeg
+*.png
+models/
+
+# Env
+.env
+.env.*

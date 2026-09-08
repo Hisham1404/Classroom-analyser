@@ -1,0 +1,1404 @@
+{
+  "schema_version": "1.0",
+  "session_id": "OD11166_2026-01-20-115538",
+  "teacher": {
+    "id": "OD11166",
+    "alias": "Teacher C"
+  },
+  "activity": "Wind Anemometer",
+  "recorded_at": "2026-01-20T12:56:38",
+  "roster": {
+    "total": 19,
+    "boys": 9,
+    "girls": 10
+  },
+  "audio": {
+    "declared_sec": 3612.2,
+    "actual_sec": 3611.8,
+    "analysed_sec": 240.0,
+    "completeness": 1.0,
+    "sample_rate": 44100,
+    "channels": 1,
+    "has_gps": false
+  },
+  "models": {
+    "asr": "OpenVoiceOS/ai4bharat-indicconformer-hi-onnx",
+    "asr_backend": "indic",
+    "attribution": "pyannote-community-1",
+    "vad": "pyannote-community-1-segmentation"
+  },
+  "timeline": [
+    {
+      "t0": 0.0,
+      "t1": 0.031,
+      "kind": "dead",
+      "rms_db": -240.0
+    },
+    {
+      "t0": 0.031,
+      "t1": 0.065,
+      "kind": "speech",
+      "rms_db": -240.0
+    },
+    {
+      "t0": 0.065,
+      "t1": 0.318,
+      "kind": "dead",
+      "rms_db": -240.0
+    },
+    {
+      "t0": 0.318,
+      "t1": 3.271,
+      "kind": "speech",
+      "rms_db": -23.78,
+      "role": "teacher",
+      "role_conf": 0.576,
+      "text": "चल एक थोड़ा सा एक्टिविटी"
+    },
+    {
+      "t0": 3.271,
+      "t1": 3.355,
+      "kind": "dead",
+      "rms_db": -40.53
+    },
+    {
+      "t0": 3.355,
+      "t1": 5.212,
+      "kind": "speech",
+      "rms_db": -23.49,
+      "role": "student",
+      "role_conf": 0.576,
+      "text": "मे साल"
+    },
+    {
+      "t0": 5.212,
+      "t1": 7.017,
+      "kind": "speech",
+      "rms_db": -23.49,
+      "role": "teacher",
+      "role_conf": 0.576,
+      "text": "मे साल"
+    },
+    {
+      "t0": 7.017,
+      "t1": 7.912,
+      "kind": "dead",
+      "rms_db": -39.82
+    },
+    {
+      "t0": 7.912,
+      "t1": 7.928,
+      "kind": "speech",
+      "rms_db": -44.32
+    },
+    {
+      "t0": 7.928,
+      "t1": 9.295,
+      "kind": "dead",
+      "rms_db": -41.11
+    },
+    {
+      "t0": 9.295,
+      "t1": 11.05,
+      "kind": "speech",
+      "rms_db": -24.22,
+      "role": "teacher",
+      "role_conf": 0.576,
+      "text": "क्यावा"
+    },
+    {
+      "t0": 11.05,
+      "t1": 11.32,
+      "kind": "dead",
+      "rms_db": -48.74
+    },
+    {
+      "t0": 11.32,
+      "t1": 21.597,
+      "kind": "speech",
+      "rms_db": -23.76,
+      "role": "teacher",
+      "role_conf": 0.576
+    },
+    {
+      "t0": 21.597,
+      "t1": 24.5,
+      "kind": "speech",
+      "rms_db": -23.76,
+      "role": "student",
+      "role_conf": 0.576,
+      "text": "ठंडांडा लगता है"
+    },
+    {
+      "t0": 24.5,
+      "t1": 24.854,
+      "kind": "dead",
+      "rms_db": -40.65
+    },
+    {
+      "t0": 24.854,
+      "t1": 27.368,
+      "kind": "speech",
+      "rms_db": -22.76,
+      "role": "student",
+      "role_conf": 0.576,
+      "text": "लता है"
+    },
+    {
+      "t0": 27.368,
+      "t1": 27.689,
+      "kind": "speech",
+      "rms_db": -22.76,
+      "role": "teacher",
+      "role_conf": 0.576,
+      "text": "लता है"
+    },
+    {
+      "t0": 27.689,
+      "t1": 27.824,
+      "kind": "dead",
+      "rms_db": -42.13
+    },
+    {
+      "t0": 27.824,
+      "t1": 28.904,
+      "kind": "speech",
+      "rms_db": -25.47,
+      "role": "student",
+      "role_conf": 0.576
+    },
+    {
+      "t0": 28.904,
+      "t1": 32.026,
+      "kind": "speech",
+      "rms_db": -25.47,
+      "role": "teacher",
+      "role_conf": 0.576
+    },
+    {
+      "t0": 32.026,
+      "t1": 32.549,
+      "kind": "handson",
+      "rms_db": -32.01
+    },
+    {
+      "t0": 32.549,
+      "t1": 34.152,
+      "kind": "speech",
+      "rms_db": -20.84,
+      "role": "teacher",
+      "role_conf": 0.576
+    },
+    {
+      "t0": 34.152,
+      "t1": 35.3,
+      "kind": "speech",
+      "rms_db": -20.84,
+      "role": "student",
+      "role_conf": 0.576
+    },
+    {
+      "t0": 35.3,
+      "t1": 35.975,
+      "kind": "speech",
+      "rms_db": -20.84,
+      "role": "teacher",
+      "role_conf": 0.576
+    },
+    {
+      "t0": 35.975,
+      "t1": 36.548,
+      "kind": "speech",
+      "rms_db": -20.84,
+      "role": "student",
+      "role_conf": 0.576
+    },
+    {
+      "t0": 36.548,
+      "t1": 36.717,
+      "kind": "handson",
+      "rms_db": -21.3
+    },
+    {
+      "t0": 36.717,
+      "t1": 37.19,
+      "kind": "speech",
+      "rms_db": -18.24
+    },
+    {
+      "t0": 37.19,
+      "t1": 37.207,
+      "kind": "handson",
+      "rms_db": -16.59
+    },
+    {
+      "t0": 37.207,
+      "t1": 39.383,
+      "kind": "speech",
+      "rms_db": -17.1,
+      "role": "student",
+      "role_conf": 0.576
+    },
+    {
+      "t0": 39.383,
+      "t1": 40.058,
+      "kind": "handson",
+      "rms_db": -24.22
+    },
+    {
+      "t0": 40.058,
+      "t1": 40.21,
+      "kind": "speech",
+      "rms_db": -19.86
+    },
+    {
+      "t0": 40.21,
+      "t1": 40.396,
+      "kind": "handson",
+      "rms_db": -25.85
+    },
+    {
+      "t0": 40.396,
+      "t1": 45.88,
+      "kind": "speech",
+      "rms_db": -19.52,
+      "role": "student",
+      "role_conf": 0.576,
+      "text": "ओके म आपने बया"
+    },
+    {
+      "t0": 45.88,
+      "t1": 49.036,
+      "kind": "speech",
+      "rms_db": -19.52,
+      "role": "teacher",
+      "role_conf": 0.576,
+      "text": "आपने बया"
+    },
+    {
+      "t0": 49.036,
+      "t1": 49.39,
+      "kind": "handson",
+      "rms_db": -27.35
+    },
+    {
+      "t0": 49.39,
+      "t1": 50.943,
+      "kind": "speech",
+      "rms_db": -18.17,
+      "role": "student",
+      "role_conf": 0.576
+    },
+    {
+      "t0": 50.943,
+      "t1": 51.5,
+      "kind": "speech",
+      "rms_db": -18.17,
+      "role": "teacher",
+      "role_conf": 0.576
+    },
+    {
+      "t0": 51.5,
+      "t1": 52.124,
+      "kind": "speech",
+      "rms_db": -18.17,
+      "role": "student",
+      "role_conf": 0.576
+    },
+    {
+      "t0": 52.124,
+      "t1": 52.816,
+      "kind": "speech",
+      "rms_db": -18.17,
+      "role": "teacher",
+      "role_conf": 0.576
+    },
+    {
+      "t0": 52.816,
+      "t1": 53.39,
+      "kind": "speech",
+      "rms_db": -18.17,
+      "role": "student",
+      "role_conf": 0.576
+    },
+    {
+      "t0": 53.39,
+      "t1": 53.609,
+      "kind": "handson",
+      "rms_db": -32.77
+    },
+    {
+      "t0": 53.609,
+      "t1": 55.027,
+      "kind": "speech",
+      "rms_db": -19.06,
+      "role": "student",
+      "role_conf": 0.576
+    },
+    {
+      "t0": 55.027,
+      "t1": 55.702,
+      "kind": "speech",
+      "rms_db": -19.06,
+      "role": "teacher",
+      "role_conf": 0.576
+    },
+    {
+      "t0": 55.702,
+      "t1": 56.174,
+      "kind": "handson",
+      "rms_db": -29.92
+    },
+    {
+      "t0": 56.174,
+      "t1": 56.647,
+      "kind": "speech",
+      "rms_db": -16.11,
+      "role": "student",
+      "role_conf": 0.576
+    },
+    {
+      "t0": 56.647,
+      "t1": 56.967,
+      "kind": "handson",
+      "rms_db": -29.8
+    },
+    {
+      "t0": 56.967,
+      "t1": 57.44,
+      "kind": "speech",
+      "rms_db": -22.43,
+      "role": "student",
+      "role_conf": 0.576
+    },
+    {
+      "t0": 57.44,
+      "t1": 57.794,
+      "kind": "dead",
+      "rms_db": -39.84
+    },
+    {
+      "t0": 57.794,
+      "t1": 58.537,
+      "kind": "speech",
+      "rms_db": -27.36,
+      "role": "student",
+      "role_conf": 0.576
+    },
+    {
+      "t0": 58.537,
+      "t1": 58.908,
+      "kind": "dead",
+      "rms_db": -42.16
+    },
+    {
+      "t0": 58.908,
+      "t1": 59.92,
+      "kind": "speech",
+      "rms_db": -17.54,
+      "role": "student",
+      "role_conf": 0.576
+    },
+    {
+      "t0": 59.92,
+      "t1": 61.962,
+      "kind": "speech",
+      "rms_db": -17.54,
+      "role": "teacher",
+      "role_conf": 0.576,
+      "text": "और आप"
+    },
+    {
+      "t0": 61.962,
+      "t1": 62.553,
+      "kind": "speech",
+      "rms_db": -17.54,
+      "role": "student",
+      "role_conf": 0.576
+    },
+    {
+      "t0": 62.553,
+      "t1": 62.992,
+      "kind": "handson",
+      "rms_db": -21.3
+    },
+    {
+      "t0": 62.992,
+      "t1": 64.662,
+      "kind": "speech",
+      "rms_db": -17.48,
+      "role": "teacher",
+      "role_conf": 0.576,
+      "text": "से ब ही होगा"
+    },
+    {
+      "t0": 64.662,
+      "t1": 67.514,
+      "kind": "speech",
+      "rms_db": -17.48,
+      "role": "student",
+      "role_conf": 0.576
+    },
+    {
+      "t0": 67.514,
+      "t1": 67.784,
+      "kind": "handson",
+      "rms_db": -26.34
+    },
+    {
+      "t0": 67.784,
+      "t1": 71.227,
+      "kind": "speech",
+      "rms_db": -16.39,
+      "role": "teacher",
+      "role_conf": 0.576,
+      "text": "और बच को बने व"
+    },
+    {
+      "t0": 71.227,
+      "t1": 71.969,
+      "kind": "handson",
+      "rms_db": -21.35
+    },
+    {
+      "t0": 71.969,
+      "t1": 73.842,
+      "kind": "speech",
+      "rms_db": -17.59,
+      "role": "teacher",
+      "role_conf": 0.576
+    },
+    {
+      "t0": 73.842,
+      "t1": 73.977,
+      "kind": "handson",
+      "rms_db": -31.77
+    },
+    {
+      "t0": 73.977,
+      "t1": 86.262,
+      "kind": "speech",
+      "rms_db": -19.92,
+      "role": "teacher",
+      "role_conf": 0.576,
+      "text": "बड़ा हो जा बल"
+    },
+    {
+      "t0": 86.262,
+      "t1": 87.207,
+      "kind": "speech",
+      "rms_db": -19.92,
+      "role": "student",
+      "role_conf": 0.576
+    },
+    {
+      "t0": 87.207,
+      "t1": 88.338,
+      "kind": "speech",
+      "rms_db": -19.92,
+      "role": "teacher",
+      "role_conf": 0.576
+    },
+    {
+      "t0": 88.338,
+      "t1": 89.789,
+      "kind": "speech",
+      "rms_db": -19.92,
+      "role": "student",
+      "role_conf": 0.576,
+      "text": "े"
+    },
+    {
+      "t0": 89.789,
+      "t1": 90.11,
+      "kind": "speech",
+      "rms_db": -19.92,
+      "role": "teacher",
+      "role_conf": 0.576
+    },
+    {
+      "t0": 90.11,
+      "t1": 90.7,
+      "kind": "speech",
+      "rms_db": -19.92,
+      "role": "student",
+      "role_conf": 0.576
+    },
+    {
+      "t0": 90.7,
+      "t1": 92.32,
+      "kind": "handson",
+      "rms_db": -34.86
+    },
+    {
+      "t0": 92.32,
+      "t1": 94.177,
+      "kind": "speech",
+      "rms_db": -19.24,
+      "role": "student",
+      "role_conf": 0.576
+    },
+    {
+      "t0": 94.177,
+      "t1": 95.543,
+      "kind": "speech",
+      "rms_db": -19.24,
+      "role": "teacher",
+      "role_conf": 0.576,
+      "text": "भ"
+    },
+    {
+      "t0": 95.543,
+      "t1": 97.636,
+      "kind": "speech",
+      "rms_db": -19.24,
+      "role": "student",
+      "role_conf": 0.576
+    },
+    {
+      "t0": 97.636,
+      "t1": 98.176,
+      "kind": "handson",
+      "rms_db": -34.55
+    },
+    {
+      "t0": 98.176,
+      "t1": 99.155,
+      "kind": "speech",
+      "rms_db": -20.44,
+      "role": "student",
+      "role_conf": 0.576
+    },
+    {
+      "t0": 99.155,
+      "t1": 99.982,
+      "kind": "speech",
+      "rms_db": -20.44,
+      "role": "teacher",
+      "role_conf": 0.576
+    },
+    {
+      "t0": 99.982,
+      "t1": 101.905,
+      "kind": "speech",
+      "rms_db": -20.44,
+      "role": "student",
+      "role_conf": 0.576
+    },
+    {
+      "t0": 101.905,
+      "t1": 102.007,
+      "kind": "dead",
+      "rms_db": -35.78
+    },
+    {
+      "t0": 102.007,
+      "t1": 103.087,
+      "kind": "speech",
+      "rms_db": -16.67,
+      "role": "teacher",
+      "role_conf": 0.576
+    },
+    {
+      "t0": 103.087,
+      "t1": 104.521,
+      "kind": "speech",
+      "rms_db": -16.67,
+      "role": "student",
+      "role_conf": 0.576
+    },
+    {
+      "t0": 104.521,
+      "t1": 105.297,
+      "kind": "handson",
+      "rms_db": -24.98
+    },
+    {
+      "t0": 105.297,
+      "t1": 105.601,
+      "kind": "speech",
+      "rms_db": -19.5,
+      "role": "student",
+      "role_conf": 0.576
+    },
+    {
+      "t0": 105.601,
+      "t1": 106.985,
+      "kind": "speech",
+      "rms_db": -19.5,
+      "role": "teacher",
+      "role_conf": 0.576,
+      "text": "ठीक है है"
+    },
+    {
+      "t0": 106.985,
+      "t1": 107.677,
+      "kind": "speech",
+      "rms_db": -19.5,
+      "role": "student",
+      "role_conf": 0.576,
+      "text": "ठीक है है"
+    },
+    {
+      "t0": 107.677,
+      "t1": 107.828,
+      "kind": "dead",
+      "rms_db": -39.49
+    },
+    {
+      "t0": 107.828,
+      "t1": 112.739,
+      "kind": "speech",
+      "rms_db": -23.27,
+      "role": "teacher",
+      "role_conf": 0.576,
+      "text": "करे"
+    },
+    {
+      "t0": 112.739,
+      "t1": 113.667,
+      "kind": "dead",
+      "rms_db": -37.65
+    },
+    {
+      "t0": 113.667,
+      "t1": 117.852,
+      "kind": "speech",
+      "rms_db": -23.59,
+      "role": "student",
+      "role_conf": 0.576
+    },
+    {
+      "t0": 117.852,
+      "t1": 120.62,
+      "kind": "speech",
+      "rms_db": -23.59,
+      "role": "teacher",
+      "role_conf": 0.576,
+      "text": "ठीक है"
+    },
+    {
+      "t0": 120.62,
+      "t1": 120.923,
+      "kind": "speech",
+      "rms_db": -23.59,
+      "role": "student",
+      "role_conf": 0.576
+    },
+    {
+      "t0": 120.923,
+      "t1": 122.257,
+      "kind": "dead",
+      "rms_db": -38.5
+    },
+    {
+      "t0": 122.257,
+      "t1": 124.197,
+      "kind": "speech",
+      "rms_db": -20.24,
+      "role": "student",
+      "role_conf": 0.576,
+      "text": "अभी ोऐ"
+    },
+    {
+      "t0": 124.197,
+      "t1": 125.935,
+      "kind": "speech",
+      "rms_db": -20.24,
+      "role": "teacher",
+      "role_conf": 0.576,
+      "text": "ोऐ"
+    },
+    {
+      "t0": 125.935,
+      "t1": 127.403,
+      "kind": "speech",
+      "rms_db": -20.24,
+      "role": "student",
+      "role_conf": 0.576
+    },
+    {
+      "t0": 127.403,
+      "t1": 130.188,
+      "kind": "speech",
+      "rms_db": -20.24,
+      "role": "teacher",
+      "role_conf": 0.576
+    },
+    {
+      "t0": 130.188,
+      "t1": 130.981,
+      "kind": "speech",
+      "rms_db": -20.24,
+      "role": "student",
+      "role_conf": 0.576
+    },
+    {
+      "t0": 130.981,
+      "t1": 132.348,
+      "kind": "speech",
+      "rms_db": -20.24,
+      "role": "teacher",
+      "role_conf": 0.576
+    },
+    {
+      "t0": 132.348,
+      "t1": 132.736,
+      "kind": "speech",
+      "rms_db": -20.24,
+      "role": "student",
+      "role_conf": 0.576
+    },
+    {
+      "t0": 132.736,
+      "t1": 134.423,
+      "kind": "speech",
+      "rms_db": -20.24,
+      "role": "teacher",
+      "role_conf": 0.576
+    },
+    {
+      "t0": 134.423,
+      "t1": 134.643,
+      "kind": "dead",
+      "rms_db": -40.01
+    },
+    {
+      "t0": 134.643,
+      "t1": 137.647,
+      "kind": "speech",
+      "rms_db": -21.02,
+      "role": "teacher",
+      "role_conf": 0.576
+    },
+    {
+      "t0": 137.647,
+      "t1": 140.532,
+      "kind": "speech",
+      "rms_db": -21.02,
+      "role": "student",
+      "role_conf": 0.576
+    },
+    {
+      "t0": 140.532,
+      "t1": 141.798,
+      "kind": "speech",
+      "rms_db": -21.02,
+      "role": "teacher",
+      "role_conf": 0.576
+    },
+    {
+      "t0": 141.798,
+      "t1": 142.22,
+      "kind": "handson",
+      "rms_db": -17.6
+    },
+    {
+      "t0": 142.22,
+      "t1": 144.667,
+      "kind": "speech",
+      "rms_db": -24.77,
+      "role": "student",
+      "role_conf": 0.576
+    },
+    {
+      "t0": 144.667,
+      "t1": 147.586,
+      "kind": "speech",
+      "rms_db": -24.77,
+      "role": "teacher",
+      "role_conf": 0.576,
+      "text": "थोड़ा"
+    },
+    {
+      "t0": 147.586,
+      "t1": 147.603,
+      "kind": "dead",
+      "rms_db": -39.15
+    },
+    {
+      "t0": 147.603,
+      "t1": 149.02,
+      "kind": "speech",
+      "rms_db": -22.42,
+      "role": "student",
+      "role_conf": 0.576
+    },
+    {
+      "t0": 149.02,
+      "t1": 149.543,
+      "kind": "speech",
+      "rms_db": -22.42,
+      "role": "teacher",
+      "role_conf": 0.576
+    },
+    {
+      "t0": 149.543,
+      "t1": 150.691,
+      "kind": "speech",
+      "rms_db": -22.42,
+      "role": "student",
+      "role_conf": 0.576
+    },
+    {
+      "t0": 150.691,
+      "t1": 150.995,
+      "kind": "handson",
+      "rms_db": -30.8
+    },
+    {
+      "t0": 150.995,
+      "t1": 153.323,
+      "kind": "speech",
+      "rms_db": -23.06,
+      "role": "teacher",
+      "role_conf": 0.576
+    },
+    {
+      "t0": 153.323,
+      "t1": 153.83,
+      "kind": "speech",
+      "rms_db": -23.06,
+      "role": "student",
+      "role_conf": 0.576
+    },
+    {
+      "t0": 153.83,
+      "t1": 161.035,
+      "kind": "speech",
+      "rms_db": -23.06,
+      "role": "teacher",
+      "role_conf": 0.576,
+      "text": "म है बतईप"
+    },
+    {
+      "t0": 161.035,
+      "t1": 161.305,
+      "kind": "dead",
+      "rms_db": -42.7
+    },
+    {
+      "t0": 161.305,
+      "t1": 164.242,
+      "kind": "speech",
+      "rms_db": -22.0,
+      "role": "teacher",
+      "role_conf": 0.576,
+      "text": "ह"
+    },
+    {
+      "t0": 164.242,
+      "t1": 165.946,
+      "kind": "handson",
+      "rms_db": -33.19
+    },
+    {
+      "t0": 165.946,
+      "t1": 168.106,
+      "kind": "speech",
+      "rms_db": -18.19,
+      "role": "student",
+      "role_conf": 0.576
+    },
+    {
+      "t0": 168.106,
+      "t1": 172.409,
+      "kind": "speech",
+      "rms_db": -18.19,
+      "role": "teacher",
+      "role_conf": 0.576,
+      "text": "ह"
+    },
+    {
+      "t0": 172.409,
+      "t1": 173.185,
+      "kind": "speech",
+      "rms_db": -18.19,
+      "role": "student",
+      "role_conf": 0.576
+    },
+    {
+      "t0": 173.185,
+      "t1": 173.489,
+      "kind": "speech",
+      "rms_db": -18.19,
+      "role": "teacher",
+      "role_conf": 0.576
+    },
+    {
+      "t0": 173.489,
+      "t1": 175.717,
+      "kind": "speech",
+      "rms_db": -18.19,
+      "role": "student",
+      "role_conf": 0.576,
+      "text": "दे दे"
+    },
+    {
+      "t0": 175.717,
+      "t1": 176.324,
+      "kind": "speech",
+      "rms_db": -18.19,
+      "role": "teacher",
+      "role_conf": 0.576,
+      "text": "दे"
+    },
+    {
+      "t0": 176.324,
+      "t1": 178.552,
+      "kind": "handson",
+      "rms_db": -27.27
+    },
+    {
+      "t0": 178.552,
+      "t1": 184.103,
+      "kind": "speech",
+      "rms_db": -22.79,
+      "role": "teacher",
+      "role_conf": 0.576,
+      "text": "हवा हवा आक स"
+    },
+    {
+      "t0": 184.103,
+      "t1": 185.453,
+      "kind": "speech",
+      "rms_db": -22.79,
+      "role": "student",
+      "role_conf": 0.576,
+      "text": "ने"
+    },
+    {
+      "t0": 185.453,
+      "t1": 187.816,
+      "kind": "speech",
+      "rms_db": -22.79,
+      "role": "teacher",
+      "role_conf": 0.576,
+      "text": "हवा"
+    },
+    {
+      "t0": 187.816,
+      "t1": 188.322,
+      "kind": "speech",
+      "rms_db": -22.79,
+      "role": "student",
+      "role_conf": 0.576
+    },
+    {
+      "t0": 188.322,
+      "t1": 188.845,
+      "kind": "speech",
+      "rms_db": -22.79,
+      "role": "teacher",
+      "role_conf": 0.576,
+      "text": "हम लोग"
+    },
+    {
+      "t0": 188.845,
+      "t1": 189.554,
+      "kind": "speech",
+      "rms_db": -22.79,
+      "role": "student",
+      "role_conf": 0.576,
+      "text": "हम लोग"
+    },
+    {
+      "t0": 189.554,
+      "t1": 190.921,
+      "kind": "speech",
+      "rms_db": -22.79,
+      "role": "teacher",
+      "role_conf": 0.576,
+      "text": "म"
+    },
+    {
+      "t0": 190.921,
+      "t1": 191.782,
+      "kind": "handson",
+      "rms_db": -33.43
+    },
+    {
+      "t0": 191.782,
+      "t1": 193.942,
+      "kind": "speech",
+      "rms_db": -20.81,
+      "role": "student",
+      "role_conf": 0.576,
+      "text": "अगर हवा नहीं होता तो क्या होता"
+    },
+    {
+      "t0": 193.942,
+      "t1": 194.752,
+      "kind": "speech",
+      "rms_db": -20.81,
+      "role": "teacher",
+      "role_conf": 0.576,
+      "text": "अगर हवा नहीं होता तो क्या होता"
+    },
+    {
+      "t0": 194.752,
+      "t1": 195.629,
+      "kind": "handson",
+      "rms_db": -34.16
+    },
+    {
+      "t0": 195.629,
+      "t1": 196.658,
+      "kind": "speech",
+      "rms_db": -17.1,
+      "role": "student",
+      "role_conf": 0.576
+    },
+    {
+      "t0": 196.658,
+      "t1": 198.025,
+      "kind": "speech",
+      "rms_db": -17.1,
+      "role": "teacher",
+      "role_conf": 0.576
+    },
+    {
+      "t0": 198.025,
+      "t1": 198.599,
+      "kind": "speech",
+      "rms_db": -17.1,
+      "role": "student",
+      "role_conf": 0.576
+    },
+    {
+      "t0": 198.599,
+      "t1": 198.937,
+      "kind": "handson",
+      "rms_db": -29.09
+    },
+    {
+      "t0": 198.937,
+      "t1": 202.818,
+      "kind": "speech",
+      "rms_db": -20.61,
+      "role": "student",
+      "role_conf": 0.576
+    },
+    {
+      "t0": 202.818,
+      "t1": 206.227,
+      "kind": "speech",
+      "rms_db": -20.61,
+      "role": "teacher",
+      "role_conf": 0.576
+    },
+    {
+      "t0": 206.227,
+      "t1": 208.64,
+      "kind": "speech",
+      "rms_db": -20.61,
+      "role": "student",
+      "role_conf": 0.576
+    },
+    {
+      "t0": 208.64,
+      "t1": 210.631,
+      "kind": "speech",
+      "rms_db": -20.61,
+      "role": "teacher",
+      "role_conf": 0.576
+    },
+    {
+      "t0": 210.631,
+      "t1": 211.475,
+      "kind": "speech",
+      "rms_db": -20.61,
+      "role": "student",
+      "role_conf": 0.576
+    },
+    {
+      "t0": 211.475,
+      "t1": 211.964,
+      "kind": "handson",
+      "rms_db": -28.73
+    },
+    {
+      "t0": 211.964,
+      "t1": 212.74,
+      "kind": "speech",
+      "rms_db": -16.67,
+      "role": "student",
+      "role_conf": 0.576
+    },
+    {
+      "t0": 212.74,
+      "t1": 214.107,
+      "kind": "speech",
+      "rms_db": -16.67,
+      "role": "teacher",
+      "role_conf": 0.576,
+      "text": "तो इस हम क्या बोलेेंगे"
+    },
+    {
+      "t0": 214.107,
+      "t1": 214.732,
+      "kind": "speech",
+      "rms_db": -16.67,
+      "role": "student",
+      "role_conf": 0.576
+    },
+    {
+      "t0": 214.732,
+      "t1": 215.221,
+      "kind": "dead",
+      "rms_db": -36.77
+    },
+    {
+      "t0": 215.221,
+      "t1": 217.482,
+      "kind": "speech",
+      "rms_db": -20.61,
+      "role": "teacher",
+      "role_conf": 0.576,
+      "text": "धरे बनााना नहीं आपकोक हैध्यान से सुन"
+    },
+    {
+      "t0": 217.482,
+      "t1": 217.82,
+      "kind": "dead",
+      "rms_db": -39.88
+    },
+    {
+      "t0": 217.82,
+      "t1": 218.309,
+      "kind": "speech",
+      "rms_db": -25.52,
+      "role": "student",
+      "role_conf": 0.576,
+      "text": "धरे बनााना नहीं आपकोक हैध्यान से सुन"
+    },
+    {
+      "t0": 218.309,
+      "t1": 218.495,
+      "kind": "dead",
+      "rms_db": -37.53
+    },
+    {
+      "t0": 218.495,
+      "t1": 219.76,
+      "kind": "speech",
+      "rms_db": -23.79,
+      "role": "teacher",
+      "role_conf": 0.576,
+      "text": "धरे बनााना नहीं आपकोक हैध्यान से सुन"
+    },
+    {
+      "t0": 219.76,
+      "t1": 219.963,
+      "kind": "handson",
+      "rms_db": -33.44
+    },
+    {
+      "t0": 219.963,
+      "t1": 220.672,
+      "kind": "speech",
+      "rms_db": -33.89,
+      "role": "student",
+      "role_conf": 0.576
+    },
+    {
+      "t0": 220.672,
+      "t1": 220.84,
+      "kind": "dead",
+      "rms_db": -38.95
+    },
+    {
+      "t0": 220.84,
+      "t1": 221.549,
+      "kind": "speech",
+      "rms_db": -16.1,
+      "role": "student",
+      "role_conf": 0.576
+    },
+    {
+      "t0": 221.549,
+      "t1": 222.19,
+      "kind": "speech",
+      "rms_db": -16.1,
+      "role": "teacher",
+      "role_conf": 0.576,
+      "text": "बोलो"
+    },
+    {
+      "t0": 222.19,
+      "t1": 222.393,
+      "kind": "handson",
+      "rms_db": -31.33
+    },
+    {
+      "t0": 222.393,
+      "t1": 222.933,
+      "kind": "speech",
+      "rms_db": -30.55,
+      "role": "student",
+      "role_conf": 0.576
+    },
+    {
+      "t0": 222.933,
+      "t1": 223.557,
+      "kind": "dead",
+      "rms_db": -38.72
+    },
+    {
+      "t0": 223.557,
+      "t1": 225.413,
+      "kind": "speech",
+      "rms_db": -23.16,
+      "role": "teacher",
+      "role_conf": 0.576,
+      "text": "बोलो क्या बोल था"
+    },
+    {
+      "t0": 225.413,
+      "t1": 226.325,
+      "kind": "speech",
+      "rms_db": -23.16,
+      "role": "student",
+      "role_conf": 0.576
+    },
+    {
+      "t0": 226.325,
+      "t1": 226.578,
+      "kind": "dead",
+      "rms_db": -37.36
+    },
+    {
+      "t0": 226.578,
+      "t1": 233.716,
+      "kind": "speech",
+      "rms_db": -23.54,
+      "role": "teacher",
+      "role_conf": 0.576,
+      "text": "भ को एक ब बगा था ये बात सोचगी देख देख देखेंगे देखने की कोई बात नहीं है"
+    },
+    {
+      "t0": 233.716,
+      "t1": 236.213,
+      "kind": "speech",
+      "rms_db": -23.54,
+      "role": "student",
+      "role_conf": 0.576
+    },
+    {
+      "t0": 236.213,
+      "t1": 238.34,
+      "kind": "speech",
+      "rms_db": -23.54,
+      "role": "teacher",
+      "role_conf": 0.576,
+      "text": "नहीं"
+    },
+    {
+      "t0": 238.34,
+      "t1": 238.795,
+      "kind": "handson",
+      "rms_db": -30.97
+    },
+    {
+      "t0": 238.795,
+      "t1": 239.993,
+      "kind": "speech",
+      "rms_db": -20.36,
+      "role": "teacher",
+      "role_conf": 0.576,
+      "text": "गा"
+    },
+    {
+      "t0": 239.993,
+      "t1": 240.01,
+      "kind": "handson",
+      "rms_db": -19.55
+    }
+  ],
+  "totals_sec": {
+    "teacher": 130.9,
+    "student": 83.68,
+    "handson": 15.56,
+    "dead": 9.19,
+    "unattributed": 0.68
+  },
+  "metrics": {
+    "M1_teacher_talk_ratio": {
+      "value": 0.61,
+      "unit": "ratio",
+      "band": "normal",
+      "benchmark": 0.4,
+      "confidence": 0.576,
+      "formula": "teacher_speech_sec / (teacher_speech_sec + student_speech_sec)",
+      "explanation": "Share of *spoken* time held by the teacher. Non-speech is excluded on purpose, so hands-on noise does not dilute it.",
+      "interpretation": "Reported only when the teacher/student split is separable; below that it is withheld rather than guessed. Observed average in conventional classrooms is about 61% teacher talk. A hands-on maker session should sit below 40%; above 70% the activity has become a lecture."
+    },
+    "M2_student_participation": {
+      "value": 46.577,
+      "unit": "turns/child/hour",
+      "band": "high",
+      "benchmark": null,
+      "confidence": 0.576,
+      "formula": "(student_turns / roster_total) / lesson_minutes * 60",
+      "explanation": "Student turns per child per hour, normalised by the headcount their own app recorded. 8 students and 27 students cannot be compared on raw turn counts.",
+      "interpretation": "Depends on the speaker split, so it is withheld when that split is a guess. High student talk time with a low value here is the classic sign that two or three confident children are doing all the talking."
+    },
+    "M3_interaction_density": {
+      "value": 22.4991,
+      "unit": "switches/min",
+      "band": "high",
+      "benchmark": null,
+      "confidence": 0.576,
+      "formula": "speaker_switches(teacher <-> student) / lesson_minutes",
+      "explanation": "How often the floor changes hands. Needs no transcript at all, so it survives audio the ASR cannot read.",
+      "interpretation": "Depends on the speaker split. High means genuine back-and-forth. Low with a high talk ratio is a monologue; low with a low talk ratio is unstructured activity with no teacher check-ins."
+    },
+    "M4_longest_teacher_stretch": {
+      "value": 18.4781,
+      "unit": "sec",
+      "band": "low",
+      "benchmark": null,
+      "confidence": 0.576,
+      "formula": "max(continuous teacher speech, merging pauses under 3s)",
+      "explanation": "The longest the teacher talked without stopping. The most concrete number on the page, and the easiest to picture changing.",
+      "interpretation": "Depends on the speaker split. In a 60-minute maker session anything over about five minutes means the making stopped."
+    },
+    "M5_wait_time_1": {
+      "value": null,
+      "unit": "sec",
+      "band": "unknown",
+      "benchmark": 3.0,
+      "confidence": 0.0,
+      "formula": "median(start_of_next_student_turn - end_of_teacher_question)",
+      "explanation": "Mary Budd Rowe's wait time: the pause after a question before a student answers. Measured from raw diarization turns, which keep the real silences - the segment timeline tiles exactly, so gaps there are always zero. Depends on reading questions out of the transcript, so it is the first metric to become unreliable in a noisy room.",
+      "interpretation": "Below 1s, answers are short and students say 'I don't know'. At 3s or more, responses get longer, more correct, and more students join in. It is the single most replicated finding in this field. Withheld: only 2 question-answer pairs were found, below the 3 needed."
+    }
+  },
+  "confidence": {
+    "overall": 0.834,
+    "components": {
+      "speech_density": 1.0,
+      "attribution": 0.576,
+      "completeness": 1.0,
+      "asr": 0.807
+    },
+    "verdict": "usable"
+  },
+  "insight": {
+    "headline": "You spoke 61% of the talking time in Wind Anemometer — close to the target.",
+    "suggestion": "Nothing stands out to change. Keep the phone where it is; the recording came through clearly.",
+    "summary": "Wind Anemometer: 3m 34s of talking, 16 seconds hands-on, 22.5 exchanges a minute.",
+    "metrics_shown": [
+      "M1_teacher_talk_ratio",
+      "M2_student_participation",
+      "M3_interaction_density",
+      "M4_longest_teacher_stretch"
+    ],
+    "verdict": "usable",
+    "generated_by": "rules-v1",
+    "whatsapp": "नमस्ते Teacher C!\n\nYou spoke 61% of the talking time in Wind Anemometer — close to the target.\n\n💡 Nothing stands out to change. Keep the phone where it is; the recording came through clearly."
+  },
+  "flags": [
+    "no_gps"
+  ]
+}

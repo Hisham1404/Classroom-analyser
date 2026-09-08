@@ -1,0 +1,285 @@
+{
+  "rows": [
+    {
+      "clip_id": "OD11163_2025-12-23-121239_c00",
+      "label": "baseline",
+      "backend": "local",
+      "model": "Systran/faster-whisper-small",
+      "elapsed_sec": 0.0,
+      "text": "पन्त हो अदी होटारी यी है दो थी क्योचा खीचूच के चट्या और याद का टोगा साद्टाटी तो आप पनिखे ख़े खियोटेग साट्टिक है तो तो रगगग्ग बरागे नहीं",
+      "language": "hi",
+      "agreement": 0.0498,
+      "signals": {
+        "mean_logprob": -1.474467467378687,
+        "mean_no_speech": 0.4636855721473694,
+        "speech_density": 0.8993333333333333,
+        "repetition_rate": 0.0,
+        "compression_ratio": 1.9388888888888889,
+        "devanagari_ratio": 1.0,
+        "segments": 5,
+        "chars": 135,
+        "artefacts": [],
+        "is_empty": false,
+        "composite": 0.7833
+      }
+    },
+    {
+      "clip_id": "OD11163_2025-12-23-121239_c00",
+      "label": "primary",
+      "backend": "local",
+      "model": "digikar/vasista22-whisper-hindi-large-v2-ct2-int8",
+      "elapsed_sec": 0.0,
+      "text": "ठीक है",
+      "language": "hi",
+      "agreement": 0.0386,
+      "signals": {
+        "mean_logprob": -0.5334758907556534,
+        "mean_no_speech": 1.4263553012316965e-11,
+        "speech_density": 0.5436666666666667,
+        "repetition_rate": 0.0,
+        "compression_ratio": 0.43243243243243246,
+        "devanagari_ratio": 1.0,
+        "segments": 1,
+        "chars": 6,
+        "artefacts": [],
+        "is_empty": false,
+        "composite": 0.8376
+      }
+    },
+    {
+      "clip_id": "OD11163_2025-12-23-121239_c00",
+      "label": "indic",
+      "backend": "indic",
+      "model": "OpenVoiceOS/ai4bharat-indicconformer-hi-onnx",
+      "elapsed_sec": 0.0,
+      "text": "और ओबल साइक में क्या होगा लड़के होगा या फिर दद होगा ठीक है तो कौन लेगा क्लोज कन लेगा ओब क्लोज तो इस रू क्लोज सर्क है न और आपका स तो आप ऐसे रूम में बैठो या फिर ऐसे खड़े होना ब दू भी करो जो लगेगी ओल साइक है और आपको ऐसे रूम में खड़ा होना है बैठना है कुछ भी ऐसे कुछ एगटस करो ताकि लगेगी ये सक थड़ा क्लोज हो गया है",
+      "language": "hi",
+      "agreement": 0.1158,
+      "signals": {
+        "mean_logprob": -0.4261423356481185,
+        "mean_no_speech": null,
+        "speech_density": 1.0,
+        "repetition_rate": 0.0,
+        "compression_ratio": 2.7183098591549295,
+        "devanagari_ratio": 1.0,
+        "segments": 1,
+        "chars": 308,
+        "artefacts": [],
+        "is_empty": false,
+        "composite": 0.9432
+      }
+    },
+    {
+      "clip_id": "OD11163_2025-12-23-121239_c00",
+      "label": "groq",
+      "backend": "groq",
+      "model": "whisper-large-v3",
+      "elapsed_sec": 0.0,
+      "text": "सब्सक्राइब करो कुछ भी करो, जो लगे की ये ओपने साकिक है आपको ऐसे रूप में खड़ा होना है, बैठना होना है कुछ भी ऐसे कुछ अक्रिमिटिक्स करो काकी लगे की ये साकिक पुरा ग्लोज हो गया है",
+      "language": "hi",
+      "agreement": 0.1035,
+      "signals": {
+        "mean_logprob": -0.50512058758,
+        "mean_no_speech": 0.0778686544,
+        "speech_density": 1.0,
+        "repetition_rate": 0.0,
+        "compression_ratio": 2.1470588235294117,
+        "devanagari_ratio": 1.0,
+        "segments": 5,
+        "chars": 172,
+        "artefacts": [
+          "subscribe"
+        ],
+        "is_empty": false,
+        "composite": 0.4663
+      }
+    },
+    {
+      "clip_id": "OD11163_2026-01-28-121933_c00",
+      "label": "baseline",
+      "backend": "local",
+      "model": "Systran/faster-whisper-small",
+      "elapsed_sec": 0.0,
+      "text": "प्रड़ भी न्दीखिई थाद़ाग। लिए भार कल दिलकों आतुगाठ। प्रड़, वारी वर्सन् कता लगा् chair, खाहना ब्रैसिग। तो लष्त का उस में लदी आंके पहरешьे एं लदी आंके वू़ थास्ते को तब्तिया। और बार आखे पुरा चारो दार गया होगया पानी अप पानी नुग.",
+      "language": "hi",
+      "agreement": 0.0768,
+      "signals": {
+        "mean_logprob": -1.1643352252773518,
+        "mean_no_speech": 0.26583799719810486,
+        "speech_density": 0.9053333333333333,
+        "repetition_rate": 0.0,
+        "compression_ratio": 2.00711743772242,
+        "devanagari_ratio": 0.9245283018867925,
+        "segments": 7,
+        "chars": 223,
+        "artefacts": [],
+        "is_empty": false,
+        "composite": 0.8145
+      }
+    },
+    {
+      "clip_id": "OD11163_2026-01-28-121933_c00",
+      "label": "primary",
+      "backend": "local",
+      "model": "digikar/vasista22-whisper-hindi-large-v2-ct2-int8",
+      "elapsed_sec": 0.0,
+      "text": "मतलब आसमान से बादल भी जा रहा था जा रहा था इतना भारी वर्षा हो रहा था भारी वर्षा पता है ना बहुत बारिश हो रहा था बहुत ज्यादा और अचानक से ये तो गांव के बीच में जो रास्ता था उसमें एक नदी आके पहाड़ से नदी आके उसके रास्ते को और एक बार आगे पूरा चारों भाग क्या होगा पानी और पानी प्रदेश में अब तक एक लाख चौबिस हजार आठ सौ अट्ठावन लोगों की कोरोना जांच की जा चुकी है",
+      "language": "hi",
+      "agreement": 0.1865,
+      "signals": {
+        "mean_logprob": -0.09784265075540582,
+        "mean_no_speech": 0.07347456599777774,
+        "speech_density": 0.9773333333333334,
+        "repetition_rate": 0.0,
+        "compression_ratio": 2.6323529411764706,
+        "devanagari_ratio": 1.0,
+        "segments": 3,
+        "chars": 353,
+        "artefacts": [],
+        "is_empty": false,
+        "composite": 0.9824
+      }
+    },
+    {
+      "clip_id": "OD11163_2026-01-28-121933_c00",
+      "label": "indic",
+      "backend": "indic",
+      "model": "OpenVoiceOS/ai4bharat-indicconformer-hi-onnx",
+      "elapsed_sec": 0.0,
+      "text": "आसमानऐ बादल भी जा रहा था जा रहा था इतना भारी बर्सन हो रहा था भारी बर्सत ब पवर प्राइस़ोड़ा बहुत ज़्यादा और अचानक से ये दो गाँव के बीच में ो उसने एक नदी आके पहाड़ से नदी आ के उसके रास्ते को ढक दिया रे बार आने पूरा चारों वहाँ क्या हो गया पानी और पानी",
+      "language": "hi",
+      "agreement": 0.1914,
+      "signals": {
+        "mean_logprob": null,
+        "mean_no_speech": null,
+        "speech_density": 0.8751333333333334,
+        "repetition_rate": 0.0,
+        "compression_ratio": 2.357142857142857,
+        "devanagari_ratio": 1.0,
+        "segments": 9,
+        "chars": 247,
+        "artefacts": [],
+        "is_empty": false,
+        "composite": 0.775
+      }
+    },
+    {
+      "clip_id": "OD11163_2026-01-28-121933_c00",
+      "label": "groq",
+      "backend": "groq",
+      "model": "whisper-large-v3",
+      "elapsed_sec": 0.0,
+      "text": "जरूरत आमकुटबीदेशंय ना बूसे लगा था ? दुषाब से व्यक्त सुखी उठा रहे थे और ऐसा गौव बूनिक मद आउट्या उत्पास पहार टक लंकुं पहार की, जी आप मासी को संगीव नहीं आता और एक बार आखे पूरा चारों धार पानी और पानी",
+      "language": "hi",
+      "agreement": 0.1,
+      "signals": {
+        "mean_logprob": -1.6010610279799997,
+        "mean_no_speech": 0.38683166754,
+        "speech_density": 1.0,
+        "repetition_rate": 0.0,
+        "compression_ratio": 1.9722222222222223,
+        "devanagari_ratio": 1.0,
+        "segments": 5,
+        "chars": 195,
+        "artefacts": [],
+        "is_empty": false,
+        "composite": 0.7865
+      }
+    },
+    {
+      "clip_id": "OD11165_2026-01-06-114155_c00",
+      "label": "baseline",
+      "backend": "local",
+      "model": "Systran/faster-whisper-small",
+      "elapsed_sec": 0.0,
+      "text": "",
+      "language": "hi",
+      "agreement": 0.0,
+      "signals": {
+        "mean_logprob": null,
+        "mean_no_speech": null,
+        "speech_density": 0.0,
+        "repetition_rate": 0.0,
+        "compression_ratio": 0.0,
+        "devanagari_ratio": 0.0,
+        "segments": 0,
+        "chars": 0,
+        "artefacts": [],
+        "is_empty": true,
+        "composite": 0.0
+      }
+    },
+    {
+      "clip_id": "OD11165_2026-01-06-114155_c00",
+      "label": "primary",
+      "backend": "local",
+      "model": "digikar/vasista22-whisper-hindi-large-v2-ct2-int8",
+      "elapsed_sec": 0.0,
+      "text": "ग्रुप में ग्रुप से ग्रुप बन गई कैसे करना बदला इसके अलावा प्रदेश के अन्य जिलों में भी इस अभियान के तहत जागरूकता कार्यक्रम आयोजित किये जा रहे हैं",
+      "language": "hi",
+      "agreement": 0.0132,
+      "signals": {
+        "mean_logprob": -0.5974608944232971,
+        "mean_no_speech": 1.233057284410837e-10,
+        "speech_density": 0.9686343788540381,
+        "repetition_rate": 0.0,
+        "compression_ratio": 1.9946524064171123,
+        "devanagari_ratio": 1.0,
+        "segments": 4,
+        "chars": 143,
+        "artefacts": [
+          "news_bulletin"
+        ],
+        "is_empty": false,
+        "composite": 0.457
+      }
+    },
+    {
+      "clip_id": "OD11165_2026-01-06-114155_c00",
+      "label": "indic",
+      "backend": "indic",
+      "model": "OpenVoiceOS/ai4bharat-indicconformer-hi-onnx",
+      "elapsed_sec": 0.0,
+      "text": "ग्रु ग्रुप ऑ ग्रुप टू ग्रुप ग न ग्रु बे थोड़ा अच्छे क्रिएटर न बोऐ बहुत अच्छे अच्छे नामठीक है चलो ग्रुप ने ग्रुप टूीक है ग्रुप थ्री पहले जागाीक हैठीक हैना आप ब चलो ग्रु",
+      "language": "hi",
+      "agreement": 0.0577,
+      "signals": {
+        "mean_logprob": -0.4268152626348777,
+        "mean_no_speech": null,
+        "speech_density": 1.0,
+        "repetition_rate": 0.0,
+        "compression_ratio": 2.462857142857143,
+        "devanagari_ratio": 1.0,
+        "segments": 1,
+        "chars": 167,
+        "artefacts": [],
+        "is_empty": false,
+        "composite": 0.9431
+      }
+    },
+    {
+      "clip_id": "OD11165_2026-01-06-114155_c00",
+      "label": "groq",
+      "backend": "groq",
+      "model": "whisper-large-v3",
+      "elapsed_sec": 0.0,
+      "text": "प्रॉब्लम का विशेष एंट्रूप प्रॉब्लम प्रॉब्लम कुम अच्छी क्रिएटिव नाम आएंगे कि मेरे वजह कहीं और से बहुत अच्छे नाम आज ठीक है चलो रूप पर रूप टू अब जय है अब अब ठीक है रूप थ्री पहले जाएगा ठीक है ठीक है चलो रूप",
+      "language": "hi",
+      "agreement": 0.057,
+      "signals": {
+        "mean_logprob": -0.4654605344,
+        "mean_no_speech": 0.248291015,
+        "speech_density": 0.9999666677777407,
+        "repetition_rate": 0.023809523809523808,
+        "compression_ratio": 2.3870967741935485,
+        "devanagari_ratio": 1.0,
+        "segments": 2,
+        "chars": 202,
+        "artefacts": [],
+        "is_empty": false,
+        "composite": 0.932
+      }
+    }
+  ],
+  "failures": []
+}

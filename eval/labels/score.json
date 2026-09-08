@@ -1,0 +1,14 @@
+{
+  "total": 47,
+  "labelled": 36,
+  "correct": 15,
+  "accuracy": 0.4167,
+  "confident_accuracy": 0.4194,
+  "recall": {
+    "teacher": 0.4167
+  },
+  "confusion": {
+    "teacher->teacher": 15,
+    "teacher->student": 21
+  }
+}

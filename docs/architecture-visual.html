@@ -1,0 +1,767 @@
+<title>Classroom Voice Analytics</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,300;8..60,400;8..60,600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+
+<style>
+:root{
+  --ground:#FAF8F4;
+  --surface:#FFFFFF;
+  --surface-2:#F2EFE9;
+  --ink:#191C21;
+  --ink-2:#3E434B;
+  --muted:#6C7078;
+  --line:#DFDAD1;
+  --line-2:#EAE6DE;
+  --accent:#0F7A76;
+  --accent-soft:#DCEFED;
+  --teacher:#2F4C86;
+  --student:#C25E36;
+  --handson:#4E8C68;
+  --quiet:#C9C5BC;
+  --warn:#B4531E;
+  --warn-soft:#F7E9DF;
+  --bad:#9E3B2F;
+  --bad-soft:#F6E4E1;
+  --good:#3E7D5A;
+  --good-soft:#E2EFE8;
+  --shadow:0 1px 2px rgba(25,28,33,.05), 0 8px 24px -12px rgba(25,28,33,.14);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#131518;
+    --surface:#1B1E23;
+    --surface-2:#22262C;
+    --ink:#E9E7E2;
+    --ink-2:#C3C1BB;
+    --muted:#969AA2;
+    --line:#2E333A;
+    --line-2:#262B31;
+    --accent:#3BB5AF;
+    --accent-soft:#12332F;
+    --teacher:#7396DC;
+    --student:#E28B5E;
+    --handson:#74B790;
+    --quiet:#474C54;
+    --warn:#DB8A4E;
+    --warn-soft:#33241A;
+    --bad:#D4685A;
+    --bad-soft:#33201C;
+    --good:#6BB08A;
+    --good-soft:#17301F;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#131518;
+  --surface:#1B1E23;
+  --surface-2:#22262C;
+  --ink:#E9E7E2;
+  --ink-2:#C3C1BB;
+  --muted:#969AA2;
+  --line:#2E333A;
+  --line-2:#262B31;
+  --accent:#3BB5AF;
+  --accent-soft:#12332F;
+  --teacher:#7396DC;
+  --student:#E28B5E;
+  --handson:#74B790;
+  --quiet:#474C54;
+  --warn:#DB8A4E;
+  --warn-soft:#33241A;
+  --bad:#D4685A;
+  --bad-soft:#33201C;
+  --good:#6BB08A;
+  --good-soft:#17301F;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 28px -14px rgba(0,0,0,.7);
+}
+
+*{box-sizing:border-box}
+body{
+  background:var(--ground);
+  color:var(--ink);
+  font-family:"Source Serif 4",Georgia,serif;
+  font-size:17px;
+  line-height:1.62;
+  margin:0;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1080px;margin:0 auto;padding:0 28px 96px}
+.prose{max-width:68ch}
+
+h1,h2,h3,.eyebrow,.label,th,.btn{font-family:Sora,"Segoe UI",system-ui,sans-serif}
+h1{font-size:clamp(2.1rem,4.6vw,3.1rem);line-height:1.06;letter-spacing:-.028em;font-weight:700;margin:0;text-wrap:balance}
+h2{font-size:1.5rem;line-height:1.2;letter-spacing:-.018em;font-weight:600;margin:0 0 .5rem;text-wrap:balance}
+h3{font-size:1.02rem;line-height:1.3;letter-spacing:-.008em;font-weight:600;margin:0 0 .3rem}
+p{margin:0 0 1.05em}
+a{color:var(--accent);text-underline-offset:3px}
+strong{font-weight:600;color:var(--ink)}
+code{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.855em;background:var(--surface-2);padding:.12em .38em;border-radius:4px;border:1px solid var(--line-2)}
+
+.eyebrow{
+  font-size:.68rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;
+  color:var(--accent);margin:0 0 .6rem;
+}
+
+/* ---------- header ---------- */
+header{padding:72px 0 40px}
+.thesis{
+  font-size:1.22rem;line-height:1.5;color:var(--ink-2);margin:1.4rem 0 0;max-width:60ch;
+}
+.facts{
+  display:flex;flex-wrap:wrap;gap:0;margin-top:34px;
+  border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+}
+.fact{padding:16px 26px 16px 0;margin-right:26px;border-right:1px solid var(--line-2);flex:0 0 auto}
+.fact:last-child{border-right:0}
+.fact .k{font-family:Sora,sans-serif;font-size:.63rem;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:3px}
+.fact .v{font-family:"IBM Plex Mono",monospace;font-size:1.02rem;font-weight:500;color:var(--ink);font-variant-numeric:tabular-nums}
+
+/* ---------- sections ---------- */
+section{padding:52px 0 0;border-top:1px solid var(--line-2);margin-top:52px}
+section:first-of-type{border-top:0;margin-top:0}
+.sec-head{display:flex;align-items:baseline;gap:14px;margin-bottom:18px}
+.sec-num{
+  font-family:"IBM Plex Mono",monospace;font-size:.78rem;font-weight:500;color:var(--muted);
+  border:1px solid var(--line);border-radius:3px;padding:2px 7px;flex:0 0 auto;
+}
+
+/* ---------- figures ---------- */
+figure{margin:30px 0;padding:0}
+.figbox{
+  background:var(--surface);border:1px solid var(--line);border-radius:10px;
+  padding:22px 20px 14px;overflow-x:auto;box-shadow:var(--shadow);
+}
+figure svg{display:block;width:100%;height:auto;min-width:640px;color:var(--ink)}
+figcaption{
+  font-size:.86rem;line-height:1.5;color:var(--muted);margin-top:12px;max-width:76ch;
+}
+
+/* ---------- tables ---------- */
+.tablebox{overflow-x:auto;margin:26px 0;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:.9rem;min-width:520px}
+th{
+  font-size:.66rem;letter-spacing:.11em;text-transform:uppercase;font-weight:600;color:var(--muted);
+  text-align:left;padding:12px 16px;border-bottom:1px solid var(--line);background:var(--surface-2);
+}
+td{padding:11px 16px;border-bottom:1px solid var(--line-2);vertical-align:top;color:var(--ink-2)}
+tr:last-child td{border-bottom:0}
+td.num{font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;color:var(--ink);white-space:nowrap}
+
+/* ---------- callout ---------- */
+.callout{
+  border-left:3px solid var(--accent);background:var(--accent-soft);
+  padding:16px 20px;border-radius:0 8px 8px 0;margin:26px 0;font-size:.96rem;
+}
+.callout p:last-child{margin-bottom:0}
+
+/* ---------- code ---------- */
+pre{
+  font-family:"IBM Plex Mono",monospace;font-size:.79rem;line-height:1.62;
+  background:var(--surface);border:1px solid var(--line);border-radius:10px;
+  padding:20px 22px;overflow-x:auto;margin:26px 0;color:var(--ink-2);
+}
+pre .c{color:var(--muted);font-style:italic}
+pre .k{color:var(--accent)}
+pre .s{color:var(--student)}
+pre .n{color:var(--teacher)}
+
+/* ---------- confidence cards ---------- */
+.gate{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;margin:28px 0}
+.gcard{border:1px solid var(--line);border-radius:10px;background:var(--surface);padding:18px 18px 16px;border-top-width:3px}
+.gcard.ok{border-top-color:var(--good)}
+.gcard.mid{border-top-color:var(--warn)}
+.gcard.no{border-top-color:var(--bad)}
+.gcard .range{font-family:"IBM Plex Mono",monospace;font-size:.72rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.gcard h3{margin-top:6px}
+.gcard ul{margin:.5rem 0 0;padding-left:1.1rem;font-size:.87rem;color:var(--ink-2);line-height:1.55}
+.gcard li{margin-bottom:.2rem}
+.pill{
+  display:inline-block;font-family:Sora,sans-serif;font-size:.62rem;font-weight:600;
+  letter-spacing:.1em;text-transform:uppercase;padding:3px 8px;border-radius:20px;
+}
+.pill.ok{background:var(--good-soft);color:var(--good)}
+.pill.mid{background:var(--warn-soft);color:var(--warn)}
+.pill.no{background:var(--bad-soft);color:var(--bad)}
+
+/* ---------- steps ---------- */
+.steps{list-style:none;margin:26px 0;padding:0;counter-reset:s}
+.steps li{
+  counter-increment:s;position:relative;padding:0 0 20px 46px;
+  border-left:1px solid var(--line);margin-left:13px;
+}
+.steps li:last-child{border-left-color:transparent;padding-bottom:0}
+.steps li::before{
+  content:counter(s);position:absolute;left:-13px;top:-2px;
+  width:26px;height:26px;border-radius:50%;background:var(--surface);
+  border:1px solid var(--line);color:var(--muted);
+  font-family:"IBM Plex Mono",monospace;font-size:.72rem;font-weight:500;
+  display:flex;align-items:center;justify-content:center;
+}
+.steps li strong{display:block;font-family:Sora,sans-serif;font-size:.95rem;margin-bottom:1px;color:var(--ink)}
+.steps li span{font-size:.92rem;color:var(--ink-2)}
+
+/* ---------- whatsapp ---------- */
+.wa{
+  max-width:400px;background:var(--surface);border:1px solid var(--line);
+  border-radius:14px 14px 14px 4px;padding:15px 17px;box-shadow:var(--shadow);margin:24px 0;
+}
+.wa .who{font-family:Sora,sans-serif;font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+.wa .hi{font-size:.98rem;color:var(--ink);margin:0 0 8px;line-height:1.55}
+.wa .en{font-size:.85rem;color:var(--muted);margin:0;line-height:1.5;font-style:italic}
+
+/* ---------- legend ---------- */
+.legend{display:flex;flex-wrap:wrap;gap:16px;margin-top:14px;font-size:.8rem;font-family:Sora,sans-serif;color:var(--ink-2)}
+.legend span{display:flex;align-items:center;gap:7px}
+.sw{width:11px;height:11px;border-radius:2px;flex:0 0 auto}
+
+.mock{
+  display:inline-block;font-family:Sora,sans-serif;font-size:.6rem;font-weight:600;letter-spacing:.11em;
+  text-transform:uppercase;color:var(--warn);background:var(--warn-soft);
+  padding:3px 8px;border-radius:3px;margin-bottom:12px;
+}
+
+footer{margin-top:64px;padding-top:26px;border-top:1px solid var(--line);font-size:.85rem;color:var(--muted)}
+
+@media (max-width:640px){
+  body{font-size:16px}
+  .wrap{padding:0 18px 64px}
+  header{padding:44px 0 28px}
+  .fact{padding-right:18px;margin-right:18px}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<div class="wrap">
+
+<header>
+  <p class="eyebrow">MakerGhat pre-work · Task 1</p>
+  <h1>Classroom Voice Analytics</h1>
+  <p class="thesis">
+    Turning an hour of noisy Hindi classroom audio into one sentence a teacher can act on —
+    and knowing when to say nothing at all.
+  </p>
+  <div class="facts">
+    <div class="fact"><span class="k">Sessions</span><span class="v">5</span></div>
+    <div class="fact"><span class="k">Audio</span><span class="v">252 min</span></div>
+    <div class="fact"><span class="k">Language</span><span class="v">Hindi</span></div>
+    <div class="fact"><span class="k">Site</span><span class="v">Igatpuri, MH</span></div>
+    <div class="fact"><span class="k">Tooling cost</span><span class="v">₹0</span></div>
+  </div>
+</header>
+
+<!-- ============ 1 ============ -->
+<section>
+  <div class="sec-head"><span class="sec-num">01</span><h2>The constraint that shapes everything</h2></div>
+  <div class="prose">
+    <p>
+      The obvious design transcribes on demand: a visitor uploads audio, the app runs Whisper, results appear.
+      That design cannot be built here, and three separate measurements say so independently.
+    </p>
+  </div>
+
+  <div class="tablebox">
+    <table>
+      <thead><tr><th>Constraint</th><th>Measured</th><th>Consequence</th></tr></thead>
+      <tbody>
+        <tr><td>Local CPU transcription</td><td class="num">0.42× realtime</td><td>≈30 h to process the corpus with <code>whisper-hindi-medium</code></td></tr>
+        <tr><td>Streamlit Community Cloud</td><td class="num">1 GB RAM</td><td>Cannot hold a 1.5 GB model in the serving process</td></tr>
+        <tr><td>HF ZeroGPU, unauthenticated</td><td class="num">2 min GPU / day</td><td>One 60-minute file exhausts a reviewer's entire daily quota</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <figure>
+    <div class="figbox">
+      <svg viewBox="0 0 860 250" role="img" aria-label="Comparison of two designs: transcribing on request fails at the model step, while precomputing offline serves a small JSON file instantly.">
+        <defs>
+          <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <polygon points="0,1 9,5 0,9" fill="currentColor"/>
+          </marker>
+          <marker id="arBad" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <polygon points="0,1 9,5 0,9" fill="#9E3B2F"/>
+          </marker>
+          <marker id="arOk" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <polygon points="0,1 9,5 0,9" fill="#0F7A76"/>
+          </marker>
+        </defs>
+
+        <text x="0" y="16" font-family="Sora,sans-serif" font-size="11" font-weight="600" fill="#9E3B2F" letter-spacing="1.4">TRANSCRIBE ON REQUEST</text>
+        <rect x="0" y="34" width="130" height="46" rx="6" fill="none" stroke="currentColor" stroke-width="1.2" opacity=".55"/>
+        <text x="65" y="55" text-anchor="middle" font-family="Sora,sans-serif" font-size="12" fill="currentColor">reviewer</text>
+        <text x="65" y="70" text-anchor="middle" font-family="Sora,sans-serif" font-size="12" fill="currentColor">opens link</text>
+
+        <line x1="136" y1="57" x2="196" y2="57" stroke="currentColor" stroke-width="1.2" opacity=".55" marker-end="url(#ar)"/>
+
+        <rect x="204" y="34" width="150" height="46" rx="6" fill="none" stroke="currentColor" stroke-width="1.2" opacity=".55"/>
+        <text x="279" y="55" text-anchor="middle" font-family="Sora,sans-serif" font-size="12" fill="currentColor">60 min audio</text>
+        <text x="279" y="70" text-anchor="middle" font-family="Sora,sans-serif" font-size="12" fill="currentColor">uploaded</text>
+
+        <line x1="360" y1="57" x2="420" y2="57" stroke="currentColor" stroke-width="1.2" opacity=".55" marker-end="url(#ar)"/>
+
+        <rect x="428" y="34" width="150" height="46" rx="6" fill="none" stroke="#9E3B2F" stroke-width="1.5"/>
+        <text x="503" y="55" text-anchor="middle" font-family="Sora,sans-serif" font-size="12" fill="#9E3B2F">ASR model</text>
+        <text x="503" y="70" text-anchor="middle" font-family="Sora,sans-serif" font-size="12" fill="#9E3B2F">1.5 GB</text>
+
+        <line x1="584" y1="57" x2="644" y2="57" stroke="#9E3B2F" stroke-width="1.5" marker-end="url(#arBad)"/>
+        <text x="614" y="48" text-anchor="middle" font-family="Sora,sans-serif" font-size="10" fill="#9E3B2F">30 h</text>
+
+        <rect x="652" y="34" width="150" height="46" rx="6" fill="#F6E4E1" stroke="#9E3B2F" stroke-width="1.5"/>
+        <text x="727" y="62" text-anchor="middle" font-family="Sora,sans-serif" font-size="12.5" font-weight="600" fill="#9E3B2F">out of memory</text>
+
+        <line x1="0" y1="118" x2="860" y2="118" stroke="currentColor" stroke-width="1" opacity=".18"/>
+
+        <text x="0" y="152" font-family="Sora,sans-serif" font-size="11" font-weight="600" fill="#0F7A76" letter-spacing="1.4">PRECOMPUTE, THEN SERVE</text>
+        <rect x="0" y="170" width="130" height="46" rx="6" fill="none" stroke="currentColor" stroke-width="1.2" opacity=".55"/>
+        <text x="65" y="191" text-anchor="middle" font-family="Sora,sans-serif" font-size="12" fill="currentColor">reviewer</text>
+        <text x="65" y="206" text-anchor="middle" font-family="Sora,sans-serif" font-size="12" fill="currentColor">opens link</text>
+
+        <line x1="136" y1="193" x2="196" y2="193" stroke="#0F7A76" stroke-width="1.5" marker-end="url(#arOk)"/>
+
+        <rect x="204" y="170" width="150" height="46" rx="6" fill="#DCEFED" stroke="#0F7A76" stroke-width="1.5"/>
+        <text x="279" y="191" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="11.5" fill="#0F7A76">results/*.json</text>
+        <text x="279" y="206" text-anchor="middle" font-family="Sora,sans-serif" font-size="11" fill="#0F7A76">~40 KB</text>
+
+        <line x1="360" y1="193" x2="420" y2="193" stroke="#0F7A76" stroke-width="1.5" marker-end="url(#arOk)"/>
+        <text x="390" y="184" text-anchor="middle" font-family="Sora,sans-serif" font-size="10" fill="#0F7A76">&lt;1 s</text>
+
+        <rect x="428" y="170" width="150" height="46" rx="6" fill="none" stroke="#0F7A76" stroke-width="1.5"/>
+        <text x="503" y="198" text-anchor="middle" font-family="Sora,sans-serif" font-size="12.5" font-weight="600" fill="#0F7A76">full dashboard</text>
+
+        <line x1="584" y1="193" x2="644" y2="193" stroke="currentColor" stroke-width="1.2" opacity=".4" stroke-dasharray="4 3" marker-end="url(#ar)"/>
+
+        <rect x="652" y="170" width="150" height="46" rx="6" fill="none" stroke="currentColor" stroke-width="1.2" opacity=".5" stroke-dasharray="4 3"/>
+        <text x="727" y="191" text-anchor="middle" font-family="Sora,sans-serif" font-size="12" fill="currentColor">optional upload</text>
+        <text x="727" y="206" text-anchor="middle" font-family="Sora,sans-serif" font-size="12" fill="currentColor">≤ 2 min clip</text>
+      </svg>
+    </div>
+    <figcaption>
+      The work does not disappear — it moves to a batch pass on Colab's free T4, where the same corpus takes
+      10–20 minutes instead of 30 hours. The short-upload path stays live so the demo can prove nothing is hardcoded.
+    </figcaption>
+  </figure>
+
+  <div class="callout">
+    <p>
+      This is also the honest shape of the real product. A phone in an Igatpuri government school records for
+      an hour and syncs when it finds a signal. <strong>Batch-then-serve is production, not a shortcut</strong> —
+      and it matches the offline-first platform MakerGhat says it is building.
+    </p>
+  </div>
+</section>
+
+<!-- ============ 2 ============ -->
+<section>
+  <div class="sec-head"><span class="sec-num">02</span><h2>System architecture</h2></div>
+  <div class="prose">
+    <p>
+      The pipeline is split by <em>robustness</em>, not by convenience. Everything in the language layer
+      degrades as the room gets louder. Everything in the signal layer does not. The load-bearing metrics
+      are deliberately built on the half that survives.
+    </p>
+  </div>
+
+  <figure>
+    <div class="figbox">
+      <svg viewBox="0 0 1000 610" role="img" aria-label="Pipeline diagram: ingest feeds a robust signal layer and a fragile language layer in parallel; both feed attribution and the metrics engine; a confidence gate writes a results JSON file, which the Streamlit app reads to render four views.">
+        <defs>
+          <marker id="a2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse">
+            <polygon points="0,1 9,5 0,9" fill="currentColor"/>
+          </marker>
+          <marker id="a2t" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse">
+            <polygon points="0,1 9,5 0,9" fill="#0F7A76"/>
+          </marker>
+        </defs>
+
+        <!-- band labels -->
+        <text x="0" y="14" font-family="Sora,sans-serif" font-size="10.5" font-weight="600" letter-spacing="1.6" fill="currentColor" opacity=".5">OFFLINE — BATCH, COLAB T4</text>
+        <line x1="0" y1="330" x2="1000" y2="330" stroke="currentColor" stroke-width="1" opacity=".18" stroke-dasharray="6 4"/>
+        <text x="0" y="368" font-family="Sora,sans-serif" font-size="10.5" font-weight="600" letter-spacing="1.6" fill="#0F7A76">ONLINE — STREAMLIT FREE TIER</text>
+
+        <!-- 1 ingest -->
+        <rect x="0" y="128" width="150" height="70" rx="7" fill="none" stroke="currentColor" stroke-width="1.3" opacity=".6"/>
+        <text x="10" y="147" font-family="IBM Plex Mono,monospace" font-size="10" fill="currentColor" opacity=".55">01</text>
+        <text x="75" y="167" text-anchor="middle" font-family="Sora,sans-serif" font-size="13" font-weight="600" fill="currentColor">Ingest</text>
+        <text x="75" y="184" text-anchor="middle" font-family="Sora,sans-serif" font-size="10.5" fill="currentColor" opacity=".65">validate · decode 16 kHz</text>
+
+        <!-- fork -->
+        <path d="M156 148 Q186 148 186 95 L206 95" fill="none" stroke="currentColor" stroke-width="1.3" opacity=".6" marker-end="url(#a2)"/>
+        <path d="M156 178 Q186 178 186 245 L206 245" fill="none" stroke="currentColor" stroke-width="1.3" opacity=".6" marker-end="url(#a2)"/>
+
+        <!-- 2 signal (robust) -->
+        <rect x="214" y="58" width="176" height="76" rx="7" fill="none" stroke="currentColor" stroke-width="1.8"/>
+        <text x="224" y="77" font-family="IBM Plex Mono,monospace" font-size="10" fill="currentColor" opacity=".55">02</text>
+        <text x="302" y="94" text-anchor="middle" font-family="Sora,sans-serif" font-size="13" font-weight="600" fill="currentColor">Signal layer</text>
+        <text x="302" y="110" text-anchor="middle" font-family="Sora,sans-serif" font-size="10.5" fill="currentColor" opacity=".65">VAD · energy · flatness</text>
+        <text x="302" y="124" text-anchor="middle" font-family="Sora,sans-serif" font-size="10" font-weight="600" fill="#3E7D5A">ROBUST TO NOISE</text>
+
+        <!-- 3 language (fragile) -->
+        <rect x="214" y="208" width="176" height="76" rx="7" fill="none" stroke="currentColor" stroke-width="1.4" stroke-dasharray="6 4" opacity=".75"/>
+        <text x="224" y="227" font-family="IBM Plex Mono,monospace" font-size="10" fill="currentColor" opacity=".55">03</text>
+        <text x="302" y="244" text-anchor="middle" font-family="Sora,sans-serif" font-size="13" font-weight="600" fill="currentColor">Language layer</text>
+        <text x="302" y="260" text-anchor="middle" font-family="Sora,sans-serif" font-size="10.5" fill="currentColor" opacity=".65">Whisper-hi · IndicTrans2</text>
+        <text x="302" y="274" text-anchor="middle" font-family="Sora,sans-serif" font-size="10" font-weight="600" fill="#B4531E">DEGRADES WITH NOISE</text>
+
+        <!-- 4 attribution -->
+        <path d="M396 96 Q426 96 426 130 L446 130" fill="none" stroke="currentColor" stroke-width="1.3" opacity=".6" marker-end="url(#a2)"/>
+        <text x="432" y="88" font-family="Sora,sans-serif" font-size="10" fill="currentColor" opacity=".7">segments</text>
+
+        <rect x="454" y="100" width="164" height="70" rx="7" fill="none" stroke="currentColor" stroke-width="1.3" opacity=".6"/>
+        <text x="464" y="119" font-family="IBM Plex Mono,monospace" font-size="10" fill="currentColor" opacity=".55">04</text>
+        <text x="536" y="139" text-anchor="middle" font-family="Sora,sans-serif" font-size="13" font-weight="600" fill="currentColor">Attribution</text>
+        <text x="536" y="156" text-anchor="middle" font-family="Sora,sans-serif" font-size="10.5" fill="currentColor" opacity=".65">teacher vs student</text>
+
+        <!-- 5 metrics -->
+        <line x1="624" y1="135" x2="666" y2="135" stroke="currentColor" stroke-width="1.3" opacity=".6" marker-end="url(#a2)"/>
+        <rect x="674" y="100" width="150" height="70" rx="7" fill="none" stroke="currentColor" stroke-width="1.3" opacity=".6"/>
+        <text x="684" y="119" font-family="IBM Plex Mono,monospace" font-size="10" fill="currentColor" opacity=".55">05</text>
+        <text x="749" y="139" text-anchor="middle" font-family="Sora,sans-serif" font-size="13" font-weight="600" fill="currentColor">Metrics</text>
+        <text x="749" y="156" text-anchor="middle" font-family="Sora,sans-serif" font-size="10.5" fill="currentColor" opacity=".65">M1–M5</text>
+
+        <!-- language into metrics -->
+        <path d="M396 246 Q560 246 700 246 L749 246 L749 176" fill="none" stroke="currentColor" stroke-width="1.3" opacity=".45" stroke-dasharray="6 4" marker-end="url(#a2)"/>
+        <text x="560" y="238" text-anchor="middle" font-family="Sora,sans-serif" font-size="10" fill="currentColor" opacity=".7">text · questions · logprob</text>
+
+        <!-- 6 gate -->
+        <line x1="830" y1="135" x2="866" y2="135" stroke="#0F7A76" stroke-width="1.8" marker-end="url(#a2t)"/>
+        <rect x="874" y="94" width="126" height="82" rx="7" fill="#DCEFED" stroke="#0F7A76" stroke-width="2.2"/>
+        <text x="884" y="113" font-family="IBM Plex Mono,monospace" font-size="10" fill="#0F7A76">06</text>
+        <text x="937" y="133" text-anchor="middle" font-family="Sora,sans-serif" font-size="13" font-weight="600" fill="#0F7A76">Confidence</text>
+        <text x="937" y="149" text-anchor="middle" font-family="Sora,sans-serif" font-size="13" font-weight="600" fill="#0F7A76">gate</text>
+        <text x="937" y="165" text-anchor="middle" font-family="Sora,sans-serif" font-size="10" fill="#0F7A76">M6</text>
+
+        <!-- gate down to json -->
+        <path d="M937 182 L937 250 Q937 268 917 268 L620 268" fill="none" stroke="#0F7A76" stroke-width="1.8" marker-end="url(#a2t)"/>
+
+        <!-- json hinge -->
+        <rect x="380" y="380" width="240" height="62" rx="7" fill="#DCEFED" stroke="#0F7A76" stroke-width="2.2"/>
+        <text x="500" y="405" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="12.5" font-weight="500" fill="#0F7A76">results/&lt;session&gt;.json</text>
+        <text x="500" y="424" text-anchor="middle" font-family="Sora,sans-serif" font-size="10.5" fill="#0F7A76">the offline / online contract · safe to commit</text>
+
+        <path d="M500 274 L500 374" fill="none" stroke="#0F7A76" stroke-width="1.8" marker-end="url(#a2t)"/>
+
+        <!-- fan out to views -->
+        <path d="M500 448 L500 480" fill="none" stroke="#0F7A76" stroke-width="1.6"/>
+        <path d="M110 480 L890 480" fill="none" stroke="#0F7A76" stroke-width="1.6"/>
+        <path d="M110 480 L110 512" fill="none" stroke="#0F7A76" stroke-width="1.6" marker-end="url(#a2t)"/>
+        <path d="M370 480 L370 512" fill="none" stroke="#0F7A76" stroke-width="1.6" marker-end="url(#a2t)"/>
+        <path d="M630 480 L630 512" fill="none" stroke="#0F7A76" stroke-width="1.6" marker-end="url(#a2t)"/>
+        <path d="M890 480 L890 512" fill="none" stroke="#0F7A76" stroke-width="1.6" marker-end="url(#a2t)"/>
+
+        <rect x="20" y="518" width="180" height="58" rx="7" fill="none" stroke="currentColor" stroke-width="1.3" opacity=".6"/>
+        <text x="110" y="542" text-anchor="middle" font-family="Sora,sans-serif" font-size="12.5" font-weight="600" fill="currentColor">Teacher view</text>
+        <text x="110" y="559" text-anchor="middle" font-family="Sora,sans-serif" font-size="10" fill="currentColor" opacity=".65">headline · timeline · cards</text>
+
+        <rect x="280" y="518" width="180" height="58" rx="7" fill="none" stroke="currentColor" stroke-width="1.3" opacity=".6"/>
+        <text x="370" y="542" text-anchor="middle" font-family="Sora,sans-serif" font-size="12.5" font-weight="600" fill="currentColor">Trend view</text>
+        <text x="370" y="559" text-anchor="middle" font-family="Sora,sans-serif" font-size="10" fill="currentColor" opacity=".65">same teacher over time</text>
+
+        <rect x="540" y="518" width="180" height="58" rx="7" fill="none" stroke="currentColor" stroke-width="1.3" opacity=".6"/>
+        <text x="630" y="542" text-anchor="middle" font-family="Sora,sans-serif" font-size="12.5" font-weight="600" fill="currentColor">M&amp;E view</text>
+        <text x="630" y="559" text-anchor="middle" font-family="Sora,sans-serif" font-size="10" fill="currentColor" opacity=".65">coverage · data quality</text>
+
+        <rect x="800" y="518" width="180" height="58" rx="7" fill="none" stroke="currentColor" stroke-width="1.3" opacity=".6" stroke-dasharray="5 4"/>
+        <text x="890" y="542" text-anchor="middle" font-family="Sora,sans-serif" font-size="12.5" font-weight="600" fill="currentColor">Try it</text>
+        <text x="890" y="559" text-anchor="middle" font-family="Sora,sans-serif" font-size="10" fill="currentColor" opacity=".65">≤ 2 min, same code</text>
+      </svg>
+    </div>
+    <figcaption>
+      Stage 03 is drawn dashed because it is the fragile half: on our data, Whisper <code>small</code>
+      returned incoherent Devanagari. The confidence gate at 06 decides how much of that half a user
+      is ever shown — it is the only stage drawn as a decision, because it is the only one that can
+      suppress the others.
+    </figcaption>
+  </figure>
+
+  <div class="tablebox">
+    <table>
+      <thead><tr><th>Stage</th><th>Does</th><th>Notable</th></tr></thead>
+      <tbody>
+        <tr><td><strong>01 Ingest</strong></td><td>Validate, decode to 16 kHz mono</td><td>Declared duration disagrees with the actual stream on 3 of 5 files — every denominator uses the decoded length</td></tr>
+        <tr><td><strong>02 Signal</strong></td><td>Silero VAD, then split non-speech by energy</td><td><strong>Hands-on</strong> (loud, children building) vs <strong>dead</strong> (quiet) — the maker-education distinction</td></tr>
+        <tr><td><strong>03 Language</strong></td><td>Whisper-hi, IndicTrans2, question detection</td><td>Per-segment <code>avg_logprob</code> is kept as an <em>input to M6</em>, not as diagnostics</td></tr>
+        <tr><td><strong>04 Attribution</strong></td><td>Binary teacher vs student</td><td>The phone is the teacher's, so she is the loudest, nearest voice — energy alone is a strong feature</td></tr>
+        <tr><td><strong>05 Metrics</strong></td><td>M1–M5</td><td>Four acoustic and robust; one lexical and gated</td></tr>
+        <tr><td><strong>06 Gate</strong></td><td>Score confidence, decide what is shown</td><td>Can refuse to report at all</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ============ 3 ============ -->
+<section>
+  <div class="sec-head"><span class="sec-num">03</span><h2>The signature view</h2></div>
+  <div class="prose">
+    <p>
+      One picture carries the product. The timeline strip shows the shape of a lesson at a glance —
+      and, crucially, <strong>it still works when every word in the transcript is wrong</strong>, because
+      it is built entirely from the signal layer.
+    </p>
+  </div>
+
+  <figure>
+    <span class="mock">Mockup — illustrative values, pipeline not yet run</span>
+    <div class="figbox">
+      <svg viewBox="0 0 960 190" role="img" aria-label="A horizontal timeline strip of a 64-minute maker session, showing alternating bands of teacher talk, student talk, hands-on activity and quiet time.">
+        <text x="0" y="14" font-family="Sora,sans-serif" font-size="11" font-weight="600" fill="currentColor">Trumpet · Teacher B · 8 students · 64 min</text>
+
+        <!-- strip -->
+        <g>
+          <rect x="0"   y="34" width="54"  height="46" fill="#2F4C86"/>
+          <rect x="54"  y="34" width="27"  height="46" fill="#C25E36"/>
+          <rect x="81"  y="34" width="27"  height="46" fill="#2F4C86"/>
+          <rect x="108" y="34" width="18"  height="46" fill="#C25E36"/>
+          <rect x="126" y="34" width="216" height="46" fill="#4E8C68"/>
+          <rect x="342" y="34" width="18"  height="46" fill="#2F4C86"/>
+          <rect x="360" y="34" width="18"  height="46" fill="#C25E36"/>
+          <rect x="378" y="34" width="27"  height="46" fill="#2F4C86"/>
+          <rect x="405" y="34" width="225" height="46" fill="#4E8C68"/>
+          <rect x="630" y="34" width="18"  height="46" fill="#C9C5BC"/>
+          <rect x="648" y="34" width="36"  height="46" fill="#2F4C86"/>
+          <rect x="684" y="34" width="27"  height="46" fill="#C25E36"/>
+          <rect x="711" y="34" width="27"  height="46" fill="#2F4C86"/>
+          <rect x="738" y="34" width="18"  height="46" fill="#C25E36"/>
+          <rect x="756" y="34" width="81"  height="46" fill="#4E8C68"/>
+          <rect x="837" y="34" width="36"  height="46" fill="#2F4C86"/>
+          <rect x="873" y="34" width="87"  height="46" fill="#C9C5BC"/>
+        </g>
+
+        <!-- axis -->
+        <line x1="0" y1="86" x2="960" y2="86" stroke="currentColor" stroke-width="1" opacity=".3"/>
+        <g font-family="IBM Plex Mono,monospace" font-size="10" fill="currentColor" opacity=".6">
+          <line x1="0" y1="86" x2="0" y2="92" stroke="currentColor" stroke-width="1" opacity=".5"/>
+          <text x="0" y="105" text-anchor="start">0</text>
+          <line x1="240" y1="86" x2="240" y2="92" stroke="currentColor" stroke-width="1" opacity=".5"/>
+          <text x="240" y="105" text-anchor="middle">16 min</text>
+          <line x1="480" y1="86" x2="480" y2="92" stroke="currentColor" stroke-width="1" opacity=".5"/>
+          <text x="480" y="105" text-anchor="middle">32 min</text>
+          <line x1="720" y1="86" x2="720" y2="92" stroke="currentColor" stroke-width="1" opacity=".5"/>
+          <text x="720" y="105" text-anchor="middle">48 min</text>
+          <line x1="960" y1="86" x2="960" y2="92" stroke="currentColor" stroke-width="1" opacity=".5"/>
+          <text x="960" y="105" text-anchor="end">64 min</text>
+        </g>
+
+        <!-- annotations -->
+        <line x1="234" y1="130" x2="234" y2="112" stroke="#4E8C68" stroke-width="1.3"/>
+        <text x="234" y="146" text-anchor="middle" font-family="Sora,sans-serif" font-size="10.5" font-weight="600" fill="#4E8C68">building</text>
+        <text x="234" y="160" text-anchor="middle" font-family="Sora,sans-serif" font-size="10" fill="currentColor" opacity=".65">loud, but not talk</text>
+
+        <line x1="694" y1="130" x2="694" y2="112" stroke="#C25E36" stroke-width="1.3"/>
+        <text x="694" y="146" text-anchor="middle" font-family="Sora,sans-serif" font-size="10.5" font-weight="600" fill="#C25E36">share-out</text>
+        <text x="694" y="160" text-anchor="middle" font-family="Sora,sans-serif" font-size="10" fill="currentColor" opacity=".65">fastest turn-taking</text>
+
+        <line x1="916" y1="130" x2="916" y2="112" stroke="currentColor" stroke-width="1.3" opacity=".5"/>
+        <text x="916" y="146" text-anchor="middle" font-family="Sora,sans-serif" font-size="10.5" font-weight="600" fill="currentColor" opacity=".7">quiet tail</text>
+        <text x="916" y="160" text-anchor="middle" font-family="Sora,sans-serif" font-size="10" fill="currentColor" opacity=".55">recorder left running</text>
+      </svg>
+    </div>
+    <div class="legend">
+      <span><i class="sw" style="background:#2F4C86"></i>Teacher talk</span>
+      <span><i class="sw" style="background:#C25E36"></i>Student talk</span>
+      <span><i class="sw" style="background:#4E8C68"></i>Hands-on</span>
+      <span><i class="sw" style="background:#C9C5BC"></i>Quiet</span>
+    </div>
+    <figcaption>
+      A naive design would count the two long green stretches as dead air and score this the worst lesson of
+      the five. In a maker session they are the point of the lesson. Separating <em>loud non-speech</em> from
+      <em>quiet non-speech</em> is what makes this a MakerGhat tool rather than a generic one.
+    </figcaption>
+  </figure>
+</section>
+
+<!-- ============ 4 ============ -->
+<section>
+  <div class="sec-head"><span class="sec-num">04</span><h2>The data contract</h2></div>
+  <div class="prose">
+    <p>
+      One JSON per session is the boundary between offline and online. Everything upstream can be rewritten
+      freely as long as this shape holds — which is what makes the ASR model swappable without touching the app.
+    </p>
+  </div>
+
+<pre><span class="c">// results/OD11165_2026-01-06-114155.json  — abridged</span>
+{
+  <span class="k">"session_id"</span>: <span class="s">"OD11165_2026-01-06-114155"</span>,
+  <span class="k">"teacher"</span>: { <span class="k">"id"</span>: <span class="s">"OD11165"</span>, <span class="k">"alias"</span>: <span class="s">"Teacher B"</span> },   <span class="c">// name never persisted</span>
+  <span class="k">"activity"</span>: <span class="s">"Trumpet"</span>,
+  <span class="k">"roster"</span>: { <span class="k">"total"</span>: <span class="n">8</span>, <span class="k">"boys"</span>: <span class="n">5</span>, <span class="k">"girls"</span>: <span class="n">3</span> },
+
+  <span class="k">"audio"</span>: {
+    <span class="k">"declared_sec"</span>: <span class="n">4134.6</span>,     <span class="c">// from their JSON — untrusted</span>
+    <span class="k">"actual_sec"</span>:   <span class="n">3858.0</span>,     <span class="c">// decoded — the only denominator used</span>
+    <span class="k">"completeness"</span>: <span class="n">0.933</span>,
+    <span class="k">"speech_density"</span>: <span class="n">0.856</span>
+  },
+
+  <span class="k">"timeline"</span>: [
+    { <span class="k">"t0"</span>: <span class="n">12.4</span>, <span class="k">"t1"</span>: <span class="n">19.8</span>, <span class="k">"kind"</span>: <span class="s">"speech"</span>, <span class="k">"role"</span>: <span class="s">"teacher"</span>,
+      <span class="k">"role_conf"</span>: <span class="n">0.91</span>, <span class="k">"is_question"</span>: <span class="n">true</span>, <span class="k">"asr_logprob"</span>: <span class="n">-0.61</span>,
+      <span class="k">"text_hi"</span>: <span class="s">"यह किससे बनाया है?"</span>, <span class="k">"text_en"</span>: <span class="s">"What is this made from?"</span> },
+    { <span class="k">"t0"</span>: <span class="n">23.1</span>, <span class="k">"t1"</span>: <span class="n">61.5</span>, <span class="k">"kind"</span>: <span class="s">"handson"</span> }
+  ],
+
+  <span class="k">"metrics"</span>: {
+    <span class="k">"M1_teacher_talk_ratio"</span>:      { <span class="k">"value"</span>: <span class="n">0.615</span>, <span class="k">"benchmark"</span>: <span class="n">0.40</span>, <span class="k">"confidence"</span>: <span class="n">0.78</span> },
+    <span class="k">"M4_longest_teacher_stretch"</span>: { <span class="k">"value"</span>: <span class="n">412</span>,   <span class="k">"unit"</span>: <span class="s">"sec"</span>,  <span class="k">"confidence"</span>: <span class="n">0.85</span> },
+    <span class="k">"M5_wait_time_1"</span>:             { <span class="k">"value"</span>: <span class="n">0.8</span>,   <span class="k">"unit"</span>: <span class="s">"sec"</span>,  <span class="k">"confidence"</span>: <span class="n">0.41</span> }
+  },
+
+  <span class="k">"confidence"</span>: { <span class="k">"overall"</span>: <span class="n">0.71</span>, <span class="k">"verdict"</span>: <span class="s">"usable"</span> },
+  <span class="k">"flags"</span>: [<span class="s">"clipping_detected"</span>]
+}</pre>
+
+  <div class="prose">
+    <p>
+      Two decisions are load-bearing. <strong><code>alias</code>, never <code>name</code></strong> — the raw
+      teacher name stays out of any file that could be committed. And <strong>every metric carries its own
+      confidence</strong>, not just the session, so wait time can be suppressed while talk ratio is still shown.
+    </p>
+  </div>
+</section>
+
+<!-- ============ 5 ============ -->
+<section>
+  <div class="sec-head"><span class="sec-num">05</span><h2>Knowing when to say nothing</h2></div>
+  <div class="prose">
+    <p>
+      The confidence verdict changes the whole page, not a footnote on it. On our own data the Shadow Art
+      session — 27 students, 20% speech density, the loudest file of the five — should land in the third
+      column. That refusal is the demo worth showing.
+    </p>
+  </div>
+
+  <div class="gate">
+    <div class="gcard ok">
+      <span class="pill ok">usable</span>
+      <h3>Full report</h3>
+      <p class="range">confidence ≥ 0.65</p>
+      <ul>
+        <li>All five metrics shown</li>
+        <li>Bilingual transcript</li>
+        <li>One concrete suggestion</li>
+        <li>WhatsApp summary sent</li>
+      </ul>
+    </div>
+    <div class="gcard mid">
+      <span class="pill mid">partial</span>
+      <h3>Acoustic only</h3>
+      <p class="range">0.40 – 0.65</p>
+      <ul>
+        <li>M1–M4 shown</li>
+        <li>Wait time suppressed</li>
+        <li>Transcript marked approximate</li>
+        <li>Suggestion drawn from talk shape only</li>
+      </ul>
+    </div>
+    <div class="gcard no">
+      <span class="pill no">unreliable</span>
+      <h3>Refuse to report</h3>
+      <p class="range">&lt; 0.40</p>
+      <ul>
+        <li>No metrics at all</li>
+        <li>"Too noisy to analyse"</li>
+        <li>Recording tips instead</li>
+        <li>No WhatsApp numbers sent</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout">
+    <p>
+      A dashboard that admits it cannot read a room is more useful to a teacher than one that invents a
+      statistic — and more defensible to the M&amp;E team that has to stand behind the number.
+      Most submissions will print a confident figure for that file.
+    </p>
+  </div>
+</section>
+
+<!-- ============ 6 ============ -->
+<section>
+  <div class="sec-head"><span class="sec-num">06</span><h2>How the teacher sees it</h2></div>
+  <div class="prose">
+    <p>
+      Santana teaches 22 children in a government school in Igatpuri. She has a phone, patchy data, about
+      five minutes, and no interest in machine learning. MakerGhat already reaches her through
+      <strong>MakerDost, a WhatsApp bot</strong> — so the browser dashboard is the M&amp;E team's surface.
+      Hers is a message.
+    </p>
+  </div>
+
+  <ol class="steps">
+    <li><strong>Record</strong><span>Opens the M&amp;E app, taps record, teaches, taps stop. No signal in the classroom, so it stores locally.</span></li>
+    <li><strong>Sync</strong><span>The phone uploads when it finds wifi — hours later, usually at home.</span></li>
+    <li><strong>Process</strong><span>Batch pass transcribes, attributes, scores. She is not waiting on it.</span></li>
+    <li><strong>One message</strong><span>A WhatsApp message with the headline and a single thing to try. If confidence was too low, she gets recording tips instead — never a fabricated number.</span></li>
+    <li><strong>Detail, if she wants it</strong><span>Tapping the link opens the timeline, four cards, and the transcript. Most weeks she won't, and that's fine.</span></li>
+    <li><strong>Next month</strong><span>The trend view shows her own two sessions side by side. We have two each for Santana and Sudipto, so this is real, not hypothetical.</span></li>
+  </ol>
+
+  <div class="wa">
+    <p class="who">MakerDost · WhatsApp</p>
+    <p class="hi">नमस्ते Santana! आज की क्लास में आपने 62% समय बात की। मेकर सेशन में 40% से कम बेहतर रहता है। आपका सबसे लंबा हिस्सा 6 मिनट 52 सेकंड का था — बीच में एक सवाल पूछकर देखिए।</p>
+    <p class="en">Hello Santana! You spoke 62% of the time today. Under 40% works better in a maker session. Your longest unbroken stretch was 6m 52s — try breaking it with a question halfway through.</p>
+  </div>
+
+  <div class="prose">
+    <p>
+      The design goal is that <strong>step 4 is enough</strong>. If she never opens the dashboard, she still
+      got one usable thing out of the hour she recorded.
+    </p>
+  </div>
+</section>
+
+<!-- ============ 7 ============ -->
+<section>
+  <div class="sec-head"><span class="sec-num">07</span><h2>How everyone else sees it</h2></div>
+
+  <h3 style="margin-top:22px">The M&amp;E lead</h3>
+  <div class="prose">
+    <p>
+      A different question entirely: not "how was my lesson" but "which teachers need support, and is our
+      data any good?"
+    </p>
+  </div>
+  <div class="tablebox">
+    <table>
+      <thead><tr><th>Wants to know</th><th>Screen element</th></tr></thead>
+      <tbody>
+        <tr><td>Which sessions are analysable at all</td><td>Coverage strip — usable / partial / unreliable</td></tr>
+        <tr><td>Which teachers are improving</td><td>Trend lines per teacher</td></tr>
+        <tr><td>Where capture is broken</td><td>Data-quality table — truncation, clipping, missing GPS</td></tr>
+        <tr><td>Whether maker sessions differ from lectures</td><td>Activity-type breakdown</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="prose">
+    <p>
+      The truncation finding belongs on this screen. Three of the five recordings are shorter than their own
+      metadata claims — 42, 20 and 5 minutes missing. That is an operational bug in the capture app, and
+      surfacing it is worth more to MakerGhat than any single lesson metric.
+    </p>
+  </div>
+
+  <h3 style="margin-top:34px">The reviewer, in the first thirty seconds</h3>
+  <div class="prose">
+    <p>
+      Worth designing explicitly, because a mandatory live link that greets a reviewer with a spinner has
+      already lost. Each step answers something they said they were grading.
+    </p>
+  </div>
+  <ol class="steps">
+    <li><strong>Opens the URL</strong><span>A session is already loaded with full results. No upload, no spinner, no cold model.</span></li>
+    <li><strong>Reads the headline and timeline</strong><span>Understands what the product does before reading a word of the README.</span></li>
+    <li><strong>Switches to the Shadow Art session</strong><span>Watches the app decline to analyse it. <em>System design thinking.</em></span></li>
+    <li><strong>Uploads a 90-second clip</strong><span>Proves nothing is hardcoded. <em>Tool integration.</em></span></li>
+    <li><strong>Opens <code>eval/asr_bakeoff.md</code></strong><span>Three ASR models, hand-scored on the same clips, with an honest note that clean-benchmark WER does not transfer to a room with 25 children in it. <em>AI/ML understanding.</em></span></li>
+  </ol>
+</section>
+
+<footer>
+  <p>
+    Companion to <code>docs/task1-plan.md</code> and <code>docs/data-notes.md</code>.
+    Figures marked mockup are illustrative — the pipeline has not been run yet.
+    Dataset facts (durations, speech density, language, truncation) are measured.
+  </p>
+</footer>
+
+</div>

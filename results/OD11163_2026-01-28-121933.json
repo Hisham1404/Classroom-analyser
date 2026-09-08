@@ -1,0 +1,1431 @@
+{
+  "schema_version": "1.0",
+  "session_id": "OD11163_2026-01-28-121933",
+  "teacher": {
+    "id": "OD11163",
+    "alias": "Teacher A"
+  },
+  "activity": "Trumpet",
+  "recorded_at": "2026-01-28T13:24:01",
+  "roster": {
+    "total": 25,
+    "boys": 13,
+    "girls": 12
+  },
+  "audio": {
+    "declared_sec": 3838.9,
+    "actual_sec": 1321.1,
+    "analysed_sec": 240.0,
+    "completeness": 0.344,
+    "sample_rate": 44100,
+    "channels": 1,
+    "has_gps": true
+  },
+  "models": {
+    "asr": "OpenVoiceOS/ai4bharat-indicconformer-hi-onnx",
+    "asr_backend": "indic",
+    "attribution": "pyannote-community-1",
+    "vad": "pyannote-community-1-segmentation"
+  },
+  "timeline": [
+    {
+      "t0": 0.0,
+      "t1": 1.482,
+      "kind": "dead",
+      "rms_db": -36.18
+    },
+    {
+      "t0": 1.482,
+      "t1": 1.651,
+      "kind": "speech",
+      "rms_db": -20.42
+    },
+    {
+      "t0": 1.651,
+      "t1": 2.191,
+      "kind": "handson",
+      "rms_db": -28.74
+    },
+    {
+      "t0": 2.191,
+      "t1": 4.604,
+      "kind": "speech",
+      "rms_db": -22.92,
+      "role": "teacher",
+      "role_conf": 0.931,
+      "text": "आज हमारा क्लास रिकॉर्ड होेगेठीक है तो कोई हलला मस्ती नहींठीक है और आज हमारे कलास का रूल बनाएगे"
+    },
+    {
+      "t0": 4.604,
+      "t1": 5.195,
+      "kind": "dead",
+      "rms_db": -39.73
+    },
+    {
+      "t0": 5.195,
+      "t1": 7.27,
+      "kind": "speech",
+      "rms_db": -21.06,
+      "role": "teacher",
+      "role_conf": 0.931,
+      "text": "आज हमारा क्लास रिकॉर्ड होेगेठीक है तो कोई हलला मस्ती नहींठीक है और आज हमारे कलास का रूल बनाएगे"
+    },
+    {
+      "t0": 7.27,
+      "t1": 7.692,
+      "kind": "dead",
+      "rms_db": -41.72
+    },
+    {
+      "t0": 7.692,
+      "t1": 8.333,
+      "kind": "speech",
+      "rms_db": -26.41,
+      "role": "teacher",
+      "role_conf": 0.931,
+      "text": "आज हमारा क्लास रिकॉर्ड होेगेठीक है तो कोई हलला मस्ती नहींठीक है और आज हमारे कलास का रूल बनाएगे"
+    },
+    {
+      "t0": 8.333,
+      "t1": 8.89,
+      "kind": "dead",
+      "rms_db": -38.02
+    },
+    {
+      "t0": 8.89,
+      "t1": 10.814,
+      "kind": "speech",
+      "rms_db": -22.78,
+      "role": "student",
+      "role_conf": 0.931,
+      "text": "आज हमारा क्लास रिकॉर्ड होेगेठीक है तो कोई हलला मस्ती नहींठीक है और आज हमारे कलास का रूल बनाएगे"
+    },
+    {
+      "t0": 10.814,
+      "t1": 12.063,
+      "kind": "speech",
+      "rms_db": -22.78,
+      "role": "teacher",
+      "role_conf": 0.931,
+      "text": "आज हमारा क्लास रिकॉर्ड होेगेठीक है तो कोई हलला मस्ती नहींठीक है और आज हमारे कलास का रूल बनाएगे"
+    },
+    {
+      "t0": 12.063,
+      "t1": 12.552,
+      "kind": "dead",
+      "rms_db": -40.15
+    },
+    {
+      "t0": 12.552,
+      "t1": 13.852,
+      "kind": "speech",
+      "rms_db": -23.12,
+      "role": "teacher",
+      "role_conf": 0.931,
+      "text": "क्या क्या रू है पहला रू है"
+    },
+    {
+      "t0": 13.852,
+      "t1": 14.088,
+      "kind": "dead",
+      "rms_db": -41.26
+    },
+    {
+      "t0": 14.088,
+      "t1": 15.404,
+      "kind": "speech",
+      "rms_db": -25.06,
+      "role": "student",
+      "role_conf": 0.931,
+      "text": "क्या क्या रू है पहला रू है"
+    },
+    {
+      "t0": 15.404,
+      "t1": 25.242,
+      "kind": "speech",
+      "rms_db": -25.06,
+      "role": "teacher",
+      "role_conf": 0.931,
+      "text": "जब मेंै बताऊगी जब मैछ बोलूगी आपको तो आपक मुझे फिरऐ कुछ बताान है तो कैसे बताओगे"
+    },
+    {
+      "t0": 25.242,
+      "t1": 26.069,
+      "kind": "dead",
+      "rms_db": -35.86
+    },
+    {
+      "t0": 26.069,
+      "t1": 27.082,
+      "kind": "speech",
+      "rms_db": -23.19,
+      "role": "teacher",
+      "role_conf": 0.931,
+      "text": "कैसे बताओग ऐसेठीक है"
+    },
+    {
+      "t0": 27.082,
+      "t1": 27.571,
+      "kind": "dead",
+      "rms_db": -38.96
+    },
+    {
+      "t0": 27.571,
+      "t1": 29.208,
+      "kind": "speech",
+      "rms_db": -22.93,
+      "role": "teacher",
+      "role_conf": 0.931,
+      "text": "कैसे बताओग ऐसेठीक है"
+    },
+    {
+      "t0": 29.208,
+      "t1": 29.545,
+      "kind": "handson",
+      "rms_db": -33.32
+    },
+    {
+      "t0": 29.545,
+      "t1": 30.187,
+      "kind": "speech",
+      "rms_db": -22.33,
+      "role": "student",
+      "role_conf": 0.931,
+      "text": "ना ऐसे बताओगे मतलब कोई बात नहीं करगे इसको ह बोलते है फलट हैंडे करना ये हमार क्या है"
+    },
+    {
+      "t0": 30.187,
+      "t1": 30.541,
+      "kind": "speech",
+      "rms_db": -22.33,
+      "role": "teacher",
+      "role_conf": 0.931,
+      "text": "ना ऐसे बताओगे मतलब कोई बात नहीं करगे इसको ह बोलते है फलट हैंडे करना ये हमार क्या है"
+    },
+    {
+      "t0": 30.541,
+      "t1": 30.71,
+      "kind": "dead",
+      "rms_db": -37.81
+    },
+    {
+      "t0": 30.71,
+      "t1": 31.807,
+      "kind": "speech",
+      "rms_db": -22.81,
+      "role": "teacher",
+      "role_conf": 0.931,
+      "text": "ना ऐसे बताओगे मतलब कोई बात नहीं करगे इसको ह बोलते है फलट हैंडे करना ये हमार क्या है"
+    },
+    {
+      "t0": 31.807,
+      "t1": 32.11,
+      "kind": "dead",
+      "rms_db": -41.67
+    },
+    {
+      "t0": 32.11,
+      "t1": 34.321,
+      "kind": "speech",
+      "rms_db": -22.63,
+      "role": "teacher",
+      "role_conf": 0.931,
+      "text": "ना ऐसे बताओगे मतलब कोई बात नहीं करगे इसको ह बोलते है फलट हैंडे करना ये हमार क्या है"
+    },
+    {
+      "t0": 34.321,
+      "t1": 34.574,
+      "kind": "handson",
+      "rms_db": -32.46
+    },
+    {
+      "t0": 34.574,
+      "t1": 35.317,
+      "kind": "speech",
+      "rms_db": -22.17,
+      "role": "teacher",
+      "role_conf": 0.931,
+      "text": "ना ऐसे बताओगे मतलब कोई बात नहीं करगे इसको ह बोलते है फलट हैंडे करना ये हमार क्या है"
+    },
+    {
+      "t0": 35.317,
+      "t1": 35.873,
+      "kind": "speech",
+      "rms_db": -22.17,
+      "role": "student",
+      "role_conf": 0.931,
+      "text": "ना ऐसे बताओगे मतलब कोई बात नहीं करगे इसको ह बोलते है फलट हैंडे करना ये हमार क्या है"
+    },
+    {
+      "t0": 35.873,
+      "t1": 37.19,
+      "kind": "speech",
+      "rms_db": -22.17,
+      "role": "teacher",
+      "role_conf": 0.931,
+      "text": "ना ऐसे बताओगे मतलब कोई बात नहीं करगे इसको ह बोलते है फलट हैंडे करना ये हमार क्या है"
+    },
+    {
+      "t0": 37.19,
+      "t1": 37.443,
+      "kind": "handson",
+      "rms_db": -33.21
+    },
+    {
+      "t0": 37.443,
+      "t1": 38.573,
+      "kind": "speech",
+      "rms_db": -21.59,
+      "role": "teacher",
+      "role_conf": 0.931,
+      "text": "ना ऐसे बताओगे मतलब कोई बात नहीं करगे इसको ह बोलते है फलट हैंडे करना ये हमार क्या है"
+    },
+    {
+      "t0": 38.573,
+      "t1": 39.113,
+      "kind": "dead",
+      "rms_db": -39.6
+    },
+    {
+      "t0": 39.113,
+      "t1": 39.451,
+      "kind": "speech",
+      "rms_db": -37.29,
+      "role": "teacher",
+      "role_conf": 0.931
+    },
+    {
+      "t0": 39.451,
+      "t1": 39.653,
+      "kind": "dead",
+      "rms_db": -40.33
+    },
+    {
+      "t0": 39.653,
+      "t1": 40.463,
+      "kind": "speech",
+      "rms_db": -25.62,
+      "role": "teacher",
+      "role_conf": 0.931,
+      "text": "क्या है है है है और रेस करना मतलबठान"
+    },
+    {
+      "t0": 40.463,
+      "t1": 40.733,
+      "kind": "handson",
+      "rms_db": -26.28
+    },
+    {
+      "t0": 40.733,
+      "t1": 41.105,
+      "kind": "speech",
+      "rms_db": -19.75,
+      "role": "teacher",
+      "role_conf": 0.931,
+      "text": "क्या है है है है और रेस करना मतलबठान"
+    },
+    {
+      "t0": 41.105,
+      "t1": 41.206,
+      "kind": "handson",
+      "rms_db": -29.97
+    },
+    {
+      "t0": 41.206,
+      "t1": 42.1,
+      "kind": "speech",
+      "rms_db": -23.83,
+      "role": "teacher",
+      "role_conf": 0.931,
+      "text": "क्या है है है है और रेस करना मतलबठान"
+    },
+    {
+      "t0": 42.1,
+      "t1": 42.438,
+      "kind": "handson",
+      "rms_db": -32.6
+    },
+    {
+      "t0": 42.438,
+      "t1": 44.682,
+      "kind": "speech",
+      "rms_db": -20.83,
+      "role": "teacher",
+      "role_conf": 0.931,
+      "text": "क्या है है है है और रेस करना मतलबठान"
+    },
+    {
+      "t0": 44.682,
+      "t1": 45.087,
+      "kind": "dead",
+      "rms_db": -42.42
+    },
+    {
+      "t0": 45.087,
+      "t1": 45.982,
+      "kind": "speech",
+      "rms_db": -25.57,
+      "role": "teacher",
+      "role_conf": 0.931,
+      "text": "में र करना मतलब"
+    },
+    {
+      "t0": 45.982,
+      "t1": 46.302,
+      "kind": "dead",
+      "rms_db": -38.4
+    },
+    {
+      "t0": 46.302,
+      "t1": 48.04,
+      "kind": "speech",
+      "rms_db": -24.39,
+      "role": "teacher",
+      "role_conf": 0.931,
+      "text": "में र करना मतलब"
+    },
+    {
+      "t0": 48.04,
+      "t1": 48.648,
+      "kind": "dead",
+      "rms_db": -40.42
+    },
+    {
+      "t0": 48.648,
+      "t1": 49.593,
+      "kind": "speech",
+      "rms_db": -23.85,
+      "role": "student",
+      "role_conf": 0.931,
+      "text": "ठान तो म पाएगे हम कैसेलट मतल फ"
+    },
+    {
+      "t0": 49.593,
+      "t1": 57.068,
+      "kind": "speech",
+      "rms_db": -23.85,
+      "role": "teacher",
+      "role_conf": 0.931,
+      "text": "ठान तो म पाएगे हम कैसेलट मतल फ मतलब ह करके ऐसे ह बनागे कोई"
+    },
+    {
+      "t0": 57.068,
+      "t1": 57.845,
+      "kind": "dead",
+      "rms_db": -41.26
+    },
+    {
+      "t0": 57.845,
+      "t1": 59.161,
+      "kind": "speech",
+      "rms_db": -25.63,
+      "role": "teacher",
+      "role_conf": 0.931,
+      "text": "बाते नहीं"
+    },
+    {
+      "t0": 59.161,
+      "t1": 59.853,
+      "kind": "dead",
+      "rms_db": -35.54
+    },
+    {
+      "t0": 59.853,
+      "t1": 60.511,
+      "kind": "speech",
+      "rms_db": -23.6,
+      "role": "teacher",
+      "role_conf": 0.931,
+      "text": "ठीक है"
+    },
+    {
+      "t0": 60.511,
+      "t1": 61.118,
+      "kind": "dead",
+      "rms_db": -38.33
+    },
+    {
+      "t0": 61.118,
+      "t1": 61.574,
+      "kind": "speech",
+      "rms_db": -30.36,
+      "role": "teacher",
+      "role_conf": 0.931
+    },
+    {
+      "t0": 61.574,
+      "t1": 61.777,
+      "kind": "dead",
+      "rms_db": -39.73
+    },
+    {
+      "t0": 61.777,
+      "t1": 69.185,
+      "kind": "speech",
+      "rms_db": -23.92,
+      "role": "teacher",
+      "role_conf": 0.931,
+      "text": "ये हमार फ क क्या है सेकंड रो हैब भी आप कुछ काम करग आज हम कुछ नई एक्टिविटी बने वाले है कुछ बनायेंगे हम और उसके साथ साथ जो बना रहे है उसके साथ साथ हम सीखेंगेठीक है"
+    },
+    {
+      "t0": 69.185,
+      "t1": 70.619,
+      "kind": "speech",
+      "rms_db": -23.92,
+      "role": "student",
+      "role_conf": 0.931,
+      "text": "क क्या है सेकंड रो हैब भी आप कुछ काम करग आज हम कुछ नई एक्टिविटी बने वाले है कुछ बनायेंगे हम और उसके साथ साथ जो बना रहे है उसके साथ साथ हम सीखेंगेठीक है"
+    },
+    {
+      "t0": 70.619,
+      "t1": 71.918,
+      "kind": "speech",
+      "rms_db": -23.92,
+      "role": "teacher",
+      "role_conf": 0.931,
+      "text": "क क्या है सेकंड रो हैब भी आप कुछ काम करग आज हम कुछ नई एक्टिविटी बने वाले है कुछ बनायेंगे हम और उसके साथ साथ जो बना रहे है उसके साथ साथ हम सीखेंगेठीक है"
+    },
+    {
+      "t0": 71.918,
+      "t1": 72.138,
+      "kind": "dead",
+      "rms_db": -41.72
+    },
+    {
+      "t0": 72.138,
+      "t1": 72.83,
+      "kind": "speech",
+      "rms_db": -23.26,
+      "role": "teacher",
+      "role_conf": 0.931,
+      "text": "क क्या है सेकंड रो हैब भी आप कुछ काम करग आज हम कुछ नई एक्टिविटी बने वाले है कुछ बनायेंगे हम और उसके साथ साथ जो बना रहे है उसके साथ साथ हम सीखेंगेठीक है"
+    },
+    {
+      "t0": 72.83,
+      "t1": 73.133,
+      "kind": "speech",
+      "rms_db": -23.26,
+      "role": "student",
+      "role_conf": 0.931,
+      "text": "क क्या है सेकंड रो हैब भी आप कुछ काम करग आज हम कुछ नई एक्टिविटी बने वाले है कुछ बनायेंगे हम और उसके साथ साथ जो बना रहे है उसके साथ साथ हम सीखेंगेठीक है"
+    },
+    {
+      "t0": 73.133,
+      "t1": 77.673,
+      "kind": "speech",
+      "rms_db": -23.26,
+      "role": "teacher",
+      "role_conf": 0.931,
+      "text": "क क्या है सेकंड रो हैब भी आप कुछ काम करग आज हम कुछ नई एक्टिविटी बने वाले है कुछ बनायेंगे हम और उसके साथ साथ जो बना रहे है उसके साथ साथ हम सीखेंगेठीक है"
+    },
+    {
+      "t0": 77.673,
+      "t1": 78.027,
+      "kind": "dead",
+      "rms_db": -37.28
+    },
+    {
+      "t0": 78.027,
+      "t1": 87.005,
+      "kind": "speech",
+      "rms_db": -26.14,
+      "role": "teacher",
+      "role_conf": 0.931,
+      "text": "क क्या है सेकंड रो हैब भी आप कुछ काम करग आज हम कुछ नई एक्टिविटी बने वाले है कुछ बनायेंगे हम और उसके साथ साथ जो बना रहे है उसके साथ साथ हम सीखेंगेठीक है जो बनायगे उसके पीछे कैसे कैसे बनाया जाता है वो हम सो विजञ हम सखेंगे ठीक है तो वो बनाते वत हम क्या करेंगे ह"
+    },
+    {
+      "t0": 87.005,
+      "t1": 87.359,
+      "kind": "dead",
+      "rms_db": -41.56
+    },
+    {
+      "t0": 87.359,
+      "t1": 93.502,
+      "kind": "speech",
+      "rms_db": -24.8,
+      "role": "teacher",
+      "role_conf": 0.931,
+      "text": "जो बनायगे उसके पीछे कैसे कैसे बनाया जाता है वो हम सो विजञ हम सखेंगे ठीक है तो वो बनाते वत हम क्या करेंगे ह बनाते वत हम क्या करेंगे हम से बनाएगे हमो बनाएगेने दोस्तों का ग होगा ग के साथ मिल ज के काम करना हैठीक है"
+    },
+    {
+      "t0": 93.502,
+      "t1": 93.535,
+      "kind": "dead",
+      "rms_db": -40.68
+    },
+    {
+      "t0": 93.535,
+      "t1": 95.78,
+      "kind": "speech",
+      "rms_db": -24.16,
+      "role": "teacher",
+      "role_conf": 0.931,
+      "text": "बनाते वत हम क्या करेंगे हम से बनाएगे हमो बनाएगेने दोस्तों का ग होगा ग के साथ मिल ज के काम करना हैठीक है"
+    },
+    {
+      "t0": 95.78,
+      "t1": 96.016,
+      "kind": "dead",
+      "rms_db": -38.87
+    },
+    {
+      "t0": 96.016,
+      "t1": 100.032,
+      "kind": "speech",
+      "rms_db": -24.31,
+      "role": "teacher",
+      "role_conf": 0.931,
+      "text": "बनाते वत हम क्या करेंगे हम से बनाएगे हमो बनाएगेने दोस्तों का ग होगा ग के साथ मिल ज के काम करना हैठीक है"
+    },
+    {
+      "t0": 100.032,
+      "t1": 101.247,
+      "kind": "dead",
+      "rms_db": -37.99
+    },
+    {
+      "t0": 101.247,
+      "t1": 103.373,
+      "kind": "speech",
+      "rms_db": -25.94,
+      "role": "teacher",
+      "role_conf": 0.931,
+      "text": "ीक है ओ"
+    },
+    {
+      "t0": 103.373,
+      "t1": 105.263,
+      "kind": "dead",
+      "rms_db": -35.49
+    },
+    {
+      "t0": 105.263,
+      "t1": 108.841,
+      "kind": "speech",
+      "rms_db": -22.88,
+      "role": "teacher",
+      "role_conf": 0.931,
+      "text": "जब इस बछते हैठी है तो कैसे बनान पड़ता है सबक वो बोल"
+    },
+    {
+      "t0": 108.841,
+      "t1": 109.212,
+      "kind": "handson",
+      "rms_db": -24.3
+    },
+    {
+      "t0": 109.212,
+      "t1": 109.567,
+      "kind": "speech",
+      "rms_db": -17.72,
+      "role": "teacher",
+      "role_conf": 0.931,
+      "text": "जब इस बछते हैठी है तो कैसे बनान पड़ता है सबक वो बोल"
+    },
+    {
+      "t0": 109.567,
+      "t1": 110.832,
+      "kind": "speech",
+      "rms_db": -17.72,
+      "role": "student",
+      "role_conf": 0.931,
+      "text": "जब इस बछते हैठी है तो कैसे बनान पड़ता है सबक वो बोल"
+    },
+    {
+      "t0": 110.832,
+      "t1": 111.845,
+      "kind": "handson",
+      "rms_db": -33.04
+    },
+    {
+      "t0": 111.845,
+      "t1": 112.165,
+      "kind": "speech",
+      "rms_db": -24.06,
+      "role": "teacher",
+      "role_conf": 0.931,
+      "text": "सबको अगर समझ में नहीं आ रहे है तो वो भी बोल सकते कीे समझ में नहीं आया क्या बोल रहे हैठीक है"
+    },
+    {
+      "t0": 112.165,
+      "t1": 112.908,
+      "kind": "speech",
+      "rms_db": -24.06,
+      "role": "student",
+      "role_conf": 0.931,
+      "text": "सबको अगर समझ में नहीं आ रहे है तो वो भी बोल सकते कीे समझ में नहीं आया क्या बोल रहे हैठीक है"
+    },
+    {
+      "t0": 112.908,
+      "t1": 113.313,
+      "kind": "speech",
+      "rms_db": -24.06,
+      "role": "teacher",
+      "role_conf": 0.931,
+      "text": "सबको अगर समझ में नहीं आ रहे है तो वो भी बोल सकते कीे समझ में नहीं आया क्या बोल रहे हैठीक है"
+    },
+    {
+      "t0": 113.313,
+      "t1": 114.157,
+      "kind": "speech",
+      "rms_db": -24.06,
+      "role": "student",
+      "role_conf": 0.931,
+      "text": "सबको अगर समझ में नहीं आ रहे है तो वो भी बोल सकते कीे समझ में नहीं आया क्या बोल रहे हैठीक है"
+    },
+    {
+      "t0": 114.157,
+      "t1": 116.62,
+      "kind": "speech",
+      "rms_db": -24.06,
+      "role": "teacher",
+      "role_conf": 0.931,
+      "text": "सबको अगर समझ में नहीं आ रहे है तो वो भी बोल सकते कीे समझ में नहीं आया क्या बोल रहे हैठीक है"
+    },
+    {
+      "t0": 116.62,
+      "t1": 116.958,
+      "kind": "dead",
+      "rms_db": -41.78
+    },
+    {
+      "t0": 116.958,
+      "t1": 117.768,
+      "kind": "speech",
+      "rms_db": -29.67,
+      "role": "teacher",
+      "role_conf": 0.931,
+      "text": "सबको अगर समझ में नहीं आ रहे है तो वो भी बोल सकते कीे समझ में नहीं आया क्या बोल रहे हैठीक है"
+    },
+    {
+      "t0": 117.768,
+      "t1": 118.257,
+      "kind": "dead",
+      "rms_db": -41.18
+    },
+    {
+      "t0": 118.257,
+      "t1": 118.865,
+      "kind": "speech",
+      "rms_db": -28.59,
+      "role": "teacher",
+      "role_conf": 0.931,
+      "text": "सबको अगर समझ में नहीं आ रहे है तो वो भी बोल सकते कीे समझ में नहीं आया क्या बोल रहे हैठीक है"
+    },
+    {
+      "t0": 118.865,
+      "t1": 120.248,
+      "kind": "dead",
+      "rms_db": -39.76
+    },
+    {
+      "t0": 120.248,
+      "t1": 121.801,
+      "kind": "speech",
+      "rms_db": -28.15,
+      "role": "teacher",
+      "role_conf": 0.931,
+      "text": "हा"
+    },
+    {
+      "t0": 121.801,
+      "t1": 122.071,
+      "kind": "dead",
+      "rms_db": -39.98
+    },
+    {
+      "t0": 122.071,
+      "t1": 122.51,
+      "kind": "speech",
+      "rms_db": -24.59,
+      "role": "teacher",
+      "role_conf": 0.931
+    },
+    {
+      "t0": 122.51,
+      "t1": 123.387,
+      "kind": "dead",
+      "rms_db": -39.35
+    },
+    {
+      "t0": 123.387,
+      "t1": 129.867,
+      "kind": "speech",
+      "rms_db": -22.95,
+      "role": "teacher",
+      "role_conf": 0.931,
+      "text": "तो ये हमारा दूसरा रूल हो हम ग्रुप में काम करेंगे क्या होगा"
+    },
+    {
+      "t0": 129.867,
+      "t1": 130.525,
+      "kind": "dead",
+      "rms_db": -36.55
+    },
+    {
+      "t0": 130.525,
+      "t1": 136.516,
+      "kind": "speech",
+      "rms_db": -23.34,
+      "role": "teacher",
+      "role_conf": 0.931,
+      "text": "हमारा दोस्तों का अपना दोस्तगा अपने दोस्तों के साथ मिल जल के काम करेंगे कोई भी किसी को तंग नहीं करेंगेठीक है चाटा मारना ऐसे"
+    },
+    {
+      "t0": 136.516,
+      "t1": 136.583,
+      "kind": "dead",
+      "rms_db": -40.13
+    },
+    {
+      "t0": 136.583,
+      "t1": 139.115,
+      "kind": "speech",
+      "rms_db": -25.59,
+      "role": "teacher",
+      "role_conf": 0.931,
+      "text": "हमारा दोस्तों का अपना दोस्तगा अपने दोस्तों के साथ मिल जल के काम करेंगे कोई भी किसी को तंग नहीं करेंगेठीक है चाटा मारना ऐसे"
+    },
+    {
+      "t0": 139.115,
+      "t1": 139.621,
+      "kind": "dead",
+      "rms_db": -40.59
+    },
+    {
+      "t0": 139.621,
+      "t1": 142.422,
+      "kind": "speech",
+      "rms_db": -22.84,
+      "role": "teacher",
+      "role_conf": 0.931,
+      "text": "हमारा दोस्तों का अपना दोस्तगा अपने दोस्तों के साथ मिल जल के काम करेंगे कोई भी किसी को तंग नहीं करेंगेठीक है चाटा मारना ऐसे"
+    },
+    {
+      "t0": 142.422,
+      "t1": 142.878,
+      "kind": "dead",
+      "rms_db": -40.18
+    },
+    {
+      "t0": 142.878,
+      "t1": 146.607,
+      "kind": "speech",
+      "rms_db": -22.14,
+      "role": "teacher",
+      "role_conf": 0.931,
+      "text": "बाीनाऐसे कुछ भी हम नहीं करेंगे ठीक है"
+    },
+    {
+      "t0": 146.607,
+      "t1": 147.333,
+      "kind": "dead",
+      "rms_db": -39.66
+    },
+    {
+      "t0": 147.333,
+      "t1": 149.678,
+      "kind": "speech",
+      "rms_db": -24.37,
+      "role": "teacher",
+      "role_conf": 0.931,
+      "text": "शांति से हम काम करेंगे और हमारा हार रूल क्या है"
+    },
+    {
+      "t0": 149.678,
+      "t1": 150.438,
+      "kind": "handson",
+      "rms_db": -34.43
+    },
+    {
+      "t0": 150.438,
+      "t1": 153.526,
+      "kind": "speech",
+      "rms_db": -21.67,
+      "role": "teacher",
+      "role_conf": 0.931,
+      "text": "शांति से हम काम करेंगे और हमारा हार रूल क्या है"
+    },
+    {
+      "t0": 153.526,
+      "t1": 155.23,
+      "kind": "dead",
+      "rms_db": -41.27
+    },
+    {
+      "t0": 155.23,
+      "t1": 157.441,
+      "kind": "speech",
+      "rms_db": -24.13,
+      "role": "teacher",
+      "role_conf": 0.931,
+      "text": "ह है पता है न है ह क्या था हमार पछ ब बता था"
+    },
+    {
+      "t0": 157.441,
+      "t1": 157.964,
+      "kind": "dead",
+      "rms_db": -43.67
+    },
+    {
+      "t0": 157.964,
+      "t1": 158.032,
+      "kind": "speech",
+      "rms_db": -44.18,
+      "text": "ह है पता है न है ह क्या था हमार पछ ब बता था"
+    },
+    {
+      "t0": 158.032,
+      "t1": 158.15,
+      "kind": "dead",
+      "rms_db": -45.67
+    },
+    {
+      "t0": 158.15,
+      "t1": 159.483,
+      "kind": "speech",
+      "rms_db": -26.01,
+      "role": "teacher",
+      "role_conf": 0.931,
+      "text": "ह है पता है न है ह क्या था हमार पछ ब बता था"
+    },
+    {
+      "t0": 159.483,
+      "t1": 159.82,
+      "kind": "dead",
+      "rms_db": -35.82
+    },
+    {
+      "t0": 159.82,
+      "t1": 163.533,
+      "kind": "speech",
+      "rms_db": -27.19,
+      "role": "teacher",
+      "role_conf": 0.931,
+      "text": "ह है पता है न है ह क्या था हमार पछ ब बता था"
+    },
+    {
+      "t0": 163.533,
+      "t1": 164.377,
+      "kind": "dead",
+      "rms_db": -42.23
+    },
+    {
+      "t0": 164.377,
+      "t1": 168.089,
+      "kind": "speech",
+      "rms_db": -27.46,
+      "role": "teacher",
+      "role_conf": 0.931,
+      "text": "गठीक है कोई बात नहीं है"
+    },
+    {
+      "t0": 168.089,
+      "t1": 168.376,
+      "kind": "dead",
+      "rms_db": -41.65
+    },
+    {
+      "t0": 168.376,
+      "t1": 171.363,
+      "kind": "speech",
+      "rms_db": -25.89,
+      "role": "teacher",
+      "role_conf": 0.931,
+      "text": "हमारा रू है की"
+    },
+    {
+      "t0": 171.363,
+      "t1": 171.953,
+      "kind": "dead",
+      "rms_db": -40.72
+    },
+    {
+      "t0": 171.953,
+      "t1": 173.894,
+      "kind": "speech",
+      "rms_db": -24.2,
+      "role": "teacher",
+      "role_conf": 0.931,
+      "text": "हम जब भी काम करेंगे"
+    },
+    {
+      "t0": 173.894,
+      "t1": 175.109,
+      "kind": "dead",
+      "rms_db": -39.28
+    },
+    {
+      "t0": 175.109,
+      "t1": 177.623,
+      "kind": "speech",
+      "rms_db": -24.41,
+      "role": "teacher",
+      "role_conf": 0.931,
+      "text": "कुछ सान चीजों लेकर काम करेंगे है न"
+    },
+    {
+      "t0": 177.623,
+      "t1": 177.995,
+      "kind": "dead",
+      "rms_db": -40.66
+    },
+    {
+      "t0": 177.995,
+      "t1": 178.484,
+      "kind": "speech",
+      "rms_db": -24.53,
+      "role": "teacher",
+      "role_conf": 0.931,
+      "text": "कुछ सान चीजों लेकर काम करेंगे है न है न"
+    },
+    {
+      "t0": 178.484,
+      "t1": 179.362,
+      "kind": "dead",
+      "rms_db": -40.9
+    },
+    {
+      "t0": 179.362,
+      "t1": 182.247,
+      "kind": "speech",
+      "rms_db": -24.96,
+      "role": "teacher",
+      "role_conf": 0.931,
+      "text": "कुछ कुछ गाछ जागा"
+    },
+    {
+      "t0": 182.247,
+      "t1": 183.192,
+      "kind": "handson",
+      "rms_db": -34.84
+    },
+    {
+      "t0": 183.192,
+      "t1": 185.504,
+      "kind": "speech",
+      "rms_db": -23.27,
+      "role": "teacher",
+      "role_conf": 0.931,
+      "text": "तो को क्या नहीं करना है"
+    },
+    {
+      "t0": 185.504,
+      "t1": 186.297,
+      "kind": "dead",
+      "rms_db": -41.36
+    },
+    {
+      "t0": 186.297,
+      "t1": 189.453,
+      "kind": "speech",
+      "rms_db": -23.56,
+      "role": "teacher",
+      "role_conf": 0.931,
+      "text": "ान को लेकर कर है"
+    },
+    {
+      "t0": 189.453,
+      "t1": 190.145,
+      "kind": "dead",
+      "rms_db": -38.83
+    },
+    {
+      "t0": 190.145,
+      "t1": 192.608,
+      "kind": "speech",
+      "rms_db": -25.97,
+      "role": "teacher",
+      "role_conf": 0.931,
+      "text": "हम से करेंगे हम अच्े बच्चे की तरफ काम करेंगेठी है"
+    },
+    {
+      "t0": 192.608,
+      "t1": 192.676,
+      "kind": "dead",
+      "rms_db": -41.95
+    },
+    {
+      "t0": 192.676,
+      "t1": 195.427,
+      "kind": "speech",
+      "rms_db": -27.67,
+      "role": "teacher",
+      "role_conf": 0.931,
+      "text": "से करेंगे हम अच्े बच्चे की तरफ काम करेंगेठी है"
+    },
+    {
+      "t0": 195.427,
+      "t1": 196.743,
+      "kind": "dead",
+      "rms_db": -42.96
+    },
+    {
+      "t0": 196.743,
+      "t1": 197.806,
+      "kind": "speech",
+      "rms_db": -18.59,
+      "role": "teacher",
+      "role_conf": 0.931
+    },
+    {
+      "t0": 197.806,
+      "t1": 198.532,
+      "kind": "dead",
+      "rms_db": -36.36
+    },
+    {
+      "t0": 198.532,
+      "t1": 198.734,
+      "kind": "speech",
+      "rms_db": -20.09
+    },
+    {
+      "t0": 198.734,
+      "t1": 199.156,
+      "kind": "handson",
+      "rms_db": -17.69
+    },
+    {
+      "t0": 199.156,
+      "t1": 200.489,
+      "kind": "speech",
+      "rms_db": -21.35,
+      "role": "teacher",
+      "role_conf": 0.931
+    },
+    {
+      "t0": 200.489,
+      "t1": 201.08,
+      "kind": "dead",
+      "rms_db": -36.92
+    },
+    {
+      "t0": 201.08,
+      "t1": 203.155,
+      "kind": "speech",
+      "rms_db": -21.18,
+      "role": "teacher",
+      "role_conf": 0.931,
+      "text": "और हमारा नियम क्या है"
+    },
+    {
+      "t0": 203.155,
+      "t1": 204.775,
+      "kind": "dead",
+      "rms_db": -39.24
+    },
+    {
+      "t0": 204.775,
+      "t1": 213.905,
+      "kind": "speech",
+      "rms_db": -26.31,
+      "role": "teacher",
+      "role_conf": 0.931,
+      "text": "न नम है जब भी हम काम करेंगे तब ह हम क्या करेंगे ्छेंगे"
+    },
+    {
+      "t0": 213.905,
+      "t1": 214.293,
+      "kind": "speech",
+      "rms_db": -26.31,
+      "role": "student",
+      "role_conf": 0.931
+    },
+    {
+      "t0": 214.293,
+      "t1": 216.436,
+      "kind": "speech",
+      "rms_db": -26.31,
+      "role": "teacher",
+      "role_conf": 0.931,
+      "text": "कचड़ा बगे"
+    },
+    {
+      "t0": 216.436,
+      "t1": 216.841,
+      "kind": "handson",
+      "rms_db": -32.69
+    },
+    {
+      "t0": 216.841,
+      "t1": 217.499,
+      "kind": "speech",
+      "rms_db": -25.01,
+      "role": "teacher",
+      "role_conf": 0.931,
+      "text": "हैग कोई भी कचड़ा ब र है तो"
+    },
+    {
+      "t0": 217.499,
+      "t1": 217.837,
+      "kind": "dead",
+      "rms_db": -40.12
+    },
+    {
+      "t0": 217.837,
+      "t1": 221.093,
+      "kind": "speech",
+      "rms_db": -24.79,
+      "role": "teacher",
+      "role_conf": 0.931,
+      "text": "हैग कोई भी कचड़ा ब र है तो"
+    },
+    {
+      "t0": 221.093,
+      "t1": 221.887,
+      "kind": "speech",
+      "rms_db": -24.79,
+      "role": "student",
+      "role_conf": 0.931
+    },
+    {
+      "t0": 221.887,
+      "t1": 223.355,
+      "kind": "speech",
+      "rms_db": -24.79,
+      "role": "teacher",
+      "role_conf": 0.931
+    },
+    {
+      "t0": 223.355,
+      "t1": 223.912,
+      "kind": "speech",
+      "rms_db": -24.79,
+      "role": "student",
+      "role_conf": 0.931,
+      "text": "जमा करेंगे"
+    },
+    {
+      "t0": 223.912,
+      "t1": 224.3,
+      "kind": "speech",
+      "rms_db": -24.79,
+      "role": "teacher",
+      "role_conf": 0.931,
+      "text": "जमा करेंगे"
+    },
+    {
+      "t0": 224.3,
+      "t1": 224.468,
+      "kind": "dead",
+      "rms_db": -42.86
+    },
+    {
+      "t0": 224.468,
+      "t1": 225.43,
+      "kind": "speech",
+      "rms_db": -25.45,
+      "role": "student",
+      "role_conf": 0.931,
+      "text": "जाके"
+    },
+    {
+      "t0": 225.43,
+      "t1": 227.168,
+      "kind": "speech",
+      "rms_db": -25.45,
+      "role": "teacher",
+      "role_conf": 0.931,
+      "text": "जाके में बेंगेठीक है"
+    },
+    {
+      "t0": 227.168,
+      "t1": 227.59,
+      "kind": "dead",
+      "rms_db": -42.34
+    },
+    {
+      "t0": 227.59,
+      "t1": 228.35,
+      "kind": "speech",
+      "rms_db": -22.95,
+      "role": "teacher",
+      "role_conf": 0.931,
+      "text": "में बेंगेठीक है"
+    },
+    {
+      "t0": 228.35,
+      "t1": 228.552,
+      "kind": "dead",
+      "rms_db": -38.98
+    },
+    {
+      "t0": 228.552,
+      "t1": 229.042,
+      "kind": "speech",
+      "rms_db": -27.18,
+      "role": "teacher",
+      "role_conf": 0.931
+    },
+    {
+      "t0": 229.042,
+      "t1": 229.666,
+      "kind": "handson",
+      "rms_db": -31.35
+    },
+    {
+      "t0": 229.666,
+      "t1": 230.864,
+      "kind": "speech",
+      "rms_db": -23.61,
+      "role": "teacher",
+      "role_conf": 0.931,
+      "text": "समझ में आगे ब मुझे बता दो कि हमारा रूल क्या गया है उसके बाद मै एक कानी बताऊगी आपको पहले बताओ"
+    },
+    {
+      "t0": 230.864,
+      "t1": 230.948,
+      "kind": "dead",
+      "rms_db": -42.75
+    },
+    {
+      "t0": 230.948,
+      "t1": 235.775,
+      "kind": "speech",
+      "rms_db": -23.25,
+      "role": "teacher",
+      "role_conf": 0.931,
+      "text": "समझ में आगे ब मुझे बता दो कि हमारा रूल क्या गया है उसके बाद मै एक कानी बताऊगी आपको पहले बताओ"
+    },
+    {
+      "t0": 235.775,
+      "t1": 237.04,
+      "kind": "speech",
+      "rms_db": -23.25,
+      "role": "student",
+      "role_conf": 0.931,
+      "text": "समझ में आगे ब मुझे बता दो कि हमारा रूल क्या गया है उसके बाद मै एक कानी बताऊगी आपको पहले बताओ"
+    },
+    {
+      "t0": 237.04,
+      "t1": 237.833,
+      "kind": "speech",
+      "rms_db": -23.25,
+      "role": "teacher",
+      "role_conf": 0.931,
+      "text": "समझ में आगे ब मुझे बता दो कि हमारा रूल क्या गया है उसके बाद मै एक कानी बताऊगी आपको पहले बताओ"
+    },
+    {
+      "t0": 237.833,
+      "t1": 238.272,
+      "kind": "dead",
+      "rms_db": -37.34
+    },
+    {
+      "t0": 238.272,
+      "t1": 239.099,
+      "kind": "speech",
+      "rms_db": -21.14,
+      "role": "student",
+      "role_conf": 0.931,
+      "text": "समझ में आगे ब मुझे बता दो कि हमारा रूल क्या गया है उसके बाद मै एक कानी बताऊगी आपको पहले बताओ"
+    },
+    {
+      "t0": 239.099,
+      "t1": 239.74,
+      "kind": "dead",
+      "rms_db": -35.71
+    },
+    {
+      "t0": 239.74,
+      "t1": 239.977,
+      "kind": "speech",
+      "rms_db": -18.65
+    },
+    {
+      "t0": 239.977,
+      "t1": 240.0,
+      "kind": "handson",
+      "rms_db": -22.04
+    }
+  ],
+  "totals_sec": {
+    "teacher": 182.94,
+    "student": 14.77,
+    "handson": 6.66,
+    "dead": 34.96,
+    "unattributed": 0.67
+  },
+  "metrics": {
+    "M1_teacher_talk_ratio": {
+      "value": 0.9253,
+      "unit": "ratio",
+      "band": "high",
+      "benchmark": 0.4,
+      "confidence": 0.821,
+      "formula": "teacher_speech_sec / (teacher_speech_sec + student_speech_sec)",
+      "explanation": "Share of *spoken* time held by the teacher. Non-speech is excluded on purpose, so hands-on noise does not dilute it.",
+      "interpretation": "Reported only when the teacher/student split is separable; below that it is withheld rather than guessed. Observed average in conventional classrooms is about 61% teacher talk. A hands-on maker session should sit below 40%; above 70% the activity has become a lecture."
+    },
+    "M2_student_participation": {
+      "value": 9.6,
+      "unit": "turns/child/hour",
+      "band": "high",
+      "benchmark": null,
+      "confidence": 0.821,
+      "formula": "(student_turns / roster_total) / lesson_minutes * 60",
+      "explanation": "Student turns per child per hour, normalised by the headcount their own app recorded. 8 students and 27 students cannot be compared on raw turn counts.",
+      "interpretation": "Depends on the speaker split, so it is withheld when that split is a guess. High student talk time with a low value here is the classic sign that two or three confident children are doing all the talking."
+    },
+    "M3_interaction_density": {
+      "value": 7.75,
+      "unit": "switches/min",
+      "band": "high",
+      "benchmark": null,
+      "confidence": 0.821,
+      "formula": "speaker_switches(teacher <-> student) / lesson_minutes",
+      "explanation": "How often the floor changes hands. Needs no transcript at all, so it survives audio the ASR cannot read.",
+      "interpretation": "Depends on the speaker split. High means genuine back-and-forth. Low with a high talk ratio is a monologue; low with a low talk ratio is unstructured activity with no teacher check-ins."
+    },
+    "M4_longest_teacher_stretch": {
+      "value": 43.2844,
+      "unit": "sec",
+      "band": "low",
+      "benchmark": null,
+      "confidence": 0.821,
+      "formula": "max(continuous teacher speech, merging pauses under 3s)",
+      "explanation": "The longest the teacher talked without stopping. The most concrete number on the page, and the easiest to picture changing.",
+      "interpretation": "Depends on the speaker split. In a 60-minute maker session anything over about five minutes means the making stopped."
+    },
+    "M5_wait_time_1": {
+      "value": 4.5731,
+      "unit": "sec",
+      "band": "normal",
+      "benchmark": 3.0,
+      "confidence": 0.493,
+      "formula": "median(start_of_next_student_turn - end_of_teacher_question)",
+      "explanation": "Mary Budd Rowe's wait time: the pause after a question before a student answers. Measured from raw diarization turns, which keep the real silences - the segment timeline tiles exactly, so gaps there are always zero. Depends on reading questions out of the transcript, so it is the first metric to become unreliable in a noisy room.",
+      "interpretation": "Below 1s, answers are short and students say 'I don't know'. At 3s or more, responses get longer, more correct, and more students join in. It is the single most replicated finding in this field. Measured from 28 question-answer pairs."
+    }
+  },
+  "confidence": {
+    "overall": 0.821,
+    "components": {
+      "speech_density": 1.0,
+      "attribution": 0.931,
+      "completeness": 0.344,
+      "asr": 0.865
+    },
+    "verdict": "usable"
+  },
+  "insight": {
+    "headline": "You spoke 93% of the talking time in Trumpet — a hands-on session usually works better below 40%.",
+    "suggestion": "Try handing one explanation to a group to give back to the class — it moves talking time to them without losing the content.",
+    "summary": "Trumpet: 3m 17s of talking, 7 seconds hands-on, 35 seconds quiet, 7.8 exchanges a minute.",
+    "metrics_shown": [
+      "M1_teacher_talk_ratio",
+      "M2_student_participation",
+      "M3_interaction_density",
+      "M4_longest_teacher_stretch",
+      "M5_wait_time_1"
+    ],
+    "verdict": "usable",
+    "generated_by": "rules-v1",
+    "whatsapp": "नमस्ते Teacher A!\n\nYou spoke 93% of the talking time in Trumpet — a hands-on session usually works better below 40%.\n\n💡 Try handing one explanation to a group to give back to the class — it moves talking time to them without losing the content."
+  },
+  "flags": [
+    "audio_truncated"
+  ]
+}

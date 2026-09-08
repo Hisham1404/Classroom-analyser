@@ -1,0 +1,9 @@
+# Phase 1   — ingest layer
+numpy>=1.26
+
+# Phase 1.5 — ASR backends
+requests>=2.31          # hosted backend (Groq)
+faster-whisper>=1.2     # local backend, CTranslate2 runtime + Silero VAD
+
+# dev
+pytest>=8.0

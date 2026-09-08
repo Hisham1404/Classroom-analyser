@@ -1,0 +1,227 @@
+<header class="masthead">
+  <div class="wrap">
+    <p class="eyebrow">MakerGhat · Classroom Analytics</p>
+    <h1>What happened in your lesson</h1>
+  </div>
+</header>
+
+<main class="wrap" *ngIf="!loading(); else loadingTpl">
+  <p class="empty" *ngIf="!all().length">
+    No results found. Run <code>python -m src.run_pipeline</code> and copy
+    <code>results/</code> into <code>app/public/</code>.
+  </p>
+
+  <ng-container *ngIf="selected() as session">
+    <!-- session picker -->
+    <nav class="sessions" aria-label="Sessions">
+      <button
+        *ngFor="let s of all()"
+        type="button"
+        class="session-chip"
+        [class.active]="s.session_id === session.session_id"
+        [class.unreliable]="s.confidence.verdict === 'unreliable'"
+        (click)="select(s.session_id)">
+        <span class="chip-activity">{{ s.activity || 'Session' }}</span>
+        <span class="chip-meta">{{ s.teacher.alias }} · {{ s.roster.total }} students</span>
+        <span class="chip-verdict" [class]="s.confidence.verdict">{{ s.confidence.verdict }}</span>
+      </button>
+    </nav>
+
+    <nav class="views" aria-label="Views">
+      <button type="button" [class.on]="view() === 'teacher'" (click)="view.set('teacher')">Teacher</button>
+      <button type="button" [class.on]="view() === 'trend'" (click)="view.set('trend')">Over time</button>
+      <button type="button" [class.on]="view() === 'quality'" (click)="view.set('quality')">Data quality</button>
+    </nav>
+
+    <!-- ============================ TEACHER VIEW ============================ -->
+    <section *ngIf="view() === 'teacher'">
+      <!-- 1. the headline -->
+      <div class="headline" [class.muted]="!showsMetrics(session)">
+        <p class="lead">{{ session.insight.headline }}</p>
+        <p class="summary">{{ session.insight.summary }}</p>
+      </div>
+
+      <div class="banner unreliable" *ngIf="!showsMetrics(session)">
+        <strong>No metrics are shown for this recording.</strong>
+        A number here would be a guess, and a guess is worse than nothing.
+      </div>
+
+      <!-- 2. the shape of the lesson -->
+      <figure class="timeline" *ngIf="bars().length">
+        <div class="strip" role="img"
+             [attr.aria-label]="'Timeline of ' + (session.activity || 'the session')">
+          <span
+            *ngFor="let bar of bars()"
+            class="bar"
+            [class]="bar.cssClass"
+            [style.width.%]="bar.widthPercent"
+            [title]="bar.label + '  ' + clock(bar.start) + '–' + clock(bar.end)"></span>
+        </div>
+        <div class="axis">
+          <span>0:00</span>
+          <span>{{ clock(session.audio.analysed_sec) }}</span>
+        </div>
+        <div class="legend">
+          <span><i class="sw teacher"></i>Teacher</span>
+          <span><i class="sw student"></i>Student</span>
+          <span><i class="sw handson"></i>Hands-on</span>
+          <span><i class="sw dead"></i>Quiet</span>
+          <span><i class="sw unattributed"></i>Speaker unknown</span>
+        </div>
+        <figcaption>
+          Loud non-speech is children building things, not dead air — the distinction that
+          stops a maker lesson scoring as a failed one.
+        </figcaption>
+      </figure>
+
+      <!-- 3. the metrics -->
+      <div class="metrics" *ngIf="showsMetrics(session)">
+        <button
+          *ngFor="let key of metricOrder"
+          type="button"
+          class="metric"
+          [class.withheld]="session.metrics[key].value === null"
+          [class.open]="expandedMetric() === key"
+          (click)="toggleMetric(key)">
+          <span class="metric-label">{{ metricLabels[key] }}</span>
+          <span class="metric-value">{{ metricValue(session, key) }}</span>
+          <span class="metric-unit" *ngIf="session.metrics[key].value !== null">
+            {{ session.metrics[key].unit }}
+          </span>
+
+          <span class="gauge" *ngIf="session.metrics[key].value !== null">
+            <span class="fill" [class]="session.metrics[key].band"
+                  [style.width.%]="barOffset(session, key)"></span>
+            <span class="benchmark" *ngIf="benchmarkOffset(session, key) as mark"
+                  [style.left.%]="mark"></span>
+          </span>
+
+          <span class="withheld-note" *ngIf="session.metrics[key].value === null">
+            withheld — not measurable on this recording
+          </span>
+
+          <span class="detail" *ngIf="expandedMetric() === key">
+            <code>{{ session.metrics[key].formula }}</code>
+            <em>{{ session.metrics[key].explanation }}</em>
+            <span>{{ session.metrics[key].interpretation }}</span>
+          </span>
+        </button>
+      </div>
+
+      <!-- 4. the one thing to change -->
+      <aside class="suggestion">
+        <p class="tag">Try this next time</p>
+        <p>{{ session.insight.suggestion }}</p>
+      </aside>
+
+      <!-- what actually reaches her -->
+      <div class="wa-block">
+        <p class="tag">What she receives on WhatsApp</p>
+        <div class="wa">{{ session.insight.whatsapp }}</div>
+      </div>
+
+      <!-- 5. the evidence -->
+      <div class="transcript" *ngIf="spokenSegments().length">
+        <button type="button" class="reveal" (click)="showTranscript.set(!showTranscript())">
+          {{ showTranscript() ? 'Hide' : 'Show' }} transcript
+          ({{ spokenSegments().length }} segments)
+        </button>
+        <ol *ngIf="showTranscript()">
+          <li *ngFor="let seg of spokenSegments()" [class]="seg.role || 'unattributed'">
+            <span class="who">{{ seg.role || 'unknown' }}</span>
+            <span class="when">{{ clock(seg.t0) }}</span>
+            <span class="what">{{ seg.text }}</span>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- ============================ TREND VIEW ============================ -->
+    <section *ngIf="view() === 'trend'" class="trend">
+      <p class="note">
+        Two sessions each for two teachers, so “am I improving?” is answerable rather than
+        hypothetical.
+      </p>
+      <div class="teacher-group" *ngFor="let group of teacherGroups()">
+        <h2>{{ group.alias }}</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Session</th><th>Activity</th>
+              <th *ngFor="let key of metricOrder">{{ metricLabels[key] }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let s of group.list">
+              <td>{{ s.recorded_at?.slice(0, 10) || s.session_id }}</td>
+              <td>{{ s.activity }}</td>
+              <td *ngFor="let key of metricOrder"
+                  [class.withheld]="s.metrics[key].value === null">
+                {{ metricValue(s, key) }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ============================ QUALITY VIEW ============================ -->
+    <section *ngIf="view() === 'quality'" class="quality">
+      <p class="note">
+        Not “how was my lesson” but “which recordings can we trust, and where is capture
+        breaking?”
+      </p>
+      <table>
+        <thead>
+          <tr>
+            <th>Session</th><th>Verdict</th><th>Confidence</th>
+            <th>Audio</th><th>Complete</th><th>Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let s of all()">
+            <td>{{ s.teacher.alias }} · {{ s.activity }}</td>
+            <td><span class="chip-verdict" [class]="s.confidence.verdict">{{ s.confidence.verdict }}</span></td>
+            <td>{{ s.confidence.overall.toFixed(2) }}</td>
+            <td>{{ clock(s.audio.analysed_sec) }} of {{ clock(s.audio.actual_sec) }}</td>
+            <td [class.bad]="(s.audio.completeness ?? 1) < 0.98">
+              {{ s.audio.completeness !== null ? (s.audio.completeness * 100).toFixed(0) + '%' : '—' }}
+            </td>
+            <td>
+              <span *ngFor="let note of qualityNotes(s)" class="note-item">{{ note }}</span>
+              <span *ngIf="!qualityNotes(s).length" class="ok">clean</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="provenance">
+        <h3>How this session was processed</h3>
+        <dl>
+          <dt>ASR</dt><dd>{{ session.models.asr || '—' }}</dd>
+          <dt>Attribution</dt><dd>{{ session.models.attribution }}</dd>
+          <dt>VAD</dt><dd>{{ session.models.vad }}</dd>
+          <dt>Insight</dt><dd>{{ session.insight.generated_by }}</dd>
+        </dl>
+        <h3>Confidence breakdown</h3>
+        <dl>
+          <ng-container *ngFor="let part of session.confidence.components | keyvalue">
+            <dt>{{ part.key }}</dt><dd>{{ +part.value | number: '1.2-2' }}</dd>
+          </ng-container>
+        </dl>
+      </div>
+    </section>
+  </ng-container>
+</main>
+
+<ng-template #loadingTpl>
+  <main class="wrap"><p class="empty">Loading…</p></main>
+</ng-template>
+
+<footer class="wrap">
+  <p>
+    Metrics are withheld rather than guessed when the recording cannot support them.
+    Transcripts are approximate. Teacher names never leave the pipeline — sessions are
+    identified by alias.
+  </p>
+</footer>

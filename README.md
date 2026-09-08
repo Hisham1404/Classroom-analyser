@@ -5,7 +5,7 @@ act on — and **refuses to print a number it cannot stand behind.**
 
 Built for the MakerGhat Jr. Full Stack Developer pre-work assignment (Task 1).
 
-**Live demo:** _(deployment pending — see [Deploying](#deploying))_
+**Live demo:** <https://app-one-blue-47.vercel.app>
 
 ---
 
@@ -365,24 +365,48 @@ disagreeing about whether a child spoke is a bug every time**, and it costs noth
 
 ## What it produces on the five sessions
 
-Four-minute window per session, IndicConformer ASR, pyannote diarization for both the speech
-map and the speaker split:
+**The whole corpus, end to end: 251.8 minutes, every session analysed at 100% of the audio
+that exists on disk.** IndicConformer ASR, pyannote diarization for both the speech map and
+the speaker split. 3,405 transcribed utterances.
 
 | Session | Verdict | Conf | M1 teacher | M2 turns/child/h | M3 exch/min | M4 stretch | M5 wait |
 |---|---|---:|---:|---:|---:|---:|---:|
-| OD11163_2025-12-23 | usable | 0.91 | 85% | 18.4 | 11.8 | 27s | 1.16s |
-| OD11163_2026-01-28 | usable | 0.82 | 93% | 9.6 | 7.8 | 43s | 4.57s |
-| OD11165_2026-01-06 | usable | 0.92 | 87% | 60.0 | 16.0 | 24s | 4.37s |
-| OD11166_2026-01-12 | usable | 0.78 | **57%** | 23.3 | 15.0 | 17s | 0.28s |
-| OD11166_2026-01-20 | usable | 0.83 | **61%** | 46.6 | 22.5 | 18s | — |
+| OD11163_2025-12-23 | usable | 0.88 | 70% | 24.5 | 14.4 | 52s | 2.19s |
+| OD11163_2026-01-28 | usable | 0.82 | 92% | 9.3 | 7.4 | 49s | 6.12s |
+| OD11165_2026-01-06 | usable | 0.89 | 63% | 88.3 | 16.2 | 48s | 1.30s |
+| OD11166_2026-01-12 | usable | 0.73 | 47% | 24.1 | 12.5 | 15s | 0.94s |
+| OD11166_2026-01-20 | usable | 0.86 | 46% | 42.6 | 16.9 | 35s | 0.89s |
 
-The last two are the hands-on sessions. They read 93% and 80% teacher talk until the Silero
-bug above was fixed; they now read 57% and 61%, which is what a maker lesson should look
-like. As a cross-check, the raw diarization airtime on OD11166_2026-01-12 is 91.4s teacher
-against 69.9s student — **56.7%**, against the 57% the pipeline reports.
+### Sampling the first four minutes overstates teacher talk — every time
 
-M5 is withheld on the last session: two question–answer pairs, below the floor of three, and
-the JSON says exactly that rather than printing a number.
+An earlier pass measured a four-minute window per session. Re-running on the full recordings
+moved **M1 in the same direction on all five**, never the other way:
+
+| Session | M1 on 4 min | M1 on the full lesson | shift |
+|---|---:|---:|---:|
+| OD11163_2025-12-23 | 85% | 70% | −15pp |
+| OD11163_2026-01-28 | 93% | 92% | −1pp |
+| OD11165_2026-01-06 | 87% | 63% | **−24pp** |
+| OD11166_2026-01-12 | 57% | 47% | −10pp |
+| OD11166_2026-01-20 | 61% | 46% | −15pp |
+
+Five out of five in the same direction is not sampling noise, it is a **bias in where the
+window sits**. A lesson opens with instructions and settling-in, which is the most
+teacher-dominated stretch it will ever have; the group work that gives students the floor
+comes later. Any short sample anchored at the start will therefore flatter the teacher-talk
+figure, and by up to 24 points.
+
+Worth stating plainly because the cheap version of this product is exactly that — sample a
+few minutes and report a number. On this corpus that would have been wrong on every session.
+
+The corpus now spans **46% to 92%** teacher talk. The two hands-on sessions sit at the bottom
+(47% and 46%) and the lecture-style ones at the top, so activity type predicts participation
+far better than teacher identity does — the same teacher (OD11166) runs both hands-on
+lessons, and OD11163 appears at both 70% and 92% on different days.
+
+As a cross-check on the attribution, raw diarization airtime on OD11166_2026-01-12 is 91.4s
+teacher against 69.9s student — **56.7%** — against the 57% the pipeline reported for the
+same window before the full run.
 
 ## Assumptions
 

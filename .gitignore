@@ -16,7 +16,10 @@ __pycache__/
 *.jpg
 *.jpeg
 *.png
-models/
+# Anchored to the repo root ON PURPOSE. Unanchored, `models/` also matched
+# app/src/app/models/, which silently kept session-result.ts out of the repo:
+# every local build passed and every Vercel build failed on TS2307.
+/models/
 
 # Run logs
 *.log

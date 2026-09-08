@@ -1,7 +1,0 @@
-{
-  "$schema": "https://openapi.vercel.sh/vercel.json",
-  "installCommand": "npm --prefix app ci",
-  "buildCommand": "npm --prefix app run build",
-  "outputDirectory": "app/dist/dashboard/browser",
-  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
-}

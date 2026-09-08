@@ -30,12 +30,72 @@ never as `0`.**
 
 ## Quick start
 
+**ffmpeg must be on PATH before anything else.** The ASR layer shells out to it to cut
+long recordings into chunks, so transcription fails without it.
+
+```bash
+winget install Gyan.FFmpeg     # Windows   ·   macOS: brew install ffmpeg
+                               #              Debian/Ubuntu: sudo apt install ffmpeg
+ffmpeg -version                # confirm it resolves
+```
+
 ```bash
 python -m venv .venv && .venv/Scripts/activate      # Windows; use bin/activate elsewhere
 pip install -r requirements.txt
 ```
 
-Diarization is gated on Hugging Face, and on **three** repos rather than the one the model
+Put the recordings in `data/audio/`. That directory is git-ignored and stays that way —
+it is real classroom audio of identifiable children.
+
+Then run it. **No API key and no token are needed to transcribe:**
+
+```bash
+python -m src.run_pipeline --minutes 4        # 4 minutes per session, to try it out
+python -m src.run_pipeline                    # the whole corpus, ~67 min on CPU
+```
+
+The first run downloads the ASR model (~250 MB) from Hugging Face into the cache that
+`src/config.py:configure_hf_cache()` pins via `HF_HOME`, deliberately off the project
+drive. Every later run reads it from disk, and transcripts are content-hash cached in
+`.cache/asr/`, so re-running the same audio does no work twice.
+
+Results land in `results/<session_id>.json`. Serve the dashboard over them with:
+
+```bash
+npm --prefix app install
+npm --prefix app start
+```
+
+### Transcription on its own
+
+To transcribe a single file without the rest of the pipeline:
+
+```bash
+python -m src.cli data/audio/<file>.mp3 --backend indic
+```
+
+`--backend` overrides `ASR_BACKEND` in `src/config.py` for one run. All three backends
+return the identical `Transcript`, so nothing downstream changes:
+
+| Backend | What it is | Needs | Speed |
+|---|---|---|---|
+| `indic` **(default)** | AI4Bharat IndicConformer, ONNX | nothing but the install | ~3.8x realtime, all CPU |
+| `local` | Hindi-tuned Whisper, CTranslate2 | `faster-whisper` | ~0.11x realtime (~38 h for the corpus) |
+| `groq` | hosted `whisper-large-v3` | `GROQ_API_KEY` | network-bound |
+
+Two things about `indic` worth knowing, both of which cost real debugging time:
+
+- Its ONNX export has a **fixed positional-encoding length**. Anything past ~100 s fails
+  with `Attempting to broadcast an axis ... 2501 by 7501`, so audio is chunked at 90 s
+  with 2 s of overlap. Before that was found it was silently killing ASR on every session
+  and leaving acoustic-only results.
+- It is a **CTC** model, so unlike the Whisper family it cannot hallucinate fluently. The
+  Whisper backends both do: Groq drifts into "subscribe", the Hindi fine-tune into news
+  bulletins.
+
+### Attribution, which is the part that needs a token
+
+Diarization is gated on Hugging Face, and on **four** repos rather than the one the model
 card names. Accept the conditions on `pyannote/speaker-diarization-community-1`,
 `pyannote/segmentation-3.0` and `pyannote/wespeaker-voxceleb-resnet34-LM` — accepting
 `speaker-diarization-3.1`, which is what most instructions point you at, is not enough:
@@ -45,18 +105,10 @@ pyannote 4.x redirects that id to `community-1`, which is gated separately. Then
 export HF_TOKEN=hf_your_read_token
 ```
 
-Run the offline pass, then the dashboard:
-
-```bash
-python -m src.run_pipeline --minutes 4
-```
-
-```bash
-npm --prefix app start
-```
-
-Without a token the pipeline still runs: it falls back to energy-based attribution, says so
-in `models.attribution`, and the confidence gate withholds accordingly.
+**This is only for telling teacher from student, never for transcription.** Without a
+token the pipeline still runs end to end: it falls back to energy-based attribution, says
+so in `models.attribution`, and the confidence gate withholds accordingly — but measured
+teacher recall drops from 88.9% to 41.7%, so the talk-time metrics get much weaker.
 
 ---
 

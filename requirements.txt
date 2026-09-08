@@ -1,9 +1,46 @@
-# Phase 1   — ingest layer
-numpy>=1.26
+# Classroom Voice Analytics — Python dependencies
+#
+# Versions are the ones this was developed and measured against. Tiers are listed
+# in the order the pipeline needs them, and each says what you lose by skipping it.
+#
+# System dependency, not installable with pip:
+#   ffmpeg must be on PATH. The ASR layer shells out to it to cut long recordings
+#   into chunks (`src/asr/indic.py`), so transcription fails without it.
+#     Windows: winget install Gyan.FFmpeg   ·   macOS: brew install ffmpeg
+#     Debian/Ubuntu: sudo apt install ffmpeg
 
-# Phase 1.5 — ASR backends
-requests>=2.31          # hosted backend (Groq)
-faster-whisper>=1.2     # local backend, CTranslate2 runtime + Silero VAD
+# --- core -------------------------------------------------------------------
+numpy>=2.0                  # audio buffers, every metric
+requests>=2.31              # hosted ASR backend (Groq)
 
-# dev
+# --- ASR: the default backend ------------------------------------------------
+# ASR_BACKEND = "indic" in src/config.py. ONNX runtime, so no torch is involved
+# here and the model downloads itself from Hugging Face on first run. Measured at
+# 17.3% WER on google/fleurs hi_in and ~3.8x realtime on CPU.
+onnx-asr>=0.12              # AI4Bharat IndicConformer wrapper
+onnxruntime>=1.20           # its runtime
+
+# --- attribution: diarization ------------------------------------------------
+# ATTRIBUTION_METHOD = "diarization" is the default and needs these plus an
+# HF_TOKEN with four gated repos accepted (see README). Skip this tier and the
+# pipeline still runs: it falls back to energy-based attribution, records that in
+# `models.attribution`, and the confidence gate withholds accordingly — but
+# measured teacher recall drops from 88.9% to 41.7%.
+# torch is only ever used on CPU here; the CPU wheel is enough and much smaller:
+#   pip install torch --index-url https://download.pytorch.org/whl/cpu
+pyannote.audio>=4.0
+torch>=2.4
+
+# --- optional: the other two ASR backends ------------------------------------
+# Only needed for ASR_BACKEND = "local" (Hindi Whisper via CTranslate2). The
+# `indic` default does not use it. Model ids must be CT2 conversions.
+faster-whisper>=1.2
+
+# --- optional: reproducing the WER benchmark ---------------------------------
+# Only for `python -m src.evaluation.run_benchmark`, which scores the backends
+# against google/fleurs. Not needed to process your own audio.
+datasets>=3.0
+transformers>=4.40
+
+# --- dev ---------------------------------------------------------------------
 pytest>=8.0

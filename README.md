@@ -29,6 +29,30 @@ never as `0`.**
 
 ---
 
+## Requirements → where they are met
+
+| Requirement | Where |
+|---|---|
+| Transcription, at least one Indian language | Hindi, IndicConformer via ONNX — [ASR chosen on real WER](#asr-indicconformer-chosen-on-real-wer) |
+| Teacher vs student speech | pyannote diarization, energy fallback — [Attribution](#attribution-diarization-after-energy-was-measured-and-thrown-away) |
+| Teacher vs student talk time | `totals_sec` in every result, and [M1](#m1--teacher-talk-ratio) |
+| **Number of teacher questions** | [M7](#m7--teacher-questions-asked) — published as a count, answered or not |
+| **Student response count** | [M8](#m8--student-responses) |
+| Silence duration *(optional)* | [M5](#m5--wait-time-wt1), the pause after a question |
+| 2–3 engagement metrics, each with formula, explanation, interpretation | **Seven**, all three fields on every one, carried inside the JSON — [The metrics](#the-metrics) |
+| Demo interface: transcript, metrics, summary | All three, plus the timeline strip and the confidence breakdown — [live](https://app-one-blue-47.vercel.app) |
+| Project structure | [Repository layout](#repository-layout) |
+| Development approach | [How it is put together](#how-it-is-put-together) and [The decisions](#the-decisions-and-what-they-were-measured-against) |
+| Assumptions | [Assumptions](#assumptions) |
+| Live demo link | <https://app-one-blue-47.vercel.app> |
+
+**"Offline-first" is taken literally.** Every model runs locally on a CPU: no API key, no
+GPU, no paid service anywhere in the pipeline. That is on-brief rather than incidental —
+MakerGhat's platform is described as offline-first, and the ASR choice was made partly
+because IndicConformer needs neither torch nor a network.
+
+---
+
 ## Quick start
 
 **ffmpeg must be on PATH before anything else.** The ASR layer shells out to it to cut
@@ -52,8 +76,12 @@ Then run it. **No API key and no token are needed to transcribe:**
 
 ```bash
 python -m src.run_pipeline --minutes 4        # 4 minutes per session, to try it out
-python -m src.run_pipeline                    # the whole corpus, ~67 min on CPU
+python -m src.run_pipeline                    # the whole corpus, ~3 h on CPU first time
 ```
+
+**Three hours, not one.** Transcription is only 67 minutes of that — diarization is the
+expensive half at 1.24× realtime, and it runs on every session before the timeline is
+built. Both are cached afterwards, so a second run over the same audio is seconds.
 
 The first run downloads the ASR model (~250 MB) from Hugging Face into the cache that
 `src/config.py:configure_hf_cache()` pins via `HF_HOME`, deliberately off the project
@@ -156,7 +184,7 @@ cost.
 | `src/pipeline.py` | The `results/*.json` contract |
 | `src/evaluation/` | WER/CER scoring, the ASR bake-off, hallucination signals, labelling |
 | `app/` | Angular dashboard (static reader) |
-| `tests/` | 591 tests |
+| `tests/` | 629 tests |
 | `docs/` | Measurements and decisions, with the numbers that drove them |
 
 ---
@@ -325,8 +353,8 @@ the mean of per-sample rates):
 | `whisper-small` | 63.8% | Returns near-gibberish on this audio |
 | vasista22 Hindi fine-tune | 84.4% | Transcribes correctly, then rambles into news prose |
 
-IndicConformer also runs the whole 252-minute corpus in **67 minutes on CPU** with no torch
-dependency. Switching backend is one line in `src/config.py`.
+IndicConformer also transcribes the whole 252-minute corpus in **67 minutes on CPU** with no
+torch dependency — the ASR half of a roughly three-hour first run. Switching backend is one line in `src/config.py`.
 
 That 84.4% is worth a sentence, because it validated the harness rather than breaking it:
 the model's *best* sample scored 6% against a published 6.8%. It transcribes accurately and
@@ -485,13 +513,20 @@ disagreeing about whether a child spoke is a bug every time**, and it costs noth
 that exists on disk.** IndicConformer ASR, pyannote diarization for both the speech map and
 the speaker split. 3,405 transcribed utterances.
 
-| Session | Verdict | Conf | M1 teacher | M2 turns/child/h | M3 exch/min | M4 stretch | M5 wait |
-|---|---|---:|---:|---:|---:|---:|---:|
-| OD11163_2025-12-23 | usable | 0.88 | 70% | 24.5 | 14.4 | 52s | 2.19s |
-| OD11163_2026-01-28 | usable | 0.82 | 92% | 9.3 | 7.4 | 49s | 6.12s |
-| OD11165_2026-01-06 | usable | 0.89 | 63% | 88.3 | 16.2 | 48s | 1.30s |
-| OD11166_2026-01-12 | usable | 0.73 | 47% | 24.1 | 12.5 | 15s | 0.94s |
-| OD11166_2026-01-20 | usable | 0.86 | 46% | 42.6 | 16.9 | 35s | 0.89s |
+| Session | Verdict | Conf | M1 teacher | M2 turns/child/h | M3 exch/min | M4 stretch | M5 wait | M7 asked | M8 answered |
+|---|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| OD11163_2025-12-23 | usable | 0.88 | 70% | 24.5 | 14.4 | 52s | 1.67s | 90 | 83 |
+| OD11163_2026-01-28 | usable | 0.82 | 92% | 9.3 | 7.4 | 49s | 5.94s | 62 | 45 |
+| OD11165_2026-01-06 | usable | 0.89 | 63% | 88.3 | 16.2 | 48s | 0.80s | 97 | 95 |
+| OD11166_2026-01-12 | usable | 0.73 | 47% | 24.1 | 12.5 | 15s | 1.20s | 22 | 22 |
+| OD11166_2026-01-20 | usable | 0.86 | 46% | 42.6 | 16.9 | 35s | 0.76s | 67 | 65 |
+
+**Read the last three columns together.** The 22-minute session is the outlier on every one
+of them — the lowest answered share at 73%, the longest wait in the corpus at 5.94s, and the
+highest teacher talk at 92%. Dominate the floor and children answer less, and slower. The
+other four sit at 92–100% answered, which is the [limitation](#limitations) that a response
+is any student turn inside 15s, and in a room of 8 to 27 children almost any pause gets
+filled.
 
 ### Sampling the first four minutes overstates teacher talk — every time
 

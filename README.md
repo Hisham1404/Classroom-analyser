@@ -591,6 +591,21 @@ python -m pytest
 reading are the regression tests above — each names the real session and the real number that
 exposed the bug.
 
+## Attribution
+
+**AI assistance.** Claude Code (Anthropic) was used while building this project — for writing
+the test suite and parts of the implementation, and for drafting documentation. The design
+decisions, the model choices and the trade-offs recorded above are mine, and everything was
+reviewed, run and tested before it went in.
+
+The measured results are not generated. The ASR bake-off, the 17.3% WER against
+`google/fleurs`, the 88.9% attribution accuracy and the per-session numbers all come from real
+runs against the real dataset, and the commands that produce them are in this README.
+
+No other external code was copied into this repository. Third-party dependencies are declared
+in `requirements.txt`; `ffmpeg` is an undeclared system dependency and is documented under
+[Quick start](#quick-start).
+
 ## Deploying
 
 The dashboard is a static bundle:
@@ -608,5 +623,4 @@ is copied in by the build, so the deployed site carries its own data and needs n
 |---|---|
 | [`docs/data-notes.md`](docs/data-notes.md) | What is actually in the dataset, and every measurement that changed a decision |
 | [`docs/asr-options.md`](docs/asr-options.md) | The full ASR landscape and the measured bake-off |
-| [`docs/task1-plan.md`](docs/task1-plan.md) | Metric definitions with sources, tool stack |
 | [`docs/architecture.md`](docs/architecture.md) | Diagrams and the user workflow |

@@ -1,6 +1,6 @@
 # Task 1 — Architecture & User Workflow
 
-Companion to [`task1-plan.md`](task1-plan.md). All mermaid blocks render natively on GitHub.
+All mermaid blocks render natively on GitHub.
 
 > **This document describes what was built.** An earlier revision described what was *planned*, and the
 > two had diverged badly: it named an ASR model that lost the bake-off, a Hindi→English translation stage

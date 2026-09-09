@@ -16,12 +16,13 @@ audio recorded on a phone sitting somewhere in the room. Out the other end:
 
 - a Hindi transcript
 - who was talking, teacher or student, second by second
-- five engagement metrics, each carrying its own formula, explanation and interpretation
+- how many questions the teacher asked, and how many a student answered
+- seven engagement metrics, each carrying its own formula, explanation and interpretation
 - a plain-English headline and one thing to try next lesson
 - a confidence score that decides how much of the above anyone is allowed to see
 
 The last point is the design. Classroom audio is bad audio: 27 children, one microphone,
-hammering and cutting in the background. A pipeline that always produces five confident
+hammering and cutting in the background. A pipeline that always produces seven confident
 numbers on that input is producing fiction. This one measures how much it can trust itself
 and withholds the metrics that do not clear the bar — **a withheld metric renders as `—`,
 never as `0`.**
@@ -58,6 +59,13 @@ The first run downloads the ASR model (~250 MB) from Hugging Face into the cache
 `src/config.py:configure_hf_cache()` pins via `HF_HOME`, deliberately off the project
 drive. Every later run reads it from disk, and transcripts are content-hash cached in
 `.cache/asr/`, so re-running the same audio does no work twice.
+
+**Diarization turns are cached the same way, in `.cache/diarization/`.** It is the most
+expensive step in the project - 1.24x realtime, about three hours for this corpus - and
+until the cache existed its output was never persisted, so every change to a metric
+downstream of it cost a full re-run. A cache hit also needs no `HF_TOKEN`: the token gates
+the model *download*, not the arithmetic, so once the turns are on disk these results
+reproduce without accepting four gated model licences first.
 
 Results land in `results/<session_id>.json`. Serve the dashboard over them with:
 
@@ -143,7 +151,7 @@ cost.
 | `src/signal_layer.py` | Speech / hands-on / dead-air timeline |
 | `src/diarization.py` | pyannote turns, speech map, teacher identification, segment splitting |
 | `src/attribution.py` | Energy-based fallback attribution |
-| `src/metrics.py` | M1–M6, the confidence gate |
+| `src/metrics.py` | M1–M5, M7–M8, the confidence gate (M6) |
 | `src/insight.py` | Rule-based headline, suggestion, WhatsApp message |
 | `src/pipeline.py` | The `results/*.json` contract |
 | `src/evaluation/` | WER/CER scoring, the ASR bake-off, hallucination signals, labelling |
@@ -214,6 +222,70 @@ This is the only **lexical** metric — it needs question detection, so it needs
 so it is the first to break in a noisy room. It is measured from raw diarization turns
 rather than the timeline, and withheld below three question–answer pairs. See
 [Wait time is harder than it looks](#wait-time-is-harder-than-it-looks).
+
+### M7 — Teacher questions asked
+
+```
+count(teacher turns whose transcript reads as a question)
+```
+
+Every question the teacher asked, **answered or not**. The unanswered ones are the point:
+M5 can only see a question a student replied to, so a room where nobody answers looks
+identical there to a room where nobody was asked.
+
+Detection is lexical — a Hindi interrogative from a fixed word list, or a question mark.
+Hindi does not invert word order for questions, so without prosody there is little else to
+go on, and the detector is deliberately simple and deliberately fragile.
+
+**One utterance is one question.** Diarization and ASR segment the audio independently, so
+a single sentence often straddles several diarization turns. Each transcript segment is
+therefore attributed to the first teacher turn that covers it, and a turn contributing no
+new words is not a new question. Without that rule the count came out **1.6× too high** on
+real audio — see [the post-mortem](#publishing-a-count-exposed-a-flaw-a-median-had-been-hiding).
+It under-counts a teacher who asks three questions inside one unbroken turn, which is the
+safe direction and matches Rowe's unit anyway: wait time is the pause after she stops. It will miss a
+question asked in a flat statement ("बताओ" caught, "तो अब हम आगे बढ़ते हैं" not) and it will
+occasionally fire on a rhetorical one.
+
+The published value is a **count**, because that is what the brief asks for. A count is not
+comparable between a 20-minute session and a 70-minute one, so the card also states the
+rate per hour, and the band is computed from that rate rather than from the count.
+
+### M8 — Student responses
+
+```
+count(questions answered by a student within 15s)
+```
+
+How many of those questions a student actually took up. Two rules decide what counts:
+
+* A student **already talking** as the question ends counts. That is an answer with no
+  wait, not a missing one.
+* A student who speaks **more than 15 seconds later** does not. That is the next exchange,
+  not this one.
+
+M8 is not the same as M5's sample count, and the difference is deliberate. Every measurable
+wait is a response, but a response whose two turns share a boundary to the microsecond has
+no silence to report — the boundary was snapped, not measured — so it counts here and not
+there. The invariant is `wait_samples <= responses <= questions`, and the distance between
+the terms is information: it separates *nobody answered* from *the answer had no measurable
+pause in front of it*.
+
+**M7 and M8 read together are the metric.** A high question count with a low answered share
+is the signature of rhetorical questions the teacher answers herself — the most common
+thing this measurement finds, and invisible to every other number on the page.
+
+Both are lexical, so they share M5's dependencies: no transcript, no counts, and no counts
+when the teacher/student split is below its floor either, because counting *teacher*
+questions means knowing which speaker the teacher is. They do **not** share M5's three-pair
+sample floor — a median over two pauses is not a median, whereas a count of two questions is
+exactly two questions. A session with no questions in it publishes `0`, not `null`; zero
+questions is a finding, and the dash is reserved for *could not measure*.
+
+> **Numbering:** the metric keys run M1–M5, M7, M8. M6 is the confidence score below, which
+> lives in the JSON's own `confidence` block rather than in `metrics` — it governs the
+> others rather than sitting beside them. The gap is deliberate, so that M6 means the same
+> thing in the code, the JSON and this README.
 
 ### M6 — Analysis confidence
 
@@ -354,6 +426,50 @@ dashboard showed pre-fix numbers for a full day with nothing to indicate it. The
 one copy: the build maps `results/` in directly, and a test asserts the duplicate has not
 come back.
 
+### Publishing a count exposed a flaw a median had been hiding
+
+The brief asks for a teacher question count and a student response count. The detector had
+existed since Phase 4, so this looked like plumbing: run the walk, publish two integers.
+The first numbers came back at **286 questions per hour** on a 22-minute session, which is
+nearly five a minute. That is not impossible for a teacher on a roll, so it needed
+checking rather than believing.
+
+`text_for_span` returns **every transcript segment overlapping a span**. Diarization and
+ASR segment audio independently, so a single teacher sentence routinely straddles two or
+three diarization turns — and each of those turns read the whole sentence, found the
+interrogative in it, and counted a question:
+
+```
+[   61.8s] क क्या है सेकंड रो हैब भी आप कुछ काम करग…
+[   70.6s] क क्या है सेकंड रो हैब भी आप कुछ काम करग…   ← the same sentence
+[   78.0s] क क्या है सेकंड रो हैब भी आप कुछ काम करग…   ← and again
+```
+
+Measured across the two sessions that had finished processing: **153 flagged spans
+carrying 98 distinct texts, and 112 carrying 69** — a consistent **1.6×** inflation, which
+is what a mechanical cause looks like rather than a noisy one.
+
+**The bug was older than the counts.** The same walk has fed M5 since Phase 4, so its
+"measured from 114 question–answer pairs" was inflated the same way. It never showed,
+because **M5 publishes a median and a median barely moves when its samples are
+duplicated** — the duplicates cluster around the same value. A count moves by the full
+factor. Publishing the plain number is what made a year-old flaw visible, which is a
+decent argument for publishing plain numbers.
+
+The fix attributes each transcript segment to the **first teacher turn that covers it**, so
+one utterance is one question. That immediately broke the timing in a way worth recording:
+if the question is owned by the first turn, the wait is measured from *there*, while the
+teacher is still mid-sentence — so the real answer arrives outside the 15-second window and
+is filed as *unanswered*. The question's end is therefore the end of her **run** of turns
+over that utterance, and the run stops when the utterance's words run out, not when she
+eventually stops talking.
+
+Two of the eight mutations run against the fix survived the first pass, both because
+nothing pinned *where* that run ends. A third survivor turned out to be an equivalent
+mutant — the `if not fresh` guard is unreachable, since the joined text of no segments is
+`""` and `is_question("")` is already `False`. It stays in for readability, and it is
+honest to say no test covers it.
+
 ### A cross-check that needs no ground truth
 
 The hand labels could not catch the enclosure bug, so consistency does the work instead.
@@ -437,6 +553,15 @@ Stated because they are all falsifiable, and one of them already was.
   score better than Silero's reading of 9%. But the knee wants recalibrating against the new
   detector, and there is no ground truth to fit it to yet, so it has been left alone and
   written down rather than quietly re-tuned.
+- **M8's response rate barely discriminates on this corpus.** Four of the five sessions land
+  at 92-100% answered, because a "response" is any student turn beginning within 15 s of the
+  question - and in a room of 8 to 27 children, almost any pause gets filled by somebody. It
+  measures *someone spoke soon after*, which is a proxy for *the question was taken up*, not
+  proof of it. The one session that does stand out is the informative one: 73% answered with
+  the longest wait time in the corpus, on the recording where the teacher held **92%** of the
+  talking time. That is a coherent story - dominate the floor and children answer less, and
+  slower - but one session is an anecdote, not a validated signal. Read M7 and M8 together,
+  and read the wait time beside them.
 - **The validation set has no student rows.** Until the sheets are regenerated from the split
   timeline and re-labelled by ear, student recall is unmeasured. Everything about student
   detection currently rests on internal consistency, not ground truth.
@@ -462,7 +587,7 @@ holds it in place.
 python -m pytest
 ```
 
-591 tests, none skipped. Tests are written before the code they cover, and the ones worth
+629 tests, none skipped. Tests are written before the code they cover, and the ones worth
 reading are the regression tests above — each names the real session and the real number that
 exposed the bug.
 

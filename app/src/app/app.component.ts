@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, computed, inject, signal } from '@angular/core';
 
-import { METRIC_LABELS, METRIC_ORDER, SessionResult } from './models/session-result';
+import { METRIC_LABELS, METRIC_ORDER, Metric, SessionResult } from './models/session-result';
 import { SessionService, TimelineBar } from './services/session.service';
 
 type View = 'teacher' | 'trend' | 'quality';
@@ -65,11 +65,21 @@ export class AppComponent {
   }
 
   metricValue(session: SessionResult, key: string): string {
-    return this.sessions.formatMetric(key, session.metrics[key]);
+    return this.sessions.formatMetric(key, this.metric(session, key));
   }
 
   showsMetrics(session: SessionResult): boolean {
     return this.sessions.showsMetrics(session);
+  }
+
+  /** Never `session.metrics[key]` directly - an older file may not carry the key. */
+  metric(session: SessionResult, key: string): Metric {
+    return this.sessions.metricFor(session, key);
+  }
+
+  /** A count has no ceiling, so it gets no bar. See SessionService.showsGauge. */
+  showsGauge(session: SessionResult, key: string): boolean {
+    return this.sessions.showsGauge(this.metric(session, key));
   }
 
   qualityNotes(session: SessionResult): string[] {
@@ -78,7 +88,7 @@ export class AppComponent {
 
   /** Position of the benchmark marker on a metric card, as a percentage. */
   benchmarkOffset(session: SessionResult, key: string): number | null {
-    const metric = session.metrics[key];
+    const metric = this.metric(session, key);
     if (metric?.benchmark == null || metric.value == null) {
       return null;
     }
@@ -86,7 +96,7 @@ export class AppComponent {
   }
 
   barOffset(session: SessionResult, key: string): number {
-    const metric = session.metrics[key];
+    const metric = this.metric(session, key);
     if (metric?.value == null) {
       return 0;
     }

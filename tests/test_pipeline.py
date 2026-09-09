@@ -75,6 +75,7 @@ def test_result_carries_every_metric(session, segments):
     assert set(r["metrics"]) == {
         "M1_teacher_talk_ratio", "M2_student_participation", "M3_interaction_density",
         "M4_longest_teacher_stretch", "M5_wait_time_1",
+        "M7_teacher_questions", "M8_student_responses",
     }
 
 

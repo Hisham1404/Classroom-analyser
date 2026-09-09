@@ -11,7 +11,12 @@ import { HttpTestingController, provideHttpClientTesting } from '@angular/common
 import { TestBed } from '@angular/core/testing';
 import { provideHttpClient } from '@angular/common/http';
 
-import { Metric, SessionResult } from '../models/session-result';
+import {
+  METRIC_LABELS,
+  METRIC_ORDER,
+  Metric,
+  SessionResult,
+} from '../models/session-result';
 import { SessionService } from './session.service';
 
 function metric(value: number | null, extra: Partial<Metric> = {}): Metric {
@@ -199,5 +204,111 @@ describe('SessionService presentation', () => {
 
   it('has no data-quality notes for a clean recording', () => {
     expect(service.dataQualityNotes(makeResult())).toEqual([]);
+  });
+});
+
+describe('SessionService counts', () => {
+  let service: SessionService;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      providers: [SessionService, provideHttpClient(), provideHttpClientTesting()],
+    });
+    service = TestBed.inject(SessionService);
+  });
+
+  // A count is the one metric shape where the existing formatter was actively wrong:
+  // it falls through to `toFixed(value < 10 ? 1 : 0)`, so five questions rendered as
+  // "5.0". Nothing is ever five point zero questions.
+  it('formats a question count as a whole number', () => {
+    expect(service.formatMetric('M7_teacher_questions', metric(5, { unit: 'questions' })))
+      .toBe('5');
+  });
+
+  it('formats a large count without a decimal point', () => {
+    expect(service.formatMetric('M7_teacher_questions', metric(114, { unit: 'questions' })))
+      .toBe('114');
+  });
+
+  it('shows zero questions as zero, not as withheld', () => {
+    // A lesson with no questions in it is a finding. The dash means "could not
+    // measure", and the two must never print the same.
+    expect(service.formatMetric('M7_teacher_questions', metric(0, { unit: 'questions' })))
+      .toBe('0');
+  });
+
+  it('still shows a withheld count as withheld', () => {
+    expect(service.formatMetric('M8_student_responses', metric(null, { unit: 'responses' })))
+      .toBe('—');
+  });
+
+  // The gauge scales against a fixed ceiling (10 for anything that is not a ratio or a
+  // duration). A count has no ceiling - 114 questions would peg a full bar and 3 would
+  // look like a rounding error, both of them meaning nothing. The rate that IS
+  // comparable lives in the interpretation text instead.
+  it('draws no gauge for a count', () => {
+    expect(service.showsGauge(metric(114, { unit: 'questions' }))).toBe(false);
+    expect(service.showsGauge(metric(2, { unit: 'responses' }))).toBe(false);
+  });
+
+  it('still draws a gauge for the metrics that have a ceiling', () => {
+    expect(service.showsGauge(metric(0.77))).toBe(true);
+    expect(service.showsGauge(metric(412, { unit: 'sec' }))).toBe(true);
+  });
+
+  it('draws no gauge for a withheld metric', () => {
+    expect(service.showsGauge(metric(null))).toBe(false);
+  });
+
+  it('lists both counts among the metrics a teacher reads', () => {
+    // The brief asks for these two by name, so they must actually reach the page -
+    // a metric absent from METRIC_ORDER is in the JSON and nowhere else.
+    expect(METRIC_ORDER).toContain('M7_teacher_questions');
+    expect(METRIC_ORDER).toContain('M8_student_responses');
+  });
+
+  it('gives every listed metric a label', () => {
+    for (const key of METRIC_ORDER) {
+      expect(METRIC_LABELS[key]).toBeTruthy();
+    }
+  });
+});
+
+describe('SessionService missing metrics', () => {
+  let service: SessionService;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      providers: [SessionService, provideHttpClient(), provideHttpClientTesting()],
+    });
+    service = TestBed.inject(SessionService);
+  });
+
+  // A results file written before a metric existed simply has no key for it. The page
+  // reads `metrics[key].formula` to fill the detail panel, so an absent key threw
+  // instead of rendering - and the window where that happens is real: the app deploys
+  // the moment it builds, while the JSON only changes when the pipeline is re-run.
+  it('treats a metric missing from an older results file as withheld', () => {
+    const r = makeResult();
+    expect(r.metrics['M7_teacher_questions']).toBeUndefined();
+    expect(service.metricFor(r, 'M7_teacher_questions').value).toBeNull();
+  });
+
+  it('gives a missing metric something to say rather than an empty panel', () => {
+    const m = service.metricFor(makeResult(), 'M8_student_responses');
+    expect(m.formula).toBeTruthy();
+    expect(m.explanation).toBeTruthy();
+    expect(m.interpretation).toBeTruthy();
+  });
+
+  it('returns the real metric when the file does carry it', () => {
+    const r = makeResult();
+    expect(service.metricFor(r, 'M1_teacher_talk_ratio').value).toBe(0.77);
+  });
+
+  it('does not count a missing metric as a withheld one', () => {
+    // `withheldMetrics` drives the data-quality note. A key that was never written is
+    // not the pipeline refusing to publish a number - it is an older file.
+    expect(service.withheldMetrics(makeResult())).not.toContain('M7_teacher_questions');
   });
 });

@@ -19,6 +19,8 @@ Per-child identity is still not claimed. Every non-teacher speaker collapses to 
 
 from __future__ import annotations
 
+import hashlib
+import json
 import os
 from dataclasses import dataclass
 from pathlib import Path
@@ -32,6 +34,17 @@ from src.signal_layer import Segment, SegmentKind
 PIPELINE_ID = "pyannote/speaker-diarization-community-1"
 
 
+_READ_CHUNK = 1 << 20
+
+
+def _hash_file(path: Path) -> str:
+    h = hashlib.sha256()
+    with Path(path).open("rb") as fh:
+        while block := fh.read(_READ_CHUNK):
+            h.update(block)
+    return h.hexdigest()[:20]
+
+
 @dataclass(frozen=True)
 class SpeakerTurn:
     start: float
@@ -41,6 +54,69 @@ class SpeakerTurn:
     @property
     def duration(self) -> float:
         return self.end - self.start
+
+
+class TurnCache:
+    """Disk cache for diarization turns, keyed by audio content rather than filename.
+
+    Diarization is the most expensive step in the project - 1.24x realtime, about three
+    hours for this corpus - and until this existed its output was never persisted. Every
+    change to a metric downstream of it therefore cost a full re-run, which is precisely
+    what happened when the published question count turned out to be double-counting:
+    two sessions of compute discarded to fix arithmetic that runs in milliseconds.
+
+    Content-keyed, like the transcript cache, so a copy under a new name still hits and a
+    re-encode correctly misses. A cache hit also needs no HF token, because the token was
+    only ever for the gated download - which is what lets someone reproduce these results
+    without accepting four model licences first.
+    """
+
+    def __init__(self, root: Path) -> None:
+        self.root = Path(root)
+
+    def key(self, path: Path, num_speakers: int | None = None) -> str:
+        digest = _hash_file(Path(path))
+        stamp = hashlib.sha256(
+            f"{PIPELINE_ID}|{num_speakers or 'auto'}".encode()).hexdigest()[:10]
+        return f"{digest}-{stamp}"
+
+    def _path(self, path: Path, num_speakers: int | None) -> Path:
+        return self.root / f"{self.key(path, num_speakers)}.json"
+
+    def get(self, path: Path, num_speakers: int | None = None) -> list[SpeakerTurn] | None:
+        entry = self._path(path, num_speakers)
+        if not entry.is_file():
+            return None
+        try:
+            raw = json.loads(entry.read_text(encoding="utf-8"))
+            # An empty list is an answer - "pyannote heard nobody" - and must survive the
+            # round trip as one, not decay into a miss that re-runs every time.
+            return [SpeakerTurn(float(t["start"]), float(t["end"]), str(t["speaker"]))
+                    for t in raw["turns"]]
+        except (json.JSONDecodeError, KeyError, ValueError, TypeError):
+            return None          # a damaged entry is a miss, never a crash
+
+    def put(self, path: Path, turns: list[SpeakerTurn],
+            num_speakers: int | None = None) -> Path:
+        self.root.mkdir(parents=True, exist_ok=True)
+        entry = self._path(path, num_speakers)
+        payload = {
+            "pipeline": PIPELINE_ID,
+            "num_speakers": num_speakers,
+            "turns": [{"start": t.start, "end": t.end, "speaker": t.speaker}
+                      for t in turns],
+        }
+        entry.write_text(json.dumps(payload, indent=1), encoding="utf-8")
+        return entry
+
+    def clear(self) -> int:
+        if not self.root.is_dir():
+            return 0
+        removed = 0
+        for f in self.root.glob("*.json"):
+            f.unlink()
+            removed += 1
+        return removed
 
 
 def teacher_speaker(turns: list[SpeakerTurn]) -> tuple[str | None, float]:
@@ -302,6 +378,14 @@ def diarize(path: Path, token: str | None = None,
 
     from src.signal_layer import SAMPLE_RATE, load_waveform
 
+    # The cache is consulted BEFORE the token check on purpose: the token gates the
+    # download, not the arithmetic, so once the turns are on disk this reproduces without
+    # one.
+    cache = TurnCache(config.DIARIZATION_CACHE_DIR)
+    cached = cache.get(Path(path), num_speakers)
+    if cached is not None:
+        return cached
+
     token = token or os.environ.get("HF_TOKEN") or os.environ.get("HUGGINGFACE_TOKEN")
     if not token:
         raise RuntimeError(
@@ -322,8 +406,10 @@ def diarize(path: Path, token: str | None = None,
     # 4.x wraps the Annotation in a DiarizeOutput; older versions return it directly.
     annotation = getattr(result, "speaker_diarization", result)
 
-    return [SpeakerTurn(start=float(seg.start), end=float(seg.end), speaker=str(label))
-            for seg, _, label in annotation.itertracks(yield_label=True)]
+    turns = [SpeakerTurn(start=float(seg.start), end=float(seg.end), speaker=str(label))
+             for seg, _, label in annotation.itertracks(yield_label=True)]
+    cache.put(Path(path), turns, num_speakers)
+    return turns
 
 
 def assign_roles_by_diarization(segments: list[Segment], path: Path,

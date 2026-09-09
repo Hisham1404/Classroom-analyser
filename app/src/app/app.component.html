@@ -80,30 +80,30 @@
           *ngFor="let key of metricOrder"
           type="button"
           class="metric"
-          [class.withheld]="session.metrics[key].value === null"
+          [class.withheld]="metric(session, key).value === null"
           [class.open]="expandedMetric() === key"
           (click)="toggleMetric(key)">
           <span class="metric-label">{{ metricLabels[key] }}</span>
           <span class="metric-value">{{ metricValue(session, key) }}</span>
-          <span class="metric-unit" *ngIf="session.metrics[key].value !== null">
-            {{ session.metrics[key].unit }}
+          <span class="metric-unit" *ngIf="metric(session, key).value !== null">
+            {{ metric(session, key).unit }}
           </span>
 
-          <span class="gauge" *ngIf="session.metrics[key].value !== null">
-            <span class="fill" [class]="session.metrics[key].band"
+          <span class="gauge" *ngIf="showsGauge(session, key)">
+            <span class="fill" [class]="metric(session, key).band"
                   [style.width.%]="barOffset(session, key)"></span>
             <span class="benchmark" *ngIf="benchmarkOffset(session, key) as mark"
                   [style.left.%]="mark"></span>
           </span>
 
-          <span class="withheld-note" *ngIf="session.metrics[key].value === null">
+          <span class="withheld-note" *ngIf="metric(session, key).value === null">
             withheld — not measurable on this recording
           </span>
 
           <span class="detail" *ngIf="expandedMetric() === key">
-            <code>{{ session.metrics[key].formula }}</code>
-            <em>{{ session.metrics[key].explanation }}</em>
-            <span>{{ session.metrics[key].interpretation }}</span>
+            <code>{{ metric(session, key).formula }}</code>
+            <em>{{ metric(session, key).explanation }}</em>
+            <span>{{ metric(session, key).interpretation }}</span>
           </span>
         </button>
       </div>

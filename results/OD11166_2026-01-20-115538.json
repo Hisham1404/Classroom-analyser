@@ -21112,14 +21112,34 @@
       "interpretation": "Depends on the speaker split. In a 60-minute maker session anything over about five minutes means the making stopped."
     },
     "M5_wait_time_1": {
-      "value": 0.8859,
+      "value": 0.7594,
       "unit": "sec",
       "band": "low",
       "benchmark": 3.0,
       "confidence": 0.379,
       "formula": "median(start_of_next_student_turn - end_of_teacher_question)",
       "explanation": "Mary Budd Rowe's wait time: the pause after a question before a student answers. Measured from raw diarization turns, which keep the real silences - the segment timeline tiles exactly, so gaps there are always zero. Depends on reading questions out of the transcript, so it is the first metric to become unreliable in a noisy room.",
-      "interpretation": "Below 1s, answers are short and students say 'I don't know'. At 3s or more, responses get longer, more correct, and more students join in. It is the single most replicated finding in this field. Measured from 60 question-answer pairs."
+      "interpretation": "Below 1s, answers are short and students say 'I don't know'. At 3s or more, responses get longer, more correct, and more students join in. It is the single most replicated finding in this field. Measured from 51 question-answer pairs."
+    },
+    "M7_teacher_questions": {
+      "value": 67,
+      "unit": "questions",
+      "band": "normal",
+      "benchmark": null,
+      "confidence": 0.379,
+      "formula": "count(teacher turns whose transcript reads as a question)",
+      "explanation": "Every question the teacher asked, answered or not. The unanswered ones are the point: M5 can only see a question a student replied to, so a room where nobody answers looks the same there as a room where nobody was asked. Detection is lexical - a Hindi interrogative or a question mark - because Hindi does not invert word order for questions, so there is little else to go on without prosody.",
+      "interpretation": "About 67 per hour on this recording. Asking more is not automatically better - read it with M8, which says how many of them a student actually answered. A high count here with a low share there is a teacher questioning into silence."
+    },
+    "M8_student_responses": {
+      "value": 65,
+      "unit": "responses",
+      "band": "high",
+      "benchmark": null,
+      "confidence": 0.379,
+      "formula": "count(questions answered by a student within 15s)",
+      "explanation": "How many of those questions a student actually took up. A student already talking as the question lands counts - that is an answer with no wait, not a missing one. A student who speaks a minute later does not; that is the next exchange, not this one.",
+      "interpretation": "Students answered 65 of 67 questions (97%). A low share with a high question count is the signature of rhetorical questions the teacher answers herself - the most common thing this measurement finds."
     }
   },
   "confidence": {
@@ -21134,18 +21154,20 @@
   },
   "insight": {
     "headline": "You spoke 46% of the talking time in Wind Anemometer — close to the target.",
-    "suggestion": "After you asked a question you moved on in 0.9s. Count to three before taking an answer — research finds responses get longer and more children join in.",
+    "suggestion": "After you asked a question you moved on in 0.8s. Count to three before taking an answer — research finds responses get longer and more children join in.",
     "summary": "Wind Anemometer: 45m 42s of talking, 10m 59s hands-on, 3m 10s quiet, 16.9 exchanges a minute.",
     "metrics_shown": [
       "M1_teacher_talk_ratio",
       "M2_student_participation",
       "M3_interaction_density",
       "M4_longest_teacher_stretch",
-      "M5_wait_time_1"
+      "M5_wait_time_1",
+      "M7_teacher_questions",
+      "M8_student_responses"
     ],
     "verdict": "usable",
     "generated_by": "rules-v1",
-    "whatsapp": "नमस्ते Teacher C!\n\nYou spoke 46% of the talking time in Wind Anemometer — close to the target.\n\n💡 After you asked a question you moved on in 0.9s. Count to three before taking an answer — research finds responses get longer and more children join in."
+    "whatsapp": "नमस्ते Teacher C!\n\nYou spoke 46% of the talking time in Wind Anemometer — close to the target.\n\n💡 After you asked a question you moved on in 0.8s. Count to three before taking an answer — research finds responses get longer and more children join in."
   },
   "flags": [
     "no_gps"

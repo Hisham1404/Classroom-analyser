@@ -88,6 +88,8 @@ export const METRIC_ORDER = [
   'M3_interaction_density',
   'M4_longest_teacher_stretch',
   'M5_wait_time_1',
+  'M7_teacher_questions',
+  'M8_student_responses',
 ] as const;
 
 export const METRIC_LABELS: Record<string, string> = {
@@ -96,4 +98,6 @@ export const METRIC_LABELS: Record<string, string> = {
   M3_interaction_density: 'Exchanges',
   M4_longest_teacher_stretch: 'Longest stretch',
   M5_wait_time_1: 'Wait time',
+  M7_teacher_questions: 'Questions asked',
+  M8_student_responses: 'Questions answered',
 };

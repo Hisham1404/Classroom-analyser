@@ -26,6 +26,32 @@ export interface TimelineBar {
   text?: string;
 }
 
+/** Units whose value is a whole thing counted, not a measurement on a scale. */
+const COUNT_UNITS = new Set(['questions', 'responses']);
+
+/**
+ * What a metric key absent from the file renders as.
+ *
+ * Results written before a metric existed simply have no key for it, and the page reads
+ * `.formula` and friends to fill the detail panel - so an absent key threw rather than
+ * rendering. That window is real: the app ships the moment it builds, while the JSON only
+ * changes when the pipeline is re-run over the audio, which takes hours.
+ *
+ * It renders as withheld because that is what it is - no number, and a reason why.
+ */
+const MISSING_METRIC: Metric = {
+  value: null,
+  unit: null,
+  band: 'unknown',
+  benchmark: null,
+  confidence: 0,
+  formula: 'not in this file',
+  explanation:
+    'This recording was processed before this metric existed, so the results file ' +
+    'carries no value for it.',
+  interpretation: 'Re-running the pipeline over this session will publish it.',
+};
+
 @Injectable({ providedIn: 'root' })
 export class SessionService {
   private readonly http = inject(HttpClient);
@@ -67,7 +93,30 @@ export class SessionService {
       const seconds = Math.round(value % 60);
       return `${minutes}m ${String(seconds).padStart(2, '0')}s`;
     }
+    if (COUNT_UNITS.has(metric.unit ?? '')) {
+      return String(Math.round(value));
+    }
     return value.toFixed(value < 10 ? 1 : 0);
+  }
+
+  /** The metric under `key`, or a withheld stand-in when the file predates it. */
+  metricFor(result: SessionResult, key: string): Metric {
+    return result.metrics?.[key] ?? MISSING_METRIC;
+  }
+
+  /**
+   * Whether a metric's bar means anything.
+   *
+   * The gauge scales against a fixed ceiling, which works for a ratio (1.0) and for a
+   * duration (10 minutes) and not at all for a count: 114 questions would peg a full
+   * bar and 3 would look like a rounding error, neither of them saying anything. The
+   * comparable number for a count is its rate, and that is in the interpretation text.
+   */
+  showsGauge(metric: Metric): boolean {
+    if (metric?.value === null || metric?.value === undefined) {
+      return false;
+    }
+    return !COUNT_UNITS.has(metric.unit ?? '');
   }
 
   /** Keys the pipeline refused to report — shown as such, with the reason. */

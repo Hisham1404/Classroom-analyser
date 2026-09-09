@@ -63,14 +63,21 @@ def _make_session(root: Path, session_id: str, *, declared_ms: int, actual_sec: 
 
 
 @pytest.fixture(autouse=True)
-def isolated_asr_cache(tmp_path, monkeypatch):
-    """Never let a test write into the project's real transcript cache.
+def isolated_caches(tmp_path, monkeypatch):
+    """Never let a test write into the project's real caches.
 
-    Without this, a cached transcript from one test silently satisfies the next one —
+    Without this, a cached result from one test silently satisfies the next one —
     which is exactly how three tests passed for the wrong reason.
+
+    The diarization cache repeated the lesson the moment it was added: every synthetic
+    session is built from the same 6 s tone, so they hash identically, and three tests
+    that assert what `diarize` does on a MISS started reading each other's hits instead.
+    A content-addressed cache makes identical fixtures indistinguishable — which is the
+    point of it, and the reason it has to be isolated per test.
     """
     from src import config
     monkeypatch.setattr(config, "ASR_CACHE_DIR", tmp_path / "asr-cache")
+    monkeypatch.setattr(config, "DIARIZATION_CACHE_DIR", tmp_path / "turn-cache")
 
 
 @pytest.fixture(scope="session")

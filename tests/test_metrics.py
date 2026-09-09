@@ -336,12 +336,13 @@ def test_totals_account_for_the_whole_recording():
     assert sum(m.totals.values()) == pytest.approx(600.0)
 
 
-def test_all_six_metrics_are_always_present():
+def test_every_metric_key_is_always_present():
     """A metric that could not be computed reports None — it never vanishes."""
     m = compute_metrics([], roster(), audio_sec=600.0)
     assert set(m.metrics) == {
         "M1_teacher_talk_ratio", "M2_student_participation", "M3_interaction_density",
         "M4_longest_teacher_stretch", "M5_wait_time_1",
+        "M7_teacher_questions", "M8_student_responses",
     }
     assert all(v.value is None or v.value == 0.0 for v in m.metrics.values())
 
@@ -615,3 +616,319 @@ def test_totals_are_keyed_by_plain_role_names():
     assert not any(key.startswith("Role.") for key in payload["totals_sec"])
     assert payload["totals_sec"]["teacher"] == pytest.approx(60.0)
     assert payload["totals_sec"]["student"] == pytest.approx(30.0)
+
+
+# ================================================ M7/M8 question and response counts
+#
+# The brief asks for these two counts by name. They were computable all along - the
+# question detector has run on every session since Phase 4 - but the only thing that ever
+# reached results/*.json was a sentence inside M5's interpretation ("Measured from 114
+# question-answer pairs"), and that sentence counts *answered* questions only. A question
+# nobody answered was invisible, which is exactly the one worth seeing.
+#
+# The distinction these tests pin down: a response is a student taking the floor inside
+# the window; a wait sample is a response whose silence could actually be MEASURED. A
+# snapped boundary is a response with no measurable pause, so the two counts differ and
+# neither is wrong.
+
+from src.metrics import discourse_from_turns
+
+
+def test_every_teacher_question_is_counted_even_unanswered():
+    """The whole point of publishing this separately from M5."""
+    turns = [dturn(0, 10, "T"), dturn(12, 14, "S1"),    # answered
+             dturn(20, 30, "T"),                        # nobody answers
+             dturn(40, 50, "T")]                        # nobody answers
+    d = discourse_from_turns(turns, "T", q_transcript([(0, 10), (20, 30), (40, 50)]))
+    assert d.questions == 3
+    assert d.responses == 1
+
+
+def test_a_statement_is_not_counted_as_a_question():
+    turns = [dturn(0, 10, "T"), dturn(12, 14, "S1")]
+    t = transcript([(0, 10, "यह कागज़ है")])
+    assert discourse_from_turns(turns, "T", t).questions == 0
+
+
+def test_a_snapped_boundary_is_a_response_with_no_measurable_wait():
+    """The pair the wait-time metric has to throw away is still an answered question.
+    Counting responses off the wait list would under-report every one of them."""
+    turns = [dturn(0, 10, "T"), dturn(10, 15, "S1")]
+    d = discourse_from_turns(turns, "T", q_transcript([(0, 10)]))
+    assert (d.questions, d.responses) == (1, 1)
+    assert d.waits == []
+
+
+def test_an_interruption_is_a_response_and_a_measured_zero():
+    turns = [dturn(0, 20, "T"), dturn(18, 25, "S1")]
+    d = discourse_from_turns(turns, "T", q_transcript([(0, 20)]))
+    assert (d.questions, d.responses) == (1, 1)
+    assert d.waits == pytest.approx([0.0])
+
+
+def test_an_answer_beyond_the_window_is_not_a_response():
+    turns = [dturn(0, 10, "T"), dturn(10 + config.WAIT_TIME_MAX_SEC + 1, 60, "S1")]
+    d = discourse_from_turns(turns, "T", q_transcript([(0, 10)]))
+    assert (d.questions, d.responses) == (1, 0)
+
+
+def test_the_teacher_answering_herself_is_not_a_response():
+    turns = [dturn(0, 10, "T"), dturn(12, 20, "T")]
+    d = discourse_from_turns(turns, "T", q_transcript([(0, 10)]))
+    assert (d.questions, d.responses) == (1, 0)
+
+
+def test_wait_samples_never_outnumber_responses():
+    """The invariant that keeps the two counts honest against each other."""
+    turns = [dturn(0, 10, "T"), dturn(10, 15, "S1"),      # snapped: response, no wait
+             dturn(20, 30, "T"), dturn(33, 36, "S2"),     # both
+             dturn(40, 50, "T")]                          # neither
+    d = discourse_from_turns(turns, "T", q_transcript([(0, 10), (20, 30), (40, 50)]))
+    assert d.questions == 3
+    assert len(d.waits) <= d.responses <= d.questions
+    assert (d.responses, len(d.waits)) == (2, 1)
+
+
+def test_wait_times_still_come_out_of_the_same_walk():
+    """M5 must not drift from the counts - one pass produces all three."""
+    turns = [dturn(0, 10, "T"), dturn(12, 14, "S1"),
+             dturn(20, 30, "T"), dturn(33, 36, "S2"),
+             dturn(40, 50, "T"), dturn(51, 55, "S3")]
+    spans = [(0, 10), (20, 30), (40, 50)]
+    d = discourse_from_turns(turns, "T", q_transcript(spans))
+    assert d.waits == wait_times_from_turns(turns, "T", q_transcript(spans))
+
+
+# ---------------------------------------------------------------- at the metric level
+
+def counted_session(spans, turns, audio_sec=240.0):
+    segs = [speech(0, 200, Role.TEACHER), speech(200, 220, Role.STUDENT)]
+    return compute_metrics(segs, roster(), audio_sec=audio_sec,
+                           transcript=q_transcript(spans, audio_sec=audio_sec),
+                           speaker_turns=turns)
+
+
+def test_m7_publishes_the_teacher_question_count():
+    turns = [dturn(0, 10, "T"), dturn(12, 14, "S1"),
+             dturn(20, 30, "T"), dturn(40, 50, "T")]
+    m = counted_session([(0, 10), (20, 30), (40, 50)], turns)
+    assert m["M7_teacher_questions"].value == 3
+    assert m["M7_teacher_questions"].unit == "questions"
+
+
+def test_m8_publishes_the_student_response_count():
+    turns = [dturn(0, 10, "T"), dturn(12, 14, "S1"),
+             dturn(20, 30, "T"), dturn(33, 36, "S2"),
+             dturn(40, 50, "T")]
+    m = counted_session([(0, 10), (20, 30), (40, 50)], turns)
+    assert m["M8_student_responses"].value == 2
+    assert m["M8_student_responses"].unit == "responses"
+
+
+def test_a_session_with_no_questions_reports_zero_not_withheld():
+    """Zero questions is a finding. None means "could not measure", and conflating the
+    two would hide a lecture behind the same dash as a broken recording."""
+    segs = [speech(0, 200, Role.TEACHER), speech(200, 220, Role.STUDENT)]
+    t = transcript([(0, 10, "यह कागज़ है")], audio_sec=240.0)
+    m = compute_metrics(segs, roster(), audio_sec=240.0, transcript=t,
+                        speaker_turns=[dturn(0, 10, "T"), dturn(12, 14, "S1")])
+    assert m["M7_teacher_questions"].value == 0
+    assert m["M8_student_responses"].value == 0
+
+
+def test_the_counts_are_withheld_without_a_transcript():
+    """They are lexical - no words, no questions. Same dependency as M5."""
+    segs = [speech(0, 200, Role.TEACHER), speech(200, 220, Role.STUDENT)]
+    m = compute_metrics(segs, roster(), audio_sec=240.0,
+                        speaker_turns=[dturn(0, 10, "T"), dturn(12, 14, "S1")])
+    assert m["M7_teacher_questions"].value is None
+    assert m["M8_student_responses"].value is None
+
+
+def test_the_counts_are_withheld_when_the_speaker_split_is_a_guess():
+    """Counting *teacher* questions needs to know which speaker the teacher is."""
+    segs = [speech(0, 200, Role.TEACHER, conf=0.01),
+            speech(200, 220, Role.STUDENT, conf=0.01)]
+    m = compute_metrics(segs, roster(), audio_sec=240.0,
+                        transcript=q_transcript([(0, 10)], audio_sec=240.0),
+                        speaker_turns=[dturn(0, 10, "T"), dturn(12, 14, "S1")])
+    assert m["M7_teacher_questions"].value is None
+    assert m["M8_student_responses"].value is None
+
+
+def test_the_counts_are_withheld_on_an_unreliable_recording():
+    segs = [speech(0, 10, Role.TEACHER, conf=0.02),
+            speech(14, 18, Role.STUDENT, conf=0.02), handson(18, 600)]
+    m = compute_metrics(segs, roster(), audio_sec=600.0,
+                        transcript=q_transcript([(0, 10)]),
+                        speaker_turns=[dturn(0, 10, "T"), dturn(14, 18, "S1")])
+    assert m.verdict is Verdict.UNRELIABLE
+    assert m["M7_teacher_questions"].value is None
+    assert m["M8_student_responses"].value is None
+
+
+def test_m8_bands_a_mostly_ignored_question_stream_as_low():
+    """Banding on the raw count would be meaningless - 3 answers is good out of 4 and
+    bad out of 40. The band comes off the response RATE."""
+    turns = [dturn(0, 10, "T"), dturn(12, 14, "S1")]
+    spans = [(0, 10)]
+    for i in range(9):                       # nine more questions, none answered
+        start = 20 + i * 20
+        turns.append(dturn(start, start + 10, "T"))
+        spans.append((start, start + 10))
+    m = counted_session(spans, turns)
+    assert m["M8_student_responses"].value == 1
+    assert m["M8_student_responses"].band == "low"
+
+
+def test_m8_bands_a_well_answered_question_stream_as_high():
+    turns, spans = [], []
+    for i in range(5):
+        start = i * 20
+        turns += [dturn(start, start + 10, "T"), dturn(start + 12, start + 14, f"S{i}")]
+        spans.append((start, start + 10))
+    m = counted_session(spans, turns)
+    assert m["M8_student_responses"].value == 5
+    assert m["M8_student_responses"].band == "high"
+
+
+def test_m8_has_no_band_when_no_question_was_asked():
+    """A rate of nothing over nothing is not zero, it is undefined."""
+    segs = [speech(0, 200, Role.TEACHER), speech(200, 220, Role.STUDENT)]
+    t = transcript([(0, 10, "यह कागज़ है")], audio_sec=240.0)
+    m = compute_metrics(segs, roster(), audio_sec=240.0, transcript=t,
+                        speaker_turns=[dturn(0, 10, "T"), dturn(12, 14, "S1")])
+    assert m["M8_student_responses"].band == "unknown"
+
+
+def test_the_counts_say_their_rates_out_loud():
+    """A raw count is not comparable between a 20-minute session and a 70-minute one,
+    so the number that IS comparable has to be on the card next to it."""
+    turns = [dturn(0, 10, "T"), dturn(12, 14, "S1"),
+             dturn(20, 30, "T"), dturn(33, 36, "S2"),
+             dturn(40, 50, "T")]
+    m = counted_session([(0, 10), (20, 30), (40, 50)], turns)
+    assert "per hour" in m["M7_teacher_questions"].interpretation
+    assert "2 of 3" in m["M8_student_responses"].interpretation
+
+
+def test_the_counts_serialise_as_whole_numbers():
+    """round(2.0, 4) is 2.0 and JSON writes it as "2.0" - a count of two answers should
+    not read as a decimal in the published file."""
+    turns = [dturn(0, 10, "T"), dturn(12, 14, "S1"),
+             dturn(20, 30, "T"), dturn(33, 36, "S2"),
+             dturn(40, 50, "T")]
+    payload = counted_session([(0, 10), (20, 30), (40, 50)], turns).to_dict()["metrics"]
+    assert payload["M7_teacher_questions"]["value"] == 3
+    assert isinstance(payload["M7_teacher_questions"]["value"], int)
+    assert isinstance(payload["M8_student_responses"]["value"], int)
+
+
+# ============================================ one utterance is one question
+#
+# The bug the counts exposed. `text_for_span` returns EVERY transcript segment overlapping
+# a turn, so a teacher utterance spanning several diarization turns was read as a question
+# by each of them. On the real corpus that inflated the count by ~1.6x on both sessions
+# measured - 153 flagged spans carrying 98 distinct texts on one, 112 carrying 69 on the
+# other, with the same sentence appearing at 61.8s, 70.6s and 78.0s.
+#
+# It was always there. It did not MATTER until a count was published, because M5 reports a
+# median and a median barely moves when its samples are duplicated. A count moves 1.6x.
+#
+# The rule: a transcript segment belongs to the first teacher turn that covers it, and a
+# turn contributing no new words is not a new question.
+
+
+def test_one_utterance_split_across_turns_is_one_question():
+    """The real shape: diarization cut a single sentence into three turns."""
+    turns = [dturn(0, 10, "T"), dturn(10, 20, "T"), dturn(20, 30, "T"),
+             dturn(32, 36, "S1")]
+    t = q_transcript([(0, 30)])              # ONE transcript segment across all three
+    d = discourse_from_turns(turns, "T", t)
+    assert d.questions == 1
+
+
+def test_the_answer_is_not_multiplied_either():
+    """Three turns each finding the same question also each found the same answer."""
+    turns = [dturn(0, 10, "T"), dturn(10, 20, "T"), dturn(20, 30, "T"),
+             dturn(32, 36, "S1")]
+    d = discourse_from_turns(turns, "T", q_transcript([(0, 30)]))
+    assert d.responses == 1
+    assert len(d.waits) == 1
+
+
+def test_distinct_utterances_in_separate_turns_still_count_separately():
+    """The fix must not collapse genuinely different questions."""
+    turns = [dturn(0, 10, "T"), dturn(12, 14, "S1"),
+             dturn(20, 30, "T"), dturn(33, 36, "S2")]
+    d = discourse_from_turns(turns, "T", q_transcript([(0, 10), (20, 30)]))
+    assert d.questions == 2
+    assert d.responses == 2
+
+
+def test_a_later_turn_bringing_new_words_is_a_new_question():
+    """Sharing one segment with an earlier turn does not disqualify a turn that also
+    covers an utterance of its own."""
+    turns = [dturn(0, 12, "T"), dturn(10, 25, "T"), dturn(27, 30, "S1")]
+    t = q_transcript([(0, 12), (14, 25)])    # second segment is only in the second turn
+    d = discourse_from_turns(turns, "T", t)
+    assert d.questions == 2
+
+
+def test_a_turn_that_only_repeats_an_earlier_utterance_counts_nothing():
+    turns = [dturn(0, 20, "T"), dturn(5, 18, "T")]
+    d = discourse_from_turns(turns, "T", q_transcript([(0, 20)]))
+    assert d.questions == 1
+
+
+def test_a_statement_still_consumes_its_words():
+    """A non-question utterance must be consumed too, or the next overlapping turn
+    re-reads it and the dedupe leaks."""
+    turns = [dturn(0, 10, "T"), dturn(8, 20, "T")]
+    t = transcript([(0, 18, "यह कागज़ है")])
+    assert discourse_from_turns(turns, "T", t).questions == 0
+
+
+def test_the_invariant_survives_the_fix():
+    turns = [dturn(0, 10, "T"), dturn(10, 20, "T"), dturn(22, 26, "S1"),
+             dturn(40, 50, "T")]
+    d = discourse_from_turns(turns, "T", q_transcript([(0, 20), (40, 50)]))
+    assert len(d.waits) <= d.responses <= d.questions
+    assert d.questions == 2
+
+
+# ---------------------------------------------- gaps a mutation run found, not a review
+#
+# Two mutations survived the first pass over the de-duplication fix. Both were real:
+# nothing pinned WHERE the teacher's run over an utterance ends, only that it extends at
+# all. A third survivor turned out to be an equivalent mutant - dropping the `if not
+# fresh` guard changes nothing, because the joined text of no segments is "" and
+# is_question("") is already False. That guard is belt-and-braces and cannot be tested.
+
+
+def test_a_student_interrupting_mid_run_waited_no_time():
+    """The interruption test has to use the end of the RUN, not of the owning turn.
+
+    A question the diarizer split across two turns is still being asked during the
+    second one. A student who starts talking there interrupted; timing from the first
+    turn instead scores it as a patient 15-second wait, which is the opposite reading.
+    """
+    turns = [dturn(0, 10, "T"), dturn(10, 30, "T"), dturn(25, 35, "S1")]
+    d = discourse_from_turns(turns, "T", q_transcript([(0, 30)]))
+    assert d.questions == 1
+    assert d.waits == pytest.approx([0.0])
+
+
+def test_the_run_ends_when_the_words_end_not_when_the_teacher_does():
+    """The run extends while later turns still cover THIS utterance, and stops there.
+
+    Here she asks the question inside 10-15s, her turn runs to 20, and she starts a
+    different sentence at 21. The answer at 27 waited 7 s after the question's turn - not
+    2 s, which is what you get by letting the run swallow the next utterance too.
+    """
+    turns = [dturn(0, 10, "T"), dturn(10, 20, "T"), dturn(21, 25, "T"), dturn(27, 31, "S1")]
+    t = transcript([(0, 30, "यह कागज़ है"),        # statement, spans both early turns
+                    (10, 15, "यह क्या है")])       # the question, inside the second
+    d = discourse_from_turns(turns, "T", t)
+    assert d.questions == 1
+    assert d.waits == pytest.approx([7.0])

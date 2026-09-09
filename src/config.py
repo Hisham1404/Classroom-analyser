@@ -40,6 +40,9 @@ ASR_LANGUAGE = "hi"
 ASR_BEAM_SIZE = 1
 ASR_CPU_THREADS = 8            # measured: 16 threads is slower on this i7-1360P
 ASR_CACHE_DIR = PROJECT_ROOT / ".cache" / "asr"
+# Diarization is the single most expensive step (1.24x realtime, ~3 h for the corpus)
+# and its turns are what every lexical metric is measured from, so they are cached too.
+DIARIZATION_CACHE_DIR = PROJECT_ROOT / ".cache" / "diarization"
 
 # --- IndicConformer (AI4Bharat via onnx-asr) -------------------------------
 # ONNX, so it needs onnxruntime but NOT torch. Measured ~4x faster than realtime on this

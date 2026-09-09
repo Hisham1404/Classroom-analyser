@@ -586,3 +586,139 @@ def test_a_turn_nested_inside_another_adds_no_new_span():
 
 def test_speech_spans_of_nothing():
     assert speech_spans([]) == []
+
+
+# ================================================================ the turn cache
+#
+# Diarization is the most expensive thing in the project - 1.24x realtime, ~3 h for the
+# corpus - and its output was never persisted. Every change to a downstream metric
+# therefore cost a full re-run, which is exactly what happened when the question count
+# turned out to be double-counting: two sessions of compute thrown away to fix arithmetic
+# that runs in milliseconds.
+#
+# Keyed by audio CONTENT, like the transcript cache, so a renamed or re-copied file still
+# hits and a re-encoded one correctly misses.
+
+from src.diarization import TurnCache
+
+
+def test_a_miss_returns_nothing(tmp_path, intact_session):
+    cache = TurnCache(tmp_path / "turns")
+    assert cache.get(intact_session / "OD90001_2026-01-06-114155.mp3") is None
+
+
+def test_turns_round_trip_exactly(tmp_path, intact_session):
+    audio = intact_session / "OD90001_2026-01-06-114155.mp3"
+    cache = TurnCache(tmp_path / "turns")
+    turns = [SpeakerTurn(0.0, 2.5, "SPEAKER_00"),
+             SpeakerTurn(2.1, 4.0, "SPEAKER_01"),      # overlapping, on purpose
+             SpeakerTurn(4.0, 6.0, "SPEAKER_00")]
+    cache.put(audio, turns)
+    assert cache.get(audio) == turns
+
+
+def test_the_key_follows_the_content_not_the_name(tmp_path, intact_session):
+    """A copy under a different name is the same audio and must hit."""
+    import shutil
+    audio = intact_session / "OD90001_2026-01-06-114155.mp3"
+    twin = tmp_path / "renamed.mp3"
+    shutil.copyfile(audio, twin)
+
+    cache = TurnCache(tmp_path / "turns")
+    cache.put(audio, [SpeakerTurn(0.0, 1.0, "SPEAKER_00")])
+    assert cache.get(twin) is not None
+
+
+def test_different_audio_does_not_collide(tmp_path, intact_session):
+    audio = intact_session / "OD90001_2026-01-06-114155.mp3"
+    other = tmp_path / "other.mp3"
+    other.write_bytes(audio.read_bytes() + b"\x00trailing")
+
+    cache = TurnCache(tmp_path / "turns")
+    cache.put(audio, [SpeakerTurn(0.0, 1.0, "SPEAKER_00")])
+    assert cache.get(other) is None
+
+
+def test_a_damaged_entry_is_a_miss_not_a_crash(tmp_path, intact_session):
+    """Same rule as the transcript cache: a corrupt file costs a re-run, never a
+    traceback in the middle of a three-hour batch."""
+    audio = intact_session / "OD90001_2026-01-06-114155.mp3"
+    cache = TurnCache(tmp_path / "turns")
+    cache.put(audio, [SpeakerTurn(0.0, 1.0, "SPEAKER_00")])
+
+    entry = next((tmp_path / "turns").glob("*.json"))
+    entry.write_text("{ not json", encoding="utf-8")
+    assert cache.get(audio) is None
+
+
+def test_an_empty_result_is_cached_as_an_answer(tmp_path, intact_session):
+    """"pyannote heard nobody" is a finding worth not recomputing. It must not be
+    indistinguishable from a miss, or silent files re-run every single time."""
+    audio = intact_session / "OD90001_2026-01-06-114155.mp3"
+    cache = TurnCache(tmp_path / "turns")
+    cache.put(audio, [])
+    assert cache.get(audio) == []
+
+
+# ---------------------------------------------------------------- wired into diarize()
+
+def test_diarize_uses_the_cache_instead_of_the_model(monkeypatch, tmp_path, intact_session):
+    from src import diarization
+
+    audio = intact_session / "OD90001_2026-01-06-114155.mp3"
+    monkeypatch.setattr(diarization.config, "DIARIZATION_CACHE_DIR", tmp_path / "turns")
+    TurnCache(tmp_path / "turns").put(audio, [SpeakerTurn(0.0, 3.0, "SPEAKER_07")])
+
+    def explode(token):
+        raise AssertionError("the pipeline must not load on a cache hit")
+
+    monkeypatch.setattr(diarization, "_load_pipeline", explode)
+    assert diarization.diarize(audio, token="fake") == [SpeakerTurn(0.0, 3.0, "SPEAKER_07")]
+
+
+def test_a_cache_hit_needs_no_token(monkeypatch, tmp_path, intact_session):
+    """The token is for the gated DOWNLOAD. Once the turns are on disk, reproducing a
+    result needs neither the token nor the weights - which is the difference between a
+    reviewer being able to re-run this and not."""
+    from src import diarization
+
+    audio = intact_session / "OD90001_2026-01-06-114155.mp3"
+    monkeypatch.setattr(diarization.config, "DIARIZATION_CACHE_DIR", tmp_path / "turns")
+    monkeypatch.delenv("HF_TOKEN", raising=False)
+    monkeypatch.delenv("HUGGINGFACE_TOKEN", raising=False)
+    TurnCache(tmp_path / "turns").put(audio, [SpeakerTurn(0.0, 3.0, "SPEAKER_00")])
+
+    assert len(diarization.diarize(audio)) == 1
+
+
+def test_diarize_fills_the_cache_after_a_real_run(monkeypatch, tmp_path, intact_session):
+    from src import diarization
+
+    audio = intact_session / "OD90001_2026-01-06-114155.mp3"
+    monkeypatch.setattr(diarization.config, "DIARIZATION_CACHE_DIR", tmp_path / "turns")
+
+    class FakePipeline:
+        def __call__(self, audio, **kwargs):
+            from types import SimpleNamespace
+
+            class Ann:
+                def itertracks(self, yield_label=False):
+                    yield SimpleNamespace(start=0.0, end=2.0), None, "SPEAKER_00"
+            return Ann()
+
+    monkeypatch.setattr(diarization, "_load_pipeline", lambda token: FakePipeline())
+    first = diarization.diarize(audio, token="fake")
+
+    monkeypatch.setattr(diarization, "_load_pipeline",
+                        lambda token: (_ for _ in ()).throw(AssertionError("re-ran")))
+    assert diarization.diarize(audio, token="fake") == first
+
+
+def test_num_speakers_is_part_of_the_key(monkeypatch, tmp_path, intact_session):
+    """Asking for a fixed speaker count is a different question about the same audio."""
+    audio = intact_session / "OD90001_2026-01-06-114155.mp3"
+    cache = TurnCache(tmp_path / "turns")
+    cache.put(audio, [SpeakerTurn(0.0, 1.0, "SPEAKER_00")], num_speakers=2)
+    assert cache.get(audio, num_speakers=2) is not None
+    assert cache.get(audio, num_speakers=3) is None
+    assert cache.get(audio) is None
